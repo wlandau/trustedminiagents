@@ -1,0 +1,133 @@
+{
+  "version": 1,
+  "locale": "C",
+  "platform": "4.6.0",
+  "metadata": {
+    "appmode": "static",
+    "primary_rmd": null,
+    "primary_html": "index.html",
+    "content_category": "site",
+    "has_parameters": false
+  },
+  "packages": null,
+  "files": {
+    "agents.html": {
+      "checksum": "d3bd37ea4098a7596aa0eed96573dad6"
+    },
+    "hallucinations.html": {
+      "checksum": "33f78cd7e4c079b47035db14bc755a83"
+    },
+    "images/agents/harness.png": {
+      "checksum": "6d35ee4dca88c8919db86beb57d8191c"
+    },
+    "images/agents/llm1.png": {
+      "checksum": "ca71bd0902e4f83614882c192d117e92"
+    },
+    "images/agents/llm2.png": {
+      "checksum": "9b360f176e4a84e06f4f1d35979f7296"
+    },
+    "images/concepts/bijective.png": {
+      "checksum": "6412148349a27da91fc6e41f6cb50137"
+    },
+    "images/concepts/fix1.png": {
+      "checksum": "a3ff1fd8580917355b81e2f5c231ee08"
+    },
+    "images/concepts/fix2.png": {
+      "checksum": "59fa1340fbefa0b3bff8598405778cf1"
+    },
+    "images/concepts/fix3.png": {
+      "checksum": "781b6a282b24926dc79f18c3f35aa03c"
+    },
+    "images/concepts/hallucination1.png": {
+      "checksum": "1093f2b45d080ea40b8f9e22719c09a1"
+    },
+    "images/concepts/hallucination2.png": {
+      "checksum": "378a41eee7dc361dd79d7b98b9ef65eb"
+    },
+    "images/simulation/app.png": {
+      "checksum": "13b2e8e281f043c4273717ba37249f72"
+    },
+    "images/template/app.png": {
+      "checksum": "4bc6a8fffc431740a6546dfaef050742"
+    },
+    "index.html": {
+      "checksum": "261b87f4715e093174014b0d3edbf00f"
+    },
+    "search.json": {
+      "checksum": "8ce6549a00b825cf0ab547f64f8fe74b"
+    },
+    "simulation.html": {
+      "checksum": "5deb6e801f97678fa5e62dd548c29e32"
+    },
+    "site_libs/bootstrap/bootstrap-edbe4f795658908f121c6ab98eba1588.min.css": {
+      "checksum": "edbe4f795658908f121c6ab98eba1588"
+    },
+    "site_libs/bootstrap/bootstrap-icons.css": {
+      "checksum": "886da841d7421705f715f600c5ff11bb"
+    },
+    "site_libs/bootstrap/bootstrap-icons.woff": {
+      "checksum": "efe54401ef52214fd3b701e23ff88c5f"
+    },
+    "site_libs/bootstrap/bootstrap.min.js": {
+      "checksum": "e2b09c06f0e714b6144a6788a28e3950"
+    },
+    "site_libs/clipboard/clipboard.min.js": {
+      "checksum": "15f52a1ee547f2bdd46e56747332ca2d"
+    },
+    "site_libs/quarto-diagram/mermaid-init.js": {
+      "checksum": "35cf34474c6b3cb3e659633a985a71cd"
+    },
+    "site_libs/quarto-diagram/mermaid.css": {
+      "checksum": "0aeecd8a816e25e43a41943c6146c2b7"
+    },
+    "site_libs/quarto-diagram/mermaid.min.js": {
+      "checksum": "b083b6bcb3a68ca7b61312fef800366f"
+    },
+    "site_libs/quarto-html/anchor.min.js": {
+      "checksum": "91bcf6cd1fd88fec3f109811e5fc3546"
+    },
+    "site_libs/quarto-html/popper.min.js": {
+      "checksum": "3a4a291ccf3f1ea0f82b641542fd3827"
+    },
+    "site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css": {
+      "checksum": "15634bcf2e68342d4ad2dfa704d543f6"
+    },
+    "site_libs/quarto-html/quarto.js": {
+      "checksum": "6f4245742deb3cc92337dbe2701ccfe1"
+    },
+    "site_libs/quarto-html/tabsets/tabsets.js": {
+      "checksum": "e8d6a8862b33ccc461f8fd532e05b365"
+    },
+    "site_libs/quarto-html/tippy.css": {
+      "checksum": "ebd6f8ce46a677e1a4f5f8a8317109a9"
+    },
+    "site_libs/quarto-html/tippy.umd.min.js": {
+      "checksum": "d828775275749701b48bd9d958814111"
+    },
+    "site_libs/quarto-nav/headroom.min.js": {
+      "checksum": "ace0360e576db9b6e7df48ac68ddbbf4"
+    },
+    "site_libs/quarto-nav/quarto-nav.js": {
+      "checksum": "12d334846b27bdb493298c08277bdf7f"
+    },
+    "site_libs/quarto-search/autocomplete.umd.js": {
+      "checksum": "b514204f2ef1ca7a8e2ad4579d263504"
+    },
+    "site_libs/quarto-search/fuse.min.js": {
+      "checksum": "de7d60e4a6881074275feca14b84a49d"
+    },
+    "site_libs/quarto-search/quarto-search.js": {
+      "checksum": "9c992af743ca88c8c5f650cf312c4e61"
+    },
+    "styles.css": {
+      "checksum": "96124dcf2ad66f588f4e06dc4c32d3f9"
+    },
+    "template.html": {
+      "checksum": "07433e455515505e5abc59655c913377"
+    },
+    "tools.html": {
+      "checksum": "fba8b9ac7f094c3f1f60bb89526aaea8"
+    }
+  },
+  "users": null
+}

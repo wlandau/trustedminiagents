@@ -1,0 +1,27 @@
+/* Trusted Mini-Agents — small overrides on top of cosmo. */
+
+/* Tighter callouts for the three-rules and verdict boxes. */
+.callout.callout-style-simple {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Italicize the file-name caption that Quarto puts above code blocks
+   when `filename=` is set on a chunk. */
+.code-with-filename .code-with-filename-file {
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Make Mermaid diagrams use the full content width. */
+.cell-output-display > div.mermaid,
+div.mermaid {
+  display: flex;
+  justify-content: center;
+}
+
+/* Slightly looser table rows for the rule-mapping tables in chapters 3 & 4. */
+table {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
