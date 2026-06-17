@@ -34,7 +34,7 @@
     "href": "index.html#acknowledgements",
     "title": "Trusted Mini-Agents",
     "section": "Acknowledgements",
-    "text": "Acknowledgements\n\nSimon Couch and Sara Altman cover similar topics in their 2026 talk at R/Pharma genAI Day. In their presentation, they recommend “Design the scaffold so that it matters less if [LLMs are] wrong.” The trusted mini-agent paradigm attempts to explore this idea to its fullest extent.\nHadley Wickham’s keynote at useR! 2025 describes the central role of tools in agent development, which is a key component of the trusted mini-agent pattern. This talk was the original spark that led to the strategy in this guide.",
+    "text": "Acknowledgements\n\nSimon Couch and Sara Altman cover similar topics in their 2026 talk at R/Pharma genAI Day. In their presentation, they recommend “Design the scaffold so that it matters less if [LLMs are] wrong.” The trusted mini-agent pattern attempts to explore this idea to its fullest extent.\nHadley Wickham’s keynote at useR! 2025 describes the central role of tools in agent development. This talk was the original spark that led to the strategy in this guide.",
     "crumbs": [
       "Introduction"
     ]
