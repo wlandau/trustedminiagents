@@ -30,6 +30,16 @@
     ]
   },
   {
+    "objectID": "index.html#similar-work",
+    "href": "index.html#similar-work",
+    "title": "Trusted Mini-Agents",
+    "section": "Similar work",
+    "text": "Similar work\n\nSimon Couch and Sara Altman cover similar topics in their 2026 talk at R/Pharma genAI Day. In their presentation, they recommend “Design the scaffold so that it matters less if [LLMs are] wrong.” The trusted mini-agent paradigm attempts to explore this idea to its fullest extent.\nHadley Wickham’s keynote at useR! 2025 describes the central role of tools in agent development, which is a key component of the trusted mini-agent pattern. This talk was the original spark that led to the strategy in this guide.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
     "objectID": "agents.html",
     "href": "agents.html",
     "title": "1  Deconstructing agents",
@@ -154,7 +164,7 @@
     "href": "template.html#the-template-app",
     "title": "3  A trusted mini-agent template in Shiny",
     "section": "3.2 The template app",
-    "text": "3.2 The template app\nThe app has a simple interface: a sidebar with the untrusted AI chat, a bslib card for where humans review LLM-generated tool inputs, and a bslib card for trusted results.\n\nIt is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss hallucinations.",
+    "text": "3.2 The template app\nThe app has a simple interface: a sidebar with the untrusted AI chat, a bslib card where humans review LLM-generated tool inputs, and a bslib card for trusted results.\n\nIt is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss hallucinations.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>A trusted mini-agent template in Shiny</span>"
     ]
