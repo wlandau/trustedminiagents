@@ -237,7 +237,7 @@ window.Quarto = {
 \text{Tool} = \text{Function} + \text{Metadata}
 \end{aligned}
 \]</span></p>
-<p>The function could be an R function, python function, system library, etc. The metadata is a set of instructions in the system prompt that tells the LLM when and how to call the function. When the LLM decides it needs the tool, it “predicts” a call to the function using AI-generated arguments. The agent loop (example: <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">Claude Code’s agent loop</a>) in the harness detects and runs the tool call, then returns the results back to the LLM. With tool output, the LLM can incorporate real-world data into its text predictions.</p>
+<p>The function could be an R function, Python function, system library, etc. The metadata is a set of instructions in the system prompt that tells the LLM when and how to call the function. When the LLM decides it needs the tool, it “predicts” a call to the function using AI-generated arguments. The agent loop (example: <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">Claude Code’s agent loop</a>) in the harness detects and runs the tool call, then returns the results back to the LLM. With tool output, the LLM can incorporate real-world data into its text predictions.</p>
 <p>For example, suppose we have a tool that scrapes the National Weather Service (NWS) API. We write an R function <code>get_weather()</code>, and we include metadata to describe its inputs, outputs, and purpose. This metadata becomes part of the instructions in the system prompt. Because of these instructions, when the user prompts:</p>
 <blockquote class="blockquote">
 <p>“What’s the weather in Chicago?”</p>
