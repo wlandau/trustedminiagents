@@ -335,7 +335,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="tools" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="tools"><span class="header-section-number">5.3</span> Tools</h2>
-<p>We write an <code>ellmer</code> tool constructor for each simulation type. Each constructor accepts a Shiny reactive values list and returns an <code>ellmer</code> tool that can modify those reactive values. We assume two reactive values: a table of s that the user will check, and a table of efficacy probabilities computed by the statistical content of the tools.</p>
+<p>We write an <code>ellmer</code> tool constructor for each simulation type. Each constructor accepts a Shiny reactive values list and returns an <code>ellmer</code> tool that can modify those reactive values. We assume two reactive values: a table of assumptions that the user will check, and a table of efficacy probabilities computed by the statistical content of the tools.</p>
 <p>Unlike the statistical functions above, these tools accept multiple design scenarios at a time. This is key for evaluating trade-offs in real-world clinical trial simulations. To accomplish this, we use a custom wrapper around <code>ellmer::type_array()</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>type_vector <span class="ot">&lt;-</span> <span class="cf">function</span>(type) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">type_array</span>(</span>
@@ -613,7 +613,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="shiny-server" class="level2" data-number="5.6">
 <h2 data-number="5.6" class="anchored" data-anchor-id="shiny-server"><span class="header-section-number">5.6</span> Shiny server</h2>
-<p>The Shiny server function facilliatates the chat and renders the results and assumptions tables.</p>
+<p>The Shiny server function facilitates the chat and renders the results and assumptions tables.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">assumptions =</span> <span class="cn">NULL</span>,</span>

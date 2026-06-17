@@ -253,7 +253,7 @@ div.csl-indent {
 <p>“All models are wrong, but some are useful.”</p>
 <p>— <span class="citation" data-cites="box1987">Box and Draper (<a href="#ref-box1987" role="doc-biblioref">1987</a>)</span></p>
 </blockquote>
-<p>REMEMBER: An LLM is a model with less-than-perfect prediction accuracy. At any time for any reason, an LLM can produce a <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucination</a>: a confident-sounding prediction that is completely wrong. Prompt engineering and <a href="https://agentskills.io">skill creation</a> can never eliminate hallucinations entirely. The choice of prompt and model imporoves convenience, but it cannot guarantee correctness.</p>
+<p>REMEMBER: An LLM is a model with less-than-perfect prediction accuracy. At any time for any reason, an LLM can produce a <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucination</a>: a confident-sounding prediction that is completely wrong. Prompt engineering and <a href="https://agentskills.io">skill creation</a> can never eliminate hallucinations entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.</p>
 <div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -269,7 +269,7 @@ div.csl-indent {
 </section>
 <section id="how-to-fix-the-weather-agent" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="how-to-fix-the-weather-agent"><span class="header-section-number">2.2</span> How to fix the weather agent</h2>
-<p>To control hallucinations in the weather agent, we do not try to impove our system prompt or choose a “better” LLM. That would be wishful thinking. Instead, we identify precisely where hallucinations can happen, and we engineer the <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> to eliminate those vulnerabilities.</p>
+<p>To control hallucinations in the weather agent, we do not try to improve our system prompt or choose a “better” LLM. That would be wishful thinking. Instead, we identify precisely where hallucinations can happen, and we engineer the <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> to eliminate those vulnerabilities.</p>
 <section id="fix-1-of-3-help-the-human-review-the-location." class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</h3>
 <p>The AI-generated text of a tool call is a fallible LLM prediction. To control hallucinations in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort. In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in “get_weather(41.8, -87.6)”. Checking the raw coordinates of every tool call is simply too inconvenient for a human. Instead, we render an eye-catching interactive map with a pin in the location. That way, it becomes obvious to any human user whether the LLM chose the right place.</p>
@@ -277,7 +277,7 @@ div.csl-indent {
 </section>
 <section id="fix-2-of-3-bypass-the-llm-to-report-the-weather." class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="fix-2-of-3-bypass-the-llm-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the LLM to report the weather.</h3>
-<p>We do not trust the LLM to describe NWS weather data, even if it’s just relaying data back to the user. Becuase it would require output from an LLM, even this simple task would be vulnerable to hallucinations. However, we do trust the NWS weather data itself. Instead of reading about the weather from the LLM, we should read it directly from the tool it comes from. We engineer the tool to bypass the LLM and return NWS weather data straight to the user interface.</p>
+<p>We do not trust the LLM to describe NWS weather data, even if it’s just relaying data back to the user. Because it would require output from an LLM, even this simple task would be vulnerable to hallucinations. However, we do trust the NWS weather data itself. Instead of reading about the weather from the LLM, we should read it directly from the tool it comes from. We engineer the tool to bypass the LLM and return NWS weather data straight to the user interface.</p>
 <p><img src="./images/concepts/fix2.png" class="img-fluid"></p>
 </section>
 <section id="fix-3-of-3-never-bypass-the-get_weather-tool." class="level3" data-number="2.2.3">
