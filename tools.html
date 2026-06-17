@@ -112,35 +112,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -545,20 +516,235 @@ window.Quarto = {
 <section id="complete-code" class="level2" data-number="4.8">
 <h2 data-number="4.8" class="anchored" data-anchor-id="complete-code"><span class="header-section-number">4.8</span> Complete code</h2>
 <p>Here is the full code for the app.</p>
-<p>``<code>{.r, filename="app.R"} #' @title Fetch current weather at a US location. #' @description Fetches the current (or nearest-to-current) forecast period #'   from the U.S. National Weather Service API #'   (https://www.weather.gov/documentation/services-web-api). The NWS API #'   is free, requires no API key, and only covers locations in the United #'   States. #' @details A two-step lookup is required: #'     1. GET /points/{lat},{lon}  -&gt; returns a URL for the gridded forecast #'     2. GET that forecast URL    -&gt; returns the forecast periods #'   A descriptive User-Agent is required by api.weather.gov. The NWS #'   forecast endpoint returns a sequence of upcoming periods (e.g. #'   "This Afternoon", "Tonight", "Tomorrow"). This function selects the #'   first period whose time window contains the current time, falling #'   back to the earliest period if none currently apply. #' @return A named list with the temperature and wind at the specified #'   latitude and longitude. #'   Throws an error if the coordinates are outside the NWS coverage area. #' @param latitude Numeric scalar. Latitude in decimal degrees, between #'   -90 and 90. Must be a finite number. #' @param longitude Numeric scalar. Longitude in decimal degrees, between #'   -180 and 180. Must be a finite number. #' @examples #'   # Forecast for downtown Indianapolis, IN. #'   weather &lt;- weather_api(latitude = 39.7684, longitude = -86.1581) #'   str(weather) weather_api &lt;- function(latitude, longitude) {   # Assertions are super important for any agent tool.   stopifnot(     is.numeric(latitude),     length(latitude) == 1,     is.finite(latitude),     is.numeric(longitude),     length(longitude) == 1,     is.finite(longitude),     latitude &gt;= -90,     latitude &lt;= 90,     longitude &gt;= -180,     longitude &lt;= 180   )   # Mock hook for shinytest2: when MOCK_WEATHER is set, return a stable   # fixture instead of calling the live NWS API. This keeps the snapshot   # in</code>tests/testthat/_snaps/app/<code>deterministic across runs.   if (nzchar(Sys.getenv("MOCK_WEATHER", unset = ""))) {     return(list(temperature = "72 °F", wind = "5 mph SW"))   }   user &lt;- "mini-agent (mini-agent; contact: noreply@example.com)"   # Step 1: resolve the (lat, lon) to an NWS gridpoint.   points_url &lt;- sprintf(     "https://api.weather.gov/points/%s,%s",     format(latitude, digits = 4),     format(longitude, digits = 4)   )   points &lt;- httr2::request(points_url) |&gt;     httr2::req_user_agent(user) |&gt;     httr2::req_headers(Accept = "application/geo+json") |&gt;     httr2::req_retry(max_tries = 3) |&gt;     httr2::req_perform() |&gt;     httr2::resp_body_json()   # Step 2: fetch the forecast periods for that gridpoint.   forecast &lt;- httr2::request(points$properties$forecast) |&gt;     httr2::req_user_agent(user) |&gt;     httr2::req_headers(Accept = "application/geo+json") |&gt;     httr2::req_retry(max_tries = 3) |&gt;     httr2::req_perform() |&gt;     httr2::resp_body_json()   periods &lt;- forecast$properties$periods   # Pick the period that covers "now". NWS uses ISO 8601 with offsets,   # which</code>as.POSIXct(…, format = …)<code>parses correctly.   now &lt;- Sys.time()   starts &lt;- as.POSIXct(     vapply(periods,</code>[[<code>, character(1), "startTime"),     format = "%Y-%m-%dT%H:%M:%S%z"   )   ends &lt;- as.POSIXct(     vapply(periods,</code>[[`, character(1), “endTime”), format = “%Y-%m-%dT%H:%M:%S%z” ) current_index &lt;- which(starts &lt;= now &amp; ends &gt;= now)[1] if (is.na(current_index)) { current_index &lt;- 1L } current &lt;- periods[[current_index]] city &lt;- points<span class="math inline">\(properties\)</span>relativeLocation<span class="math inline">\(properties\)</span>city state &lt;- points<span class="math inline">\(properties\)</span>relativeLocation<span class="math inline">\(properties\)</span>state list( temperature = paste0(current<span class="math inline">\(temperature, " °", current\)</span>temperatureUnit), wind = paste(current<span class="math inline">\(windSpeed, current\)</span>windDirection) ) }</p>
-<p>#’ <span class="citation" data-cites="title">(<a href="#ref-title" role="doc-biblioref"><strong>title?</strong></a>)</span> Weather tool constructor #’ <span class="citation" data-cites="description">(<a href="#ref-description" role="doc-biblioref"><strong>description?</strong></a>)</span> Create a weather tool for <code>ellmer</code>. #’ <span class="citation" data-cites="return">(<a href="#ref-return" role="doc-biblioref"><strong>return?</strong></a>)</span> An <code>ellmer</code> tool object that can be registered with #’ an <code>ellmer</code> chat object. #’ <span class="citation" data-cites="param">(<a href="#ref-param" role="doc-biblioref"><strong>param?</strong></a>)</span> values A Shiny reactiveValues object with weather data. #’ The reactive values must be #’ The weather tool updates Shiny outputs, and it is the ONLY thing #’ that can update these outputs. #’ This restriction is essential for a trusted mini-agent. new_weather_tool &lt;- function(values) { ellmer::tool( fun = function(latitude, longitude) { values<span class="math inline">\(weather &lt;- weather_api(latitude, longitude)
-      values\)</span>latitude &lt;- latitude values<span class="math inline">\(longitude &lt;- longitude
-      ellmer::ContentToolResult(jsonlite::toJSON(values\)</span>weather)) }, name = “get_weather”, description = paste( “Get the current weather forecast for a location in the United States,”, “given its latitude and longitude in decimal degrees.”, “The tool only approximates the current weather,”, “not past weather or distant future forecasts.”, “Only call this tool for U.S. locations.”, “The underlying National Weather Service API does not”, “cover other countries.” ), arguments = list( latitude = ellmer::type_number( “Latitude in decimal degrees. Must be between -90 and 90.” ), longitude = ellmer::type_number( “Longitude in decimal degrees. Must be between -180 and 180.” ) ) ) }</p>
-<p>#’ <span class="citation" data-cites="title">(<a href="#ref-title" role="doc-biblioref"><strong>title?</strong></a>)</span> Build a leaflet map centered on a US location. #’ <span class="citation" data-cites="description">(<a href="#ref-description" role="doc-biblioref"><strong>description?</strong></a>)</span> Construct an OpenStreetMap-tiled <code>leaflet</code> widget centered #’ on the supplied latitude and longitude with a single marker dropped at #’ that point. Used by the trusted weather agent app to let users #’ visually verify that the AI-resolved coordinates land in the region #’ they asked about. #’ <span class="citation" data-cites="details">(<a href="#ref-details" role="doc-biblioref"><strong>details?</strong></a>)</span> Character inputs are coerced to numeric so the function can be #’ called directly with reactive values pulled from a Shiny session. #’ <span class="citation" data-cites="return">(<a href="#ref-return" role="doc-biblioref"><strong>return?</strong></a>)</span> A <code>leaflet</code> htmlwidget (S3 classes <code>c("leaflet", "htmlwidget")</code>) #’ suitable for passing to <code>leaflet::renderLeaflet()</code> or printing in an #’ interactive R session. The widget contains an OpenStreetMap tile #’ layer, a <code>setView()</code> directive at the requested zoom, and a single #’ marker whose popup displays the coordinates rounded to four decimal #’ places. #’ <span class="citation" data-cites="param">(<a href="#ref-param" role="doc-biblioref"><strong>param?</strong></a>)</span> latitude Numeric (or character coercible to numeric) scalar. #’ Latitude in decimal degrees, between -90 and 90. #’ <span class="citation" data-cites="param">(<a href="#ref-param" role="doc-biblioref"><strong>param?</strong></a>)</span> longitude Numeric (or character coercible to numeric) scalar. #’ Longitude in decimal degrees, between -180 and 180. #’ <span class="citation" data-cites="param">(<a href="#ref-param" role="doc-biblioref"><strong>param?</strong></a>)</span> zoom Integer scalar. Leaflet zoom level: lower values are zoomed #’ further out, higher values are zoomed in tighter. #’ <span class="citation" data-cites="examples">(<a href="#ref-examples" role="doc-biblioref"><strong>examples?</strong></a>)</span> #’ # Drop a pin on downtown Indianapolis, IN. #’ leaflet_map(latitude = 39.7684, longitude = -86.1581) leaflet_map &lt;- function(latitude, longitude, zoom = 6) { latitude &lt;- as.numeric(latitude) longitude &lt;- as.numeric(longitude) leaflet::leaflet() |&gt; leaflet::addTiles() |&gt; leaflet::setView(lng = longitude, lat = latitude, zoom = zoom) |&gt; leaflet::addMarkers( lng = longitude, lat = latitude, popup = sprintf(“%.4f, %.4f”, latitude, longitude) ) }</p>
-<p>new_chat &lt;- function(values) { chat &lt;- ellmer::chat_anthropic( system_prompt = paste( “You are a concise assistant that knows how to translate vague”, “location information into latitude and longitude coordinates.” ) ) chat$register_tool(new_weather_tool(values)) chat }</p>
-<p>ui &lt;- bslib::page_sidebar( title = “Trusted weather agent”, theme = bslib::bs_theme(bootswatch = “cosmo”), sidebar = bslib::sidebar( width = “30vw”, style = “height: 100%; padding-top: 15px; overflow-x: hidden;”, shinychat::chat_ui( “chat”, messages = “Ask for the current weather in a US city.” ) ), bslib::layout_columns( bslib::card( bslib::card_header(“Location that the AI picked for your query”), bslib::card_body( leaflet::leafletOutput(“location”, height = “300px”) ) ), bslib::card( bslib::card_header(“weather.gov data at that location (no AI used here)”), bslib::card_body( shiny::tableOutput(“weather”) ) ) ) )</p>
-<p>server &lt;- function(input, output, session) { values &lt;- shiny::reactiveValues( weather = NULL, latitude = NULL, longitude = NULL ) delayedAssign(x = “chat”, value = new_chat(values)) shiny::observeEvent(input<span class="math inline">\(chat_user_input, {
-    stream &lt;- chat\)</span>stream_async(input<span class="math inline">\(chat_user_input, stream = "content")
-    shinychat::chat_append("chat", stream)
-  })
-  output\)</span>location &lt;- leaflet::renderLeaflet({ req(values<span class="math inline">\(latitude, values\)</span>longitude) leaflet_map(latitude = values<span class="math inline">\(latitude, longitude = values\)</span>longitude) }) output<span class="math inline">\(weather &lt;- shiny::renderTable({
-    req(values\)</span>weather) as.data.frame(values$weather) }) }</p>
-<p>shiny::shinyApp(ui, server) ```</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Fetch current weather at a US location.</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Fetches the current (or nearest-to-current) forecast period</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'   from the U.S. National Weather Service API</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'   (https://www.weather.gov/documentation/services-web-api). The NWS API</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'   is free, requires no API key, and only covers locations in the United</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'   States.</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @details A two-step lookup is required:</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'     1. GET /points/{lat},{lon}  -&gt; returns a URL for the gridded forecast</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#'     2. GET that forecast URL    -&gt; returns the forecast periods</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'   A descriptive User-Agent is required by api.weather.gov. The NWS</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#'   forecast endpoint returns a sequence of upcoming periods (e.g.</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#'   "This Afternoon", "Tonight", "Tomorrow"). This function selects the</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#'   first period whose time window contains the current time, falling</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#'   back to the earliest period if none currently apply.</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A named list with the temperature and wind at the specified</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#'   latitude and longitude.</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#'   Throws an error if the coordinates are outside the NWS coverage area.</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param latitude Numeric scalar. Latitude in decimal degrees, between</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#'   -90 and 90. Must be a finite number.</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param longitude Numeric scalar. Longitude in decimal degrees, between</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#'   -180 and 180. Must be a finite number.</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#'   # Forecast for downtown Indianapolis, IN.</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#'   weather &lt;- weather_api(latitude = 39.7684, longitude = -86.1581)</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#'   str(weather)</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>weather_api <span class="ot">&lt;-</span> <span class="cf">function</span>(latitude, longitude) {</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assertions are super important for any agent tool.</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.numeric</span>(latitude),</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(latitude) <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.finite</span>(latitude),</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.numeric</span>(longitude),</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(longitude) <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.finite</span>(longitude),</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    latitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">90</span>,</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>    latitude <span class="sc">&lt;=</span> <span class="dv">90</span>,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    longitude <span class="sc">&gt;=</span> <span class="sc">-</span><span class="dv">180</span>,</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    longitude <span class="sc">&lt;=</span> <span class="dv">180</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mock hook for shinytest2: when MOCK_WEATHER is set, return a stable</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fixture instead of calling the live NWS API. This keeps the snapshot</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># in `tests/testthat/_snaps/app/` deterministic across runs.</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nzchar</span>(<span class="fu">Sys.getenv</span>(<span class="st">"MOCK_WEATHER"</span>, <span class="at">unset =</span> <span class="st">""</span>))) {</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">temperature =</span> <span class="st">"72 °F"</span>, <span class="at">wind =</span> <span class="st">"5 mph SW"</span>))</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a>  user <span class="ot">&lt;-</span> <span class="st">"mini-agent (mini-agent; contact: noreply@example.com)"</span></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Step 1: resolve the (lat, lon) to an NWS gridpoint.</span></span>
+<span id="cb7-48"><a href="#cb7-48" aria-hidden="true" tabindex="-1"></a>  points_url <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(</span>
+<span id="cb7-49"><a href="#cb7-49" aria-hidden="true" tabindex="-1"></a>    <span class="st">"https://api.weather.gov/points/%s,%s"</span>,</span>
+<span id="cb7-50"><a href="#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(latitude, <span class="at">digits =</span> <span class="dv">4</span>),</span>
+<span id="cb7-51"><a href="#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">format</span>(longitude, <span class="at">digits =</span> <span class="dv">4</span>)</span>
+<span id="cb7-52"><a href="#cb7-52" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-53"><a href="#cb7-53" aria-hidden="true" tabindex="-1"></a>  points <span class="ot">&lt;-</span> httr2<span class="sc">::</span><span class="fu">request</span>(points_url) <span class="sc">|&gt;</span></span>
+<span id="cb7-54"><a href="#cb7-54" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_user_agent</span>(user) <span class="sc">|&gt;</span></span>
+<span id="cb7-55"><a href="#cb7-55" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_headers</span>(<span class="at">Accept =</span> <span class="st">"application/geo+json"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-56"><a href="#cb7-56" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_retry</span>(<span class="at">max_tries =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-57"><a href="#cb7-57" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-58"><a href="#cb7-58" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">resp_body_json</span>()</span>
+<span id="cb7-59"><a href="#cb7-59" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Step 2: fetch the forecast periods for that gridpoint.</span></span>
+<span id="cb7-60"><a href="#cb7-60" aria-hidden="true" tabindex="-1"></a>  forecast <span class="ot">&lt;-</span> httr2<span class="sc">::</span><span class="fu">request</span>(points<span class="sc">$</span>properties<span class="sc">$</span>forecast) <span class="sc">|&gt;</span></span>
+<span id="cb7-61"><a href="#cb7-61" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_user_agent</span>(user) <span class="sc">|&gt;</span></span>
+<span id="cb7-62"><a href="#cb7-62" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_headers</span>(<span class="at">Accept =</span> <span class="st">"application/geo+json"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-63"><a href="#cb7-63" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_retry</span>(<span class="at">max_tries =</span> <span class="dv">3</span>) <span class="sc">|&gt;</span></span>
+<span id="cb7-64"><a href="#cb7-64" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">req_perform</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-65"><a href="#cb7-65" aria-hidden="true" tabindex="-1"></a>    httr2<span class="sc">::</span><span class="fu">resp_body_json</span>()</span>
+<span id="cb7-66"><a href="#cb7-66" aria-hidden="true" tabindex="-1"></a>  periods <span class="ot">&lt;-</span> forecast<span class="sc">$</span>properties<span class="sc">$</span>periods</span>
+<span id="cb7-67"><a href="#cb7-67" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Pick the period that covers "now". NWS uses ISO 8601 with offsets,</span></span>
+<span id="cb7-68"><a href="#cb7-68" aria-hidden="true" tabindex="-1"></a>  <span class="co"># which `as.POSIXct(..., format = ...)` parses correctly.</span></span>
+<span id="cb7-69"><a href="#cb7-69" aria-hidden="true" tabindex="-1"></a>  now <span class="ot">&lt;-</span> <span class="fu">Sys.time</span>()</span>
+<span id="cb7-70"><a href="#cb7-70" aria-hidden="true" tabindex="-1"></a>  starts <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(</span>
+<span id="cb7-71"><a href="#cb7-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vapply</span>(periods, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="fu">character</span>(<span class="dv">1</span>), <span class="st">"startTime"</span>),</span>
+<span id="cb7-72"><a href="#cb7-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M:%S%z"</span></span>
+<span id="cb7-73"><a href="#cb7-73" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-74"><a href="#cb7-74" aria-hidden="true" tabindex="-1"></a>  ends <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(</span>
+<span id="cb7-75"><a href="#cb7-75" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vapply</span>(periods, <span class="st">`</span><span class="at">[[</span><span class="st">`</span>, <span class="fu">character</span>(<span class="dv">1</span>), <span class="st">"endTime"</span>),</span>
+<span id="cb7-76"><a href="#cb7-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">format =</span> <span class="st">"%Y-%m-%dT%H:%M:%S%z"</span></span>
+<span id="cb7-77"><a href="#cb7-77" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-78"><a href="#cb7-78" aria-hidden="true" tabindex="-1"></a>  current_index <span class="ot">&lt;-</span> <span class="fu">which</span>(starts <span class="sc">&lt;=</span> now <span class="sc">&amp;</span> ends <span class="sc">&gt;=</span> now)[<span class="dv">1</span>]</span>
+<span id="cb7-79"><a href="#cb7-79" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.na</span>(current_index)) {</span>
+<span id="cb7-80"><a href="#cb7-80" aria-hidden="true" tabindex="-1"></a>    current_index <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
+<span id="cb7-81"><a href="#cb7-81" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-82"><a href="#cb7-82" aria-hidden="true" tabindex="-1"></a>  current <span class="ot">&lt;-</span> periods[[current_index]]</span>
+<span id="cb7-83"><a href="#cb7-83" aria-hidden="true" tabindex="-1"></a>  city <span class="ot">&lt;-</span> points<span class="sc">$</span>properties<span class="sc">$</span>relativeLocation<span class="sc">$</span>properties<span class="sc">$</span>city</span>
+<span id="cb7-84"><a href="#cb7-84" aria-hidden="true" tabindex="-1"></a>  state <span class="ot">&lt;-</span> points<span class="sc">$</span>properties<span class="sc">$</span>relativeLocation<span class="sc">$</span>properties<span class="sc">$</span>state</span>
+<span id="cb7-85"><a href="#cb7-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb7-86"><a href="#cb7-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">temperature =</span> <span class="fu">paste0</span>(current<span class="sc">$</span>temperature, <span class="st">" °"</span>, current<span class="sc">$</span>temperatureUnit),</span>
+<span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">wind =</span> <span class="fu">paste</span>(current<span class="sc">$</span>windSpeed, current<span class="sc">$</span>windDirection)</span>
+<span id="cb7-88"><a href="#cb7-88" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-89"><a href="#cb7-89" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-90"><a href="#cb7-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-91"><a href="#cb7-91" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Weather tool constructor</span></span>
+<span id="cb7-92"><a href="#cb7-92" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a weather tool for `ellmer`.</span></span>
+<span id="cb7-93"><a href="#cb7-93" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return An `ellmer` tool object that can be registered with</span></span>
+<span id="cb7-94"><a href="#cb7-94" aria-hidden="true" tabindex="-1"></a><span class="co">#'   an `ellmer` chat object.</span></span>
+<span id="cb7-95"><a href="#cb7-95" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param values A Shiny reactiveValues object with weather data.</span></span>
+<span id="cb7-96"><a href="#cb7-96" aria-hidden="true" tabindex="-1"></a><span class="co">#'   The reactive values must be</span></span>
+<span id="cb7-97"><a href="#cb7-97" aria-hidden="true" tabindex="-1"></a><span class="co">#'   The weather tool updates Shiny outputs, and it is the ONLY thing</span></span>
+<span id="cb7-98"><a href="#cb7-98" aria-hidden="true" tabindex="-1"></a><span class="co">#'   that can update these outputs.</span></span>
+<span id="cb7-99"><a href="#cb7-99" aria-hidden="true" tabindex="-1"></a><span class="co">#'   This restriction is essential for a trusted mini-agent.</span></span>
+<span id="cb7-100"><a href="#cb7-100" aria-hidden="true" tabindex="-1"></a>new_weather_tool <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
+<span id="cb7-101"><a href="#cb7-101" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">tool</span>(</span>
+<span id="cb7-102"><a href="#cb7-102" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> <span class="cf">function</span>(latitude, longitude) {</span>
+<span id="cb7-103"><a href="#cb7-103" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>weather <span class="ot">&lt;-</span> <span class="fu">weather_api</span>(latitude, longitude)</span>
+<span id="cb7-104"><a href="#cb7-104" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>latitude <span class="ot">&lt;-</span> latitude</span>
+<span id="cb7-105"><a href="#cb7-105" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>longitude <span class="ot">&lt;-</span> longitude</span>
+<span id="cb7-106"><a href="#cb7-106" aria-hidden="true" tabindex="-1"></a>      ellmer<span class="sc">::</span><span class="fu">ContentToolResult</span>(jsonlite<span class="sc">::</span><span class="fu">toJSON</span>(values<span class="sc">$</span>weather))</span>
+<span id="cb7-107"><a href="#cb7-107" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb7-108"><a href="#cb7-108" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"get_weather"</span>,</span>
+<span id="cb7-109"><a href="#cb7-109" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb7-110"><a href="#cb7-110" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Get the current weather forecast for a location in the United States,"</span>,</span>
+<span id="cb7-111"><a href="#cb7-111" aria-hidden="true" tabindex="-1"></a>      <span class="st">"given its latitude and longitude in decimal degrees."</span>,</span>
+<span id="cb7-112"><a href="#cb7-112" aria-hidden="true" tabindex="-1"></a>      <span class="st">"The tool only approximates the current weather,"</span>,</span>
+<span id="cb7-113"><a href="#cb7-113" aria-hidden="true" tabindex="-1"></a>      <span class="st">"not past weather or distant future forecasts."</span>,</span>
+<span id="cb7-114"><a href="#cb7-114" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Only call this tool for U.S. locations."</span>,</span>
+<span id="cb7-115"><a href="#cb7-115" aria-hidden="true" tabindex="-1"></a>      <span class="st">"The underlying National Weather Service API does not"</span>,</span>
+<span id="cb7-116"><a href="#cb7-116" aria-hidden="true" tabindex="-1"></a>      <span class="st">"cover other countries."</span></span>
+<span id="cb7-117"><a href="#cb7-117" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-118"><a href="#cb7-118" aria-hidden="true" tabindex="-1"></a>    <span class="at">arguments =</span> <span class="fu">list</span>(</span>
+<span id="cb7-119"><a href="#cb7-119" aria-hidden="true" tabindex="-1"></a>      <span class="at">latitude =</span> ellmer<span class="sc">::</span><span class="fu">type_number</span>(</span>
+<span id="cb7-120"><a href="#cb7-120" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Latitude in decimal degrees. Must be between -90 and 90."</span></span>
+<span id="cb7-121"><a href="#cb7-121" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb7-122"><a href="#cb7-122" aria-hidden="true" tabindex="-1"></a>      <span class="at">longitude =</span> ellmer<span class="sc">::</span><span class="fu">type_number</span>(</span>
+<span id="cb7-123"><a href="#cb7-123" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Longitude in decimal degrees. Must be between -180 and 180."</span></span>
+<span id="cb7-124"><a href="#cb7-124" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-125"><a href="#cb7-125" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-126"><a href="#cb7-126" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-127"><a href="#cb7-127" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-128"><a href="#cb7-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-129"><a href="#cb7-129" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Build a leaflet map centered on a US location.</span></span>
+<span id="cb7-130"><a href="#cb7-130" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Construct an OpenStreetMap-tiled `leaflet` widget centered</span></span>
+<span id="cb7-131"><a href="#cb7-131" aria-hidden="true" tabindex="-1"></a><span class="co">#'   on the supplied latitude and longitude with a single marker dropped at</span></span>
+<span id="cb7-132"><a href="#cb7-132" aria-hidden="true" tabindex="-1"></a><span class="co">#'   that point. Used by the trusted weather agent app to let users</span></span>
+<span id="cb7-133"><a href="#cb7-133" aria-hidden="true" tabindex="-1"></a><span class="co">#'   visually verify that the AI-resolved coordinates land in the region</span></span>
+<span id="cb7-134"><a href="#cb7-134" aria-hidden="true" tabindex="-1"></a><span class="co">#'   they asked about.</span></span>
+<span id="cb7-135"><a href="#cb7-135" aria-hidden="true" tabindex="-1"></a><span class="co">#' @details Character inputs are coerced to numeric so the function can be</span></span>
+<span id="cb7-136"><a href="#cb7-136" aria-hidden="true" tabindex="-1"></a><span class="co">#'   called directly with reactive values pulled from a Shiny session.</span></span>
+<span id="cb7-137"><a href="#cb7-137" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return A `leaflet` htmlwidget (S3 classes `c("leaflet", "htmlwidget")`)</span></span>
+<span id="cb7-138"><a href="#cb7-138" aria-hidden="true" tabindex="-1"></a><span class="co">#'   suitable for passing to `leaflet::renderLeaflet()` or printing in an</span></span>
+<span id="cb7-139"><a href="#cb7-139" aria-hidden="true" tabindex="-1"></a><span class="co">#'   interactive R session. The widget contains an OpenStreetMap tile</span></span>
+<span id="cb7-140"><a href="#cb7-140" aria-hidden="true" tabindex="-1"></a><span class="co">#'   layer, a `setView()` directive at the requested zoom, and a single</span></span>
+<span id="cb7-141"><a href="#cb7-141" aria-hidden="true" tabindex="-1"></a><span class="co">#'   marker whose popup displays the coordinates rounded to four decimal</span></span>
+<span id="cb7-142"><a href="#cb7-142" aria-hidden="true" tabindex="-1"></a><span class="co">#'   places.</span></span>
+<span id="cb7-143"><a href="#cb7-143" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param latitude Numeric (or character coercible to numeric) scalar.</span></span>
+<span id="cb7-144"><a href="#cb7-144" aria-hidden="true" tabindex="-1"></a><span class="co">#'   Latitude in decimal degrees, between -90 and 90.</span></span>
+<span id="cb7-145"><a href="#cb7-145" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param longitude Numeric (or character coercible to numeric) scalar.</span></span>
+<span id="cb7-146"><a href="#cb7-146" aria-hidden="true" tabindex="-1"></a><span class="co">#'   Longitude in decimal degrees, between -180 and 180.</span></span>
+<span id="cb7-147"><a href="#cb7-147" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param zoom Integer scalar. Leaflet zoom level: lower values are zoomed</span></span>
+<span id="cb7-148"><a href="#cb7-148" aria-hidden="true" tabindex="-1"></a><span class="co">#'   further out, higher values are zoomed in tighter.</span></span>
+<span id="cb7-149"><a href="#cb7-149" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb7-150"><a href="#cb7-150" aria-hidden="true" tabindex="-1"></a><span class="co">#'   # Drop a pin on downtown Indianapolis, IN.</span></span>
+<span id="cb7-151"><a href="#cb7-151" aria-hidden="true" tabindex="-1"></a><span class="co">#'   leaflet_map(latitude = 39.7684, longitude = -86.1581)</span></span>
+<span id="cb7-152"><a href="#cb7-152" aria-hidden="true" tabindex="-1"></a>leaflet_map <span class="ot">&lt;-</span> <span class="cf">function</span>(latitude, longitude, <span class="at">zoom =</span> <span class="dv">6</span>) {</span>
+<span id="cb7-153"><a href="#cb7-153" aria-hidden="true" tabindex="-1"></a>  latitude <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(latitude)</span>
+<span id="cb7-154"><a href="#cb7-154" aria-hidden="true" tabindex="-1"></a>  longitude <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(longitude)</span>
+<span id="cb7-155"><a href="#cb7-155" aria-hidden="true" tabindex="-1"></a>  leaflet<span class="sc">::</span><span class="fu">leaflet</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-156"><a href="#cb7-156" aria-hidden="true" tabindex="-1"></a>    leaflet<span class="sc">::</span><span class="fu">addTiles</span>() <span class="sc">|&gt;</span></span>
+<span id="cb7-157"><a href="#cb7-157" aria-hidden="true" tabindex="-1"></a>    leaflet<span class="sc">::</span><span class="fu">setView</span>(<span class="at">lng =</span> longitude, <span class="at">lat =</span> latitude, <span class="at">zoom =</span> zoom) <span class="sc">|&gt;</span></span>
+<span id="cb7-158"><a href="#cb7-158" aria-hidden="true" tabindex="-1"></a>    leaflet<span class="sc">::</span><span class="fu">addMarkers</span>(</span>
+<span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a>      <span class="at">lng =</span> longitude,</span>
+<span id="cb7-160"><a href="#cb7-160" aria-hidden="true" tabindex="-1"></a>      <span class="at">lat =</span> latitude,</span>
+<span id="cb7-161"><a href="#cb7-161" aria-hidden="true" tabindex="-1"></a>      <span class="at">popup =</span> <span class="fu">sprintf</span>(<span class="st">"%.4f, %.4f"</span>, latitude, longitude)</span>
+<span id="cb7-162"><a href="#cb7-162" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-163"><a href="#cb7-163" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-164"><a href="#cb7-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-165"><a href="#cb7-165" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
+<span id="cb7-166"><a href="#cb7-166" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
+<span id="cb7-167"><a href="#cb7-167" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="fu">paste</span>(</span>
+<span id="cb7-168"><a href="#cb7-168" aria-hidden="true" tabindex="-1"></a>      <span class="st">"You are a concise assistant that knows how to translate vague"</span>,</span>
+<span id="cb7-169"><a href="#cb7-169" aria-hidden="true" tabindex="-1"></a>      <span class="st">"location information into latitude and longitude coordinates."</span></span>
+<span id="cb7-170"><a href="#cb7-170" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-171"><a href="#cb7-171" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-172"><a href="#cb7-172" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">new_weather_tool</span>(values))</span>
+<span id="cb7-173"><a href="#cb7-173" aria-hidden="true" tabindex="-1"></a>  chat</span>
+<span id="cb7-174"><a href="#cb7-174" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-175"><a href="#cb7-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-176"><a href="#cb7-176" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
+<span id="cb7-177"><a href="#cb7-177" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted weather agent"</span>,</span>
+<span id="cb7-178"><a href="#cb7-178" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
+<span id="cb7-179"><a href="#cb7-179" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
+<span id="cb7-180"><a href="#cb7-180" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="st">"30vw"</span>,</span>
+<span id="cb7-181"><a href="#cb7-181" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"height: 100%; padding-top: 15px; overflow-x: hidden;"</span>,</span>
+<span id="cb7-182"><a href="#cb7-182" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(</span>
+<span id="cb7-183"><a href="#cb7-183" aria-hidden="true" tabindex="-1"></a>      <span class="st">"chat"</span>,</span>
+<span id="cb7-184"><a href="#cb7-184" aria-hidden="true" tabindex="-1"></a>      <span class="at">messages =</span> <span class="st">"Ask for the current weather in a US city."</span></span>
+<span id="cb7-185"><a href="#cb7-185" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-186"><a href="#cb7-186" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb7-187"><a href="#cb7-187" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
+<span id="cb7-188"><a href="#cb7-188" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
+<span id="cb7-189"><a href="#cb7-189" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"Location that the AI picked for your query"</span>),</span>
+<span id="cb7-190"><a href="#cb7-190" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
+<span id="cb7-191"><a href="#cb7-191" aria-hidden="true" tabindex="-1"></a>        leaflet<span class="sc">::</span><span class="fu">leafletOutput</span>(<span class="st">"location"</span>, <span class="at">height =</span> <span class="st">"300px"</span>)</span>
+<span id="cb7-192"><a href="#cb7-192" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-193"><a href="#cb7-193" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb7-194"><a href="#cb7-194" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
+<span id="cb7-195"><a href="#cb7-195" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"weather.gov data at that location (no AI used here)"</span>),</span>
+<span id="cb7-196"><a href="#cb7-196" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
+<span id="cb7-197"><a href="#cb7-197" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">tableOutput</span>(<span class="st">"weather"</span>)</span>
+<span id="cb7-198"><a href="#cb7-198" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb7-199"><a href="#cb7-199" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-200"><a href="#cb7-200" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-201"><a href="#cb7-201" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-202"><a href="#cb7-202" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-203"><a href="#cb7-203" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb7-204"><a href="#cb7-204" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
+<span id="cb7-205"><a href="#cb7-205" aria-hidden="true" tabindex="-1"></a>    <span class="at">weather =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-206"><a href="#cb7-206" aria-hidden="true" tabindex="-1"></a>    <span class="at">latitude =</span> <span class="cn">NULL</span>,</span>
+<span id="cb7-207"><a href="#cb7-207" aria-hidden="true" tabindex="-1"></a>    <span class="at">longitude =</span> <span class="cn">NULL</span></span>
+<span id="cb7-208"><a href="#cb7-208" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-209"><a href="#cb7-209" aria-hidden="true" tabindex="-1"></a>  <span class="fu">delayedAssign</span>(<span class="at">x =</span> <span class="st">"chat"</span>, <span class="at">value =</span> <span class="fu">new_chat</span>(values))</span>
+<span id="cb7-210"><a href="#cb7-210" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
+<span id="cb7-211"><a href="#cb7-211" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb7-212"><a href="#cb7-212" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
+<span id="cb7-213"><a href="#cb7-213" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-214"><a href="#cb7-214" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>location <span class="ot">&lt;-</span> leaflet<span class="sc">::</span><span class="fu">renderLeaflet</span>({</span>
+<span id="cb7-215"><a href="#cb7-215" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>latitude, values<span class="sc">$</span>longitude)</span>
+<span id="cb7-216"><a href="#cb7-216" aria-hidden="true" tabindex="-1"></a>    <span class="fu">leaflet_map</span>(<span class="at">latitude =</span> values<span class="sc">$</span>latitude, <span class="at">longitude =</span> values<span class="sc">$</span>longitude)</span>
+<span id="cb7-217"><a href="#cb7-217" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-218"><a href="#cb7-218" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>weather <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderTable</span>({</span>
+<span id="cb7-219"><a href="#cb7-219" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>weather)</span>
+<span id="cb7-220"><a href="#cb7-220" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>(values<span class="sc">$</span>weather)</span>
+<span id="cb7-221"><a href="#cb7-221" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-224"><a href="#cb7-224" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
 </section>
