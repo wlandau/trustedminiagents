@@ -241,6 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>The human user describes scenarios for a clinical trial design in natural language. The LLM translates the human intent into rigorous simulation parameters. The user reviews those assumptions in the table at the top. If we trust the simulation code, and if the assumptions represent the design the user wants, then we can trust the results.</p>
+<p>The LLM may hallucinate scenarios, but those scenarios are easy for a human to check. Given good scenarios, hallucinated results are structurally impossible.</p>
 <p>This is where the trusted mini-agent pattern really shines. The large language model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the LLM, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
 </section>
 <section id="clinical-trial-simulation" class="level2" data-number="5.2">
