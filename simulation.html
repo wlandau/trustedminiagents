@@ -234,7 +234,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-it-works" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">5.1</span> How it works</h2>
 <p>The app interface looks like this:</p>
-<p><img src="./images/simulation/app.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/simulation/app.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled “do not trust LLM output in here” with a user prompt describing a binary endpoint trial and the AI’s response. The main panel displays two tables: “Design assumptions (HUMAN USER MUST REVIEW THIS)” showing simulation parameters for Power and Type I Error scenarios, and “Results (trusted given the assumptions)” showing efficacy probabilities of 0.65 and 0.04 for each scenario.</figcaption>
+</figure>
+</div>
 <p>The human user describes scenarios for a clinical trial design in natural language. The LLM translates the human intent into rigorous simulation parameters. The user reviews those assumptions in the table at the top. If we trust the simulation code, and if the assumptions represent the design the user wants, then we can trust the results.</p>
 <p>This is where the trusted mini-agent pattern really shines. The large language model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the LLM, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
 </section>

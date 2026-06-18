@@ -222,12 +222,22 @@ window.Quarto = {
 <h2 data-number="1.1" class="anchored" data-anchor-id="large-language-models-are-not-agents."><span class="header-section-number">1.1</span> Large language models are not agents.</h2>
 <p>By itself, a large language model is just a text-in/text-out machine learning model. When generating predictions, an LLM has no ability to learn, no agency, and no ability to make decisions. It only predicts lexical “tokens” similarly to how a simple linear regression model predicts new outcomes on a new dataset.</p>
 <p>No statistical model makes perfect predictions, which is why LLMs <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinate</a>. For example, suppose an LLM makes a prediction on this new dataset: “What’s the weather in Chicago?” The LLM blindly pattern-matches text to accompany the new data, and this prediction could be wrong.</p>
-<p><img src="./images/agents/llm1.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/agents/llm1.png" class="img-fluid figure-img"></p>
+<figcaption>Sequence diagram showing a user asking “What’s the weather in Chicago?” and the LLM responding with a hallucination: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.” The LLM fabricates an incorrect answer without access to real data.</figcaption>
+</figure>
+</div>
 </section>
 <section id="agent-llm-harness" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="agent-llm-harness"><span class="header-section-number">1.2</span> Agent = LLM + harness</h2>
 <p>At the implementation level, an agent is an LLM combined with a <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">“harness”</a>. The <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> is the computing infrastructure that surrounds the LLM: the chat interface, the conversation history, long-term memory files, the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>, and above all, tools.</p>
-<p><img src="./images/agents/harness.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/agents/harness.png" class="img-fluid figure-img"></p>
+<figcaption>Diagram showing the components of an agent harness. On the left, the Model (LLM) simply predicts text. On the right, the Harness contains four parts: the context window (user prompt, system prompt, conversation history, tool definitions, tool results), registered tools (web_search, read_file, run_code, query_database, send_email, edit_document), and the agent loop (gather context, take action, verify results, repeat until done).</figcaption>
+</figure>
+</div>
 </section>
 <section id="tools-the-essence-of-agents" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="tools-the-essence-of-agents"><span class="header-section-number">1.3</span> Tools: the essence of agents</h2>
@@ -247,7 +257,12 @@ window.Quarto = {
 <p>get_weather(41.8, -87.6)</p>
 </blockquote>
 <p>This reply is a text prediction like any other LLM prediction. Its components “get_weather”, “41.8”, and “-87.6” are AI-generated. However, this string also has a special structure that the harness recognizes as a tool call.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a> detects and runs the tool call, then returns the tool output (i.e.&nbsp;the real weather data) to the LLM. This weather data may inform the LLM’s next prediction.</p>
-<p><img src="./images/agents/llm2.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/agents/llm2.png" class="img-fluid figure-img"></p>
+<figcaption>Sequence diagram showing how tools work. The user asks “What’s the weather in Chicago?”, the LLM calls get_weather(lat = 41.8, long = -87.6), the tool returns real data (temperature: 72, weather: Sunny), and the LLM relays the result: “It’s 72 degrees Fahrenheit and sunny in Chicago.”</figcaption>
+</figure>
+</div>
 
 
 </section>

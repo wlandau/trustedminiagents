@@ -259,7 +259,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-template-app" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-template-app"><span class="header-section-number">3.2</span> The template app</h2>
 <p>The app has a simple interface: a sidebar with the untrusted AI chat, a <code>bslib</code> card where humans review LLM-generated tool inputs, and a <code>bslib</code> card for trusted results.</p>
-<p><img src="./images/template/app.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/template/app.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled “do not trust any AI output here!” with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled “Humans review LLM-generated tool inputs here” and another labeled “Trusted results go here,” illustrating the three-region layout of trust zones.</figcaption>
+</figure>
+</div>
 <p>It is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss hallucinations.</p>
 </section>
 <section id="implementation" class="level2" data-number="3.3">
