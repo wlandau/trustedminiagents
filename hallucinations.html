@@ -303,9 +303,9 @@ div.csl-indent {
 <div class="callout-body-container callout-body">
 <p>A <strong>trusted mini-agent</strong> is a least-privilege AI agent that engineers out hallucinations with the following three rules:</p>
 <ol type="1">
-<li><strong>All results are the direct output of trusted tools.</strong> Every result shown to the user originates from a trusted tool, never from raw LLM output or an untrusted tool.</li>
-<li><strong>Each result only comes from its one designated tool.</strong> No alternative tool or LLM can bypass the designated tool.</li>
-<li><strong>Tool inputs have trusted human oversight.</strong> Tool inputs, which are AI-generated, are presented in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
+<li><strong>Tools directly produce all results.</strong> No result comes from the LLM. And for each type of result, there exists a tool to produce it.</li>
+<li><strong>Each result only comes from one trusted tool.</strong> No alternative tool can bypass the designated tool.</li>
+<li><strong>Tool inputs have trusted human oversight.</strong> The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
 </ol>
 </div>
 </div>
@@ -325,12 +325,12 @@ div.csl-indent {
 </thead>
 <tbody>
 <tr class="odd">
-<td>1. All results are the direct output of trusted tools.</td>
+<td>1. Tools directly produce all results.</td>
 <td>Bypass the LLM to report the weather.</td>
 <td></td>
 </tr>
 <tr class="even">
-<td>2. Each result only comes from its one designated tool.</td>
+<td>2. Each result only comes from one trusted tool.</td>
 <td>Never bypass the <code>get_weather()</code> tool.</td>
 <td></td>
 </tr>

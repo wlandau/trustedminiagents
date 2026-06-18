@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
-<meta name="dcterms.date" content="2026-06-17">
+<meta name="dcterms.date" content="2026-06-18">
 
 <title>Trusted Mini-Agents</title>
 <style>
@@ -193,7 +193,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 17, 2026</p>
+      <p class="date">June 18, 2026</p>
     </div>
   </div>
   
@@ -210,8 +210,8 @@ ul.task-list li input[type="checkbox"] {
 <p>For critical work that needs to be correct, generative AI needs guaranteed safeguards. Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and <a href="https://agentskills.io">skills</a> may be. In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.</p>
 <p>This guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs. We introduce <em>trusted mini-agents</em>: least-privilege AI systems that engineer out hallucinations. Trusted mini-agents obey three rules:</p>
 <ol type="1">
-<li><strong>All results are the direct output of trusted tools.</strong></li>
-<li><strong>Each result only comes from its one designated tool.</strong></li>
+<li><strong>Tools directly produce all results.</strong></li>
+<li><strong>Each result only comes from one trusted tool.</strong></li>
 <li><strong>Tool inputs have trusted human oversight.</strong></li>
 </ol>
 <p>The LLM operates in a narrow (but valuable) role that a human can easily supervise, and results have guarantees of correctness given human-checkable assumptions. Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible. Powerful opportunities exist in clinical trial simulation, Kaplan-Meier curve digitization, and beyond.</p>
