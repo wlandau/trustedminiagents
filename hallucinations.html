@@ -282,7 +282,7 @@ div.csl-indent {
 </section>
 <section id="fix-3-of-3-never-bypass-the-get_weather-tool." class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</h3>
-<p>Now, if the LLM chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the LLM decides to bypass <code>get_weather()</code>, whether with a pure hallucination or with a different untrusted tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for LLM hallucinations. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the LLM may hallucinate code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
+<p>Now, if the LLM chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the LLM decides to bypass <code>get_weather()</code> with a different tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for LLM hallucinations. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the LLM may hallucinate code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
 <p><img src="./images/concepts/hallucination2.png" class="img-fluid"></p>
 <p>Weather data must never come from the LLM, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
 <p><img src="./images/concepts/fix3.png" class="img-fluid"></p>
@@ -341,7 +341,7 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 makes it surjective, and rule 2 makes it injective.</p>
+<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool.</p>
 <p><img src="./images/concepts/bijective.png" class="img-fluid"></p>
 <p>Bijectivity is key: it ensures that results are trusted as long as the tools and their inputs are trusted. Tools are easy to test with <a href="https://testthat.r-lib.org">expectation-based unit tests</a>. Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.</p>
 </section>
