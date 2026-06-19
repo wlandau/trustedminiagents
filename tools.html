@@ -199,14 +199,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#app-design" id="toc-app-design" class="nav-link active" data-scroll-target="#app-design"><span class="header-section-number">4.1</span> App design</a></li>
-  <li><a href="#weather-api-function" id="toc-weather-api-function" class="nav-link" data-scroll-target="#weather-api-function"><span class="header-section-number">4.2</span> Weather API function</a></li>
-  <li><a href="#weather-tool-constructor" id="toc-weather-tool-constructor" class="nav-link" data-scroll-target="#weather-tool-constructor"><span class="header-section-number">4.3</span> Weather tool constructor</a></li>
-  <li><a href="#leaflet-map" id="toc-leaflet-map" class="nav-link" data-scroll-target="#leaflet-map"><span class="header-section-number">4.4</span> Leaflet map</a></li>
-  <li><a href="#chat-constructor-with-tool-registration" id="toc-chat-constructor-with-tool-registration" class="nav-link" data-scroll-target="#chat-constructor-with-tool-registration"><span class="header-section-number">4.5</span> Chat constructor with tool registration</a></li>
-  <li><a href="#app-ui" id="toc-app-ui" class="nav-link" data-scroll-target="#app-ui"><span class="header-section-number">4.6</span> App UI</a></li>
-  <li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function"><span class="header-section-number">4.7</span> Server function</a></li>
-  <li><a href="#complete-code" id="toc-complete-code" class="nav-link" data-scroll-target="#complete-code"><span class="header-section-number">4.8</span> Complete code</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
+  <li><a href="#app-design" id="toc-app-design" class="nav-link" data-scroll-target="#app-design"><span class="header-section-number">4.2</span> App design</a></li>
+  <li><a href="#weather-api-function" id="toc-weather-api-function" class="nav-link" data-scroll-target="#weather-api-function"><span class="header-section-number">4.3</span> Weather API function</a></li>
+  <li><a href="#weather-tool-constructor" id="toc-weather-tool-constructor" class="nav-link" data-scroll-target="#weather-tool-constructor"><span class="header-section-number">4.4</span> Weather tool constructor</a></li>
+  <li><a href="#leaflet-map" id="toc-leaflet-map" class="nav-link" data-scroll-target="#leaflet-map"><span class="header-section-number">4.5</span> Leaflet map</a></li>
+  <li><a href="#chat-constructor-with-tool-registration" id="toc-chat-constructor-with-tool-registration" class="nav-link" data-scroll-target="#chat-constructor-with-tool-registration"><span class="header-section-number">4.6</span> Chat constructor with tool registration</a></li>
+  <li><a href="#app-ui" id="toc-app-ui" class="nav-link" data-scroll-target="#app-ui"><span class="header-section-number">4.7</span> App UI</a></li>
+  <li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function"><span class="header-section-number">4.8</span> Server function</a></li>
+  <li><a href="#complete-app-code" id="toc-complete-app-code" class="nav-link" data-scroll-target="#complete-app-code"><span class="header-section-number">4.9</span> Complete app code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">4.10</span> Testing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trusted-mini-agents/edit/main/tools.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -233,8 +235,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This chapter builds on the template in <a href="./template.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny app. We use the weather agent example from <a href="./hallucinations.html">Chapter 2</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent.</p>
-<section id="app-design" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="app-design"><span class="header-section-number">4.1</span> App design</h2>
+<section id="overview" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
+<p>This is the appearance of the app we will build.</p>
+<p><img src="./images/tools/app.png" class="img-fluid"></p>
+<p>In the <code>shinychat</code> interface on the left, the user asks for the weather in a US city. The leaflet map in the middle lets the user easily check if the LLM-generated coordinates for the city are correct. Trustworthy weather data is displayed on the right.</p>
+<p>It is important to emphasize how the user interface separates the untrusted LLM conversation on the left from the trusted weather data on the right. The LLM-reported weather in the chat may be a hallucination, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
+<ol type="1">
+<li>We guarantee it comes from a trusted tool (<code>get_weather()</code>).</li>
+<li>The leaflet map in the middle is super easy to check, so we can be confident the app is checking the weather in the right place.</li>
+</ol>
+</section>
+<section id="app-design" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">4.2</span> App design</h2>
 <p>The following diagram demonstrates the flow of control in the weather app we are about to build.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -242,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-  subgraph Untrusted because of the LLM
+  subgraph Untrusted due to the LLM
     U["User input"] --&gt; C["shinychat UI"]
     C --&gt; U
     C --&gt; L[ellmer chat]
@@ -250,14 +263,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     LLM --&gt; L
     L --&gt; C
   end
-  subgraph Trusted because of testing and validation
+  subgraph Trusted due to testing
     L --&gt; T["get_weather()"]
     T --&gt; RV["reactiveValues:&lt;br&gt;lat, long, weather"]
   end
-  subgraph Trusted after human review
+  subgraph Trusted after human oversight
     RV --&gt; W["Weather data"]
   end
-  subgraph Human review
+  subgraph Human oversight 
     RV --&gt; M["leaflet map of&lt;br&gt;LLM-generated lat and long"]
   end
 </pre>
@@ -270,8 +283,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>get_weather()</code> is a function that accepts a pair of geographic coordinates and returns the location and its weather to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, <code>get_weather()</code> is the only thing that can write to those <code>reactiveValues()</code> slots.</strong> <strong>This constraint enforces rule 2 (injectivity) of trusted mini-agents.</strong> Neither the user nor the LLM can update those reactive values any other way.</p>
 <p>The leaflet map renders the coordinates the LLM picked, so the user can check whether the LLM’s resolution of their query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then hallucinated weather data is structurally impossible.</p>
 </section>
-<section id="weather-api-function" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">4.2</span> Weather API function</h2>
+<section id="weather-api-function" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">4.3</span> Weather API function</h2>
 <p>Our agent relies on an internal R function that accepts geographic coordinates and returns weather data. This is a simple function that the agentic tool will eventually call.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Fetch current weather at a US location.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Fetches the current (or nearest-to-current) forecast period</span></span>
@@ -363,8 +376,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="weather-tool-constructor" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="weather-tool-constructor"><span class="header-section-number">4.3</span> Weather tool constructor</h2>
+<section id="weather-tool-constructor" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="weather-tool-constructor"><span class="header-section-number">4.4</span> Weather tool constructor</h2>
 <p>We write <code>get_weather()</code> as an <a href="https://ellmer.tidyverse.org/reference/tool.html"><code>ellmer::tool()</code></a>, but with a twist: instead of returning a tool object, we write a tool constructor that accepts a <code>reactiveValues()</code> list and instantiates a tool tied to those reactive values. The tool can access the <code>values</code> object because <code>values</code> is inside the <a href="https://www.r-bloggers.com/2012/12/closures-in-r-a-useful-abstraction/">closure</a> of the <code>fun</code> argument of <code>ellmer::tool()</code>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Weather tool constructor</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a weather tool for `ellmer`.</span></span>
@@ -403,8 +416,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="leaflet-map" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="leaflet-map"><span class="header-section-number">4.4</span> Leaflet map</h2>
+<section id="leaflet-map" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="leaflet-map"><span class="header-section-number">4.5</span> Leaflet map</h2>
 <p>The leaflet map helps the user check the correctness of LLM-generated location data. It accepts geographic coordinates and renders a map with a pin dropped at that location.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Build a leaflet map centered on a US location.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Construct an OpenStreetMap-tiled `leaflet` widget centered</span></span>
@@ -442,8 +455,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="chat-constructor-with-tool-registration" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="chat-constructor-with-tool-registration"><span class="header-section-number">4.5</span> Chat constructor with tool registration</h2>
+<section id="chat-constructor-with-tool-registration" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="chat-constructor-with-tool-registration"><span class="header-section-number">4.6</span> Chat constructor with tool registration</h2>
 <p>As before, we write a constructor for the <code>ellmer</code> chat object. This time, however, there is an extra step to create a new weather tool with a given set of reactive values, then register the new tool with the chat object.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
@@ -456,8 +469,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  chat</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="app-ui" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="app-ui"><span class="header-section-number">4.6</span> App UI</h2>
+<section id="app-ui" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="app-ui"><span class="header-section-number">4.7</span> App UI</h2>
 <p>The app UI has three main components: an untrusted <code>shinychat</code> UI for the conversation, a <code>leaflet</code> output for the map for human review, and a trusted table output for the weather data. <strong>Remember: because of the three levels of trust, these components should be in separate UI elements.</strong> It should be clear to the user that trusted output comes from the weather table, not from the chat.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted weather agent"</span>,</span>
@@ -486,8 +499,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="server-function" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="server-function"><span class="header-section-number">4.7</span> Server function</h2>
+<section id="server-function" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="server-function"><span class="header-section-number">4.8</span> Server function</h2>
 <p>The server function defines the reactive values for the weather results and geographic coordinates. The chat object is lazily created with the given reactive values list, and there are reactive expressions for the chat, leaflet map, and weather data.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
@@ -512,8 +525,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="complete-code" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="complete-code"><span class="header-section-number">4.8</span> Complete code</h2>
+<section id="complete-app-code" class="level2" data-number="4.9">
+<h2 data-number="4.9" class="anchored" data-anchor-id="complete-app-code"><span class="header-section-number">4.9</span> Complete app code</h2>
 <p>Here is the full code for the app.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -743,6 +756,119 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-222"><a href="#cb7-222" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+</section>
+<section id="testing" class="level2" data-number="4.10">
+<h2 data-number="4.10" class="anchored" data-anchor-id="testing"><span class="header-section-number">4.10</span> Testing</h2>
+<p>We use expectation-based testing to ensure the app works. We do not cover every possible test here, but we demonstrate the most important ones covering the tool function and the app itself.</p>
+<p>We begin with the <code>weather_api()</code> function. The weather changes over time, but we can still test that the function returns data in the expected format and that it correctly handles invalid input. Examples:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>tests/testthat/test-weather_api.R</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-filename="tests/testthat/test-weather_api.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"weather_api() returns a sensible response from the live NWS API"</span>, {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_on_cran</span>()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_if_offline</span>(<span class="at">host =</span> <span class="st">"api.weather.gov"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  weather <span class="ot">&lt;-</span> <span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="fl">39.7684</span>, <span class="at">longitude =</span> <span class="sc">-</span><span class="fl">86.1581</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_match</span>(weather<span class="sc">$</span>temperature, <span class="st">"^-?[0-9]+ °[FC]$"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  temperature_value <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">sub</span>(<span class="st">" °[FC]$"</span>, <span class="st">""</span>, weather<span class="sc">$</span>temperature))</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_gte</span>(temperature_value, <span class="sc">-</span><span class="dv">40</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_lte</span>(temperature_value, <span class="dv">130</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_match</span>(weather<span class="sc">$</span>wind, <span class="st">"mph"</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"weather_api() rejects invalid coordinates"</span>, {</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="st">"39"</span>, <span class="at">longitude =</span> <span class="sc">-</span><span class="dv">86</span>))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="dv">39</span>, <span class="at">longitude =</span> <span class="st">"abc"</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="dv">91</span>, <span class="at">longitude =</span> <span class="dv">0</span>))</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="sc">-</span><span class="dv">91</span>, <span class="at">longitude =</span> <span class="dv">0</span>))</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="dv">0</span>, <span class="at">longitude =</span> <span class="dv">181</span>))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="dv">0</span>, <span class="at">longitude =</span> <span class="sc">-</span><span class="dv">181</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="cn">NA_real_</span>, <span class="at">longitude =</span> <span class="dv">0</span>))</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="fu">c</span>(<span class="dv">39</span>, <span class="dv">40</span>), <span class="at">longitude =</span> <span class="sc">-</span><span class="dv">86</span>))</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The weather is always changing, so <code>weather_api()</code> will return different values at different times. This poses a problem for other types of tests, which is why <code>weather_api()</code> has an environment variable that lets us mock the API response with a stable fixture::</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" data-filename="app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Mock hook for shinytest2: when MOCK_WEATHER is set, return a stable</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># fixture instead of calling the live NWS API. This keeps the snapshot</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># in `tests/testthat/_snaps/app/` deterministic across runs.</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nzchar</span>(<span class="fu">Sys.getenv</span>(<span class="st">"MOCK_WEATHER"</span>, <span class="at">unset =</span> <span class="st">""</span>))) {</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">temperature =</span> <span class="st">"72 °F"</span>, <span class="at">wind =</span> <span class="st">"5 mph SW"</span>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To test the mocking, we write:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>tests/testthat/test-weather_api.R</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" data-filename="tests/testthat/test-weather_api.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"weather_api() returns mocked fixture when MOCK_WEATHER is set"</span>, {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  withr<span class="sc">::</span><span class="fu">local_envvar</span>(<span class="at">MOCK_WEATHER =</span> <span class="st">"true"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  weather <span class="ot">&lt;-</span> <span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="fl">39.7684</span>, <span class="at">longitude =</span> <span class="sc">-</span><span class="fl">86.1581</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(weather, <span class="fu">list</span>(<span class="at">temperature =</span> <span class="st">"72 °F"</span>, <span class="at">wind =</span> <span class="st">"5 mph SW"</span>))</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Mocking allows us to test the rest of the app in a near-deterministic way with <code>shinytest2</code>. To set up the test:</p>
+<ul>
+<li>Set the <code>MOCK_WEATHER</code> environment variable.</li>
+<li>Run <code>shinytest2::record_test()</code>. A browser window will launch:</li>
+</ul>
+<p><img src="./images/tools/test1.png" class="img-fluid"></p>
+<ul>
+<li>Click “Expect Shiny values”.</li>
+<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the LLM interaction, the tool calling and Shiny output. The LLM may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>If a pop-up prompts you to record updates, click “Record”.</li>
+<li>After the leaflet app and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
+</ul>
+<p><img src="./images/tools/test2.png" class="img-fluid"></p>
+<ul>
+<li>Click “Save test and exit” on the lower right-hand side.</li>
+</ul>
+<p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to:</p>
+<ol type="1">
+<li>Set <code>MOCK_WEATHER</code> at the beginning of the test code.</li>
+<li>To avoid race conditions with LLM streaming, add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code>.</li>
+</ol>
+<p>Example:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>tests/testthat/test-app.R</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" data-filename="tests/testthat/test-app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"test the app"</span>, {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  withr<span class="sc">::</span><span class="fu">local_envvar</span>(<span class="at">MOCK_WEATHER =</span> <span class="st">"true"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  app <span class="ot">&lt;-</span> AppDriver<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">test_path</span>(<span class="st">"../.."</span>),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"app"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">929</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">1619</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">set_inputs</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">chat_user_input =</span> <span class="fu">paste</span>(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Call get_weather(latitude = 40, longitude = -80),"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"then be completely silent."</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">allow_no_input_binding_ =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">priority_ =</span> <span class="st">"event"</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the LLM, but they can run without a browser in a noninteractive R session.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>shinytest2<span class="sc">::</span><span class="fu">test_app</span>()</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Loading required package<span class="sc">:</span> testthat</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span> F W  S  OK <span class="sc">|</span> Context</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">2</span> <span class="sc">|</span> app [<span class="fl">7.1</span>s]</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>         <span class="dv">13</span> <span class="sc">|</span> weather_api</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>══ Results ════════════════════════════════════════════════</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>Duration<span class="sc">:</span> <span class="fl">7.5</span> s</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>[ FAIL <span class="dv">0</span> <span class="sc">|</span> WARN <span class="dv">0</span> <span class="sc">|</span> SKIP <span class="dv">0</span> <span class="sc">|</span> PASS <span class="dv">15</span> ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
