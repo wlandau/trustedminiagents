@@ -1082,14 +1082,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Run <code>shinytest2::record_test()</code>. A browser window will launch:</li>
 </ul>
-<p><img src="./images/simulation/test1.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/simulation/test1.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.</figcaption>
+</figure>
+</div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
 <li>Enter the prompt “Call simulate_trial_binary(scenario = ‘Power’, n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent.” This tests the end-to-end flow of the LLM interaction, the tool calling and Shiny output. The LLM may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the assumptions and results tables populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
-<p><img src="./images/simulation/test2.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/simulation/test2.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface after test interactions, showing the populated assumptions and results tables along with recorded Shiny values.</figcaption>
+</figure>
+</div>
 <ul>
 <li>Click “Save test and exit” on the lower right-hand side.</li>
 </ul>

@@ -238,7 +238,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="overview" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
 <p>This is the appearance of the app we will build.</p>
-<p><img src="./images/tools/app.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/tools/app.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.</figcaption>
+</figure>
+</div>
 <p>In the <code>shinychat</code> interface on the left, the user asks for the weather in a US city. The leaflet map in the middle lets the user easily check if the LLM-generated coordinates for the city are correct. Trustworthy weather data is displayed on the right.</p>
 <p>It is important to emphasize how the user interface separates the untrusted LLM conversation on the left from the trusted weather data on the right. The LLM-reported weather in the chat may be a hallucination, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
 <ol type="1">
@@ -815,14 +820,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Set the <code>MOCK_WEATHER</code> environment variable.</li>
 <li>Run <code>shinytest2::record_test()</code>. A browser window will launch:</li>
 </ul>
-<p><img src="./images/tools/test1.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/tools/test1.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.</figcaption>
+</figure>
+</div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
 <li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the LLM interaction, the tool calling and Shiny output. The LLM may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the leaflet app and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
-<p><img src="./images/tools/test2.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/tools/test2.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface after test interactions, showing the populated leaflet map and weather data table along with recorded Shiny values.</figcaption>
+</figure>
+</div>
 <ul>
 <li>Click “Save test and exit” on the lower right-hand side.</li>
 </ul>
