@@ -221,7 +221,7 @@ window.Quarto = {
 </header>
 
 
-<p>An <a href="https://en.wikipedia.org/wiki/AI_agent">agent</a> is an artificial intelligence system that interacts with its environment, pursues goals, and takes actions. Because agents rely on large language models, they are vulnerable to <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">bizarre unpredictable errors</a>. To develop an agent that controls hallucinations, we first need to understand the relevant components of agents and how they work together. This chapter describes these concepts and lays the groundwork for trusted mini-agents in later chapters.</p>
+<p>An <a href="https://en.wikipedia.org/wiki/AI_agent">agent</a> is an artificial intelligence system that interacts with its environment, pursues goals, and takes actions. Because agents rely on large language models, they are vulnerable to <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">bizarre unpredictable errors</a> called hallucinations. To develop an agent that controls hallucinations, we first need to understand the relevant components of agents and how they work together. This chapter describes these concepts and lays the groundwork for trusted mini-agents in later chapters.</p>
 <section id="large-language-models-are-not-agents." class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="large-language-models-are-not-agents."><span class="header-section-number">1.1</span> Large language models are not agents.</h2>
 <p>By itself, a large language model is just a text-in/text-out machine learning model. When generating predictions, an LLM has no ability to learn, no agency, and no ability to make decisions. It only predicts lexical “tokens” similarly to how a simple linear regression model predicts new outcomes on a new dataset.</p>
@@ -235,7 +235,7 @@ window.Quarto = {
 </section>
 <section id="agent-llm-harness" class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="agent-llm-harness"><span class="header-section-number">1.2</span> Agent = LLM + harness</h2>
-<p>At the implementation level, an agent is an LLM combined with a <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">“harness”</a>. The <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> is the computing infrastructure that surrounds the LLM: the chat interface, the conversation history, long-term memory files, the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>, and above all, tools.</p>
+<p>At the implementation level, an agent is an LLM combined with a <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">“harness”</a>. The <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> is the non-AI computing infrastructure that surrounds the LLM: the chat interface, the conversation history, long-term memory files, the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>, and above all, tools.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/agents/harness.png" class="img-fluid figure-img"></p>
@@ -245,13 +245,13 @@ window.Quarto = {
 </section>
 <section id="tools-the-essence-of-agents" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="tools-the-essence-of-agents"><span class="header-section-number">1.3</span> Tools: the essence of agents</h2>
-<p>Tools empower the agent to perceive the world and act on it. <a href="https://youtu.be/ctc2kx3LxG8?t=2138">A tool is a function combined with metadata.</a></p>
+<p>A tool is a classic non-AI capability that the LLM can ask the harness to call. Tools empower the agent to perceive the world and act on it. Structrually, <a href="https://youtu.be/ctc2kx3LxG8?t=2138">a tool is a function combined with metadata.</a></p>
 <p><span class="math display">\[
 \begin{aligned}
 \text{Tool} = \text{Function} + \text{Metadata}
 \end{aligned}
 \]</span></p>
-<p>The function could be an R function, Python function, system library, etc. The metadata is a set of instructions in the system prompt that tells the LLM when and how to call the function. When the LLM decides it needs the tool, it “predicts” a call to the function using AI-generated arguments. The agent loop (example: <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">Claude Code’s agent loop</a>) in the harness detects and runs the tool call, then returns the results back to the LLM. With tool output, the LLM can incorporate real-world data into its text predictions.</p>
+<p>A function is a transformation from structured inputs to structured outputs, such as a system library, R function, API, or script file. The metadata is a set of instructions in the system prompt that tells the LLM when and how to call the function. When the LLM decides it needs the tool, it “predicts” a call to the function using AI-generated arguments. The agent loop (example: <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">Claude Code’s agent loop</a>) in the harness detects and runs the tool call, then returns the results back to the LLM. With tool output, the LLM can incorporate real-world data into its text predictions.</p>
 <p>For example, suppose we have a tool that scrapes the National Weather Service (NWS) API. We write an R function <code>get_weather()</code>, and we include metadata to describe its inputs, outputs, and purpose. This metadata becomes part of the instructions in the system prompt. Because of these instructions, when the user prompts:</p>
 <blockquote class="blockquote">
 <p>“What’s the weather in Chicago?”</p>
