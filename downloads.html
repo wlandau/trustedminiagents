@@ -242,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>I want to compare the popularity of R packages for Bayesian statistics. Give me this year’s downloads for the most well-known Bayesian modeling packages.</p>
 </blockquote>
 <p>The LLM translates human intent into the specific packages and dates to query. Downstream, the user reviews the LLM-generated packages and dates, and then a trusted tool actually scrapes and plots the downloads.</p>
-<p>The LLM-generated package list is convenient because humans can check it more easily than writing it from scratch. Describing general intent is much easier for a human than spelling out every little detail.</p>
+<p>The LLM-generated package list is a major convenience. Humans can check the list more easily than writing it from scratch. Describing general intent in a prompt is much easier for a human than spelling out every little detail.</p>
 <p>The LLM may hallucinate packages, but hallucinated download metrics are structurally impossible. The question is no longer “do we trust these metrics?”, but instead “are these the packages we want to query?” This matters because humans can check package names much more easily than download statistics.</p>
 <p>CRAN downloads may seem trivial, but the same general idea applies to more complex problems in statistics and data science. Faced with a daunting model, analysis, or simulation, the LLM helps the human structure and formalize the task at hand. Manual human inspection is not enough to judge the correctness of the final results, but humans can judge how well the LLM framed the problem. Trust in the results comes from (1) trust in the tools, and (2) trust that the agent actually used those tools.</p>
 </section>
