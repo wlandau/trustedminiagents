@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
-<meta name="dcterms.date" content="2026-06-23">
+<meta name="dcterms.date" content="2026-06-24">
 
 <title>Trusted Mini-Agents</title>
 <style>
@@ -149,12 +149,6 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Registering tools in a full working example</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -197,7 +191,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">June 23, 2026</p>
+      <p class="date">June 24, 2026</p>
     </div>
   </div>
   
@@ -219,20 +213,19 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Tool inputs have trusted human oversight.</strong></li>
 </ol>
 <p>The LLM proposes inputs to tools, humans check those inputs, and tools produce results. Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue. Downstream of tool inputs, hallucinated results are structurally impossible.</p>
-<p>Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible. For example, there are powerful opportunities in clinical trial simulation, as discussed later in <a href="./simulation.html">Chapter 5</a>.</p>
+<p>Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible.</p>
 <section id="who-this-is-for" class="level2">
 <h2 class="anchored" data-anchor-id="who-this-is-for">Who this is for</h2>
 <p>This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work. Although the underlying concepts generalize to other programming languages and frameworks, all the examples are in R and Shiny. No prior experience with <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> or <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> is necessary.</p>
 </section>
 <section id="contents" class="level2">
 <h2 class="anchored" data-anchor-id="contents">Contents</h2>
-<p>After introducing the concepts, the guide builds a minimalist example of a trusted mini-agent, then concludes with a motivating example from clinical trial simulation.</p>
+<p>After introducing the concepts, the guide builds a minimalist example of a trusted mini-agent, then concludes with a motivating example.</p>
 <ul>
 <li><a href="./agents.html"><strong>Chapter 1: Deconstructing agents.</strong></a> An overview of agents, their relevant components, and how they work together, laying the groundwork for trusted mini-agents in later chapters.</li>
 <li><a href="./hallucinations.html"><strong>Chapter 2: Controlling hallucinations.</strong></a> An overview of the trusted mini-agent pattern and how it controls hallucinations, featuring the concept for the weather agent in <a href="./tools.html">Chapter 4</a>.</li>
 <li><a href="./template.html"><strong>Chapter 3: A trusted mini-agent template.</strong></a> A minimal Shiny app that can be developed into a trusted mini-agent.</li>
 <li><a href="./tools.html"><strong>Chapter 4: Registering tools in a full working example.</strong></a> A full working trusted mini-agent that demonstrates the concepts.</li>
-<li><a href="./simulation.html"><strong>Chapter 5: A real-world example in clinical trial simulation.</strong></a> A motivating example to show the practical usefulness of trusted mini-agents.</li>
 </ul>
 </section>
 <section id="acknowledgements" class="level2">
