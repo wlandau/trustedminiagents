@@ -1,0 +1,20 @@
+# Quarto build artifacts
+_book/
+.quarto/
+_freeze/
+*_files/
+*_cache/
+
+# R / RStudio scratch
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+
+/.quarto/
+**/*.quarto_ipynb

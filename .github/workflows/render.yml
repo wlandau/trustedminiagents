@@ -1,0 +1,34 @@
+name: Render and deploy book
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          use-public-rspm: true
+
+      - name: Render book
+        uses: quarto-dev/quarto-actions/render@v2
+        with:
+          to: html
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: _book
+          branch: gh-pages
+          clean: true
+          force: true

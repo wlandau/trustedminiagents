@@ -1,0 +1,41 @@
+project:
+  type: book
+  output-dir: _book
+
+bibliography: references.bib
+
+book:
+  title: "Trusted Mini-Agents"
+  subtitle: "Engineering Hallucinations Out of AI Workflows"
+  author: "Will Landau"
+  date: today
+  search: true
+  repo-url: https://github.com/wlandau/trustedminiagents
+  repo-actions: [edit]
+  repo-branch: main
+  sidebar:
+    style: docked
+    logo: logo/240x277.png
+  page-footer:
+    left: "© 2026 Eli Lilly and Company"
+  chapters:
+    - index.qmd
+    - agents.qmd
+    - hallucinations.qmd
+    - template.qmd
+    - tools.qmd
+    - downloads.qmd
+
+format:
+  html:
+    favicon: logo/favicon.png
+    theme: cosmo
+    css: styles.css
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    code-link: false
+    callout-appearance: simple
+    mermaid:
+      theme: neutral

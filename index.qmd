@@ -1,0 +1,44 @@
+
+# Introduction {.unnumbered}
+
+For critical work that needs to be correct, generative AI needs guaranteed safeguards.
+Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and [skills](https://agentskills.io) may be.
+In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.
+
+This guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs.
+We introduce *trusted mini-agents*: least-privilege AI systems that engineer out hallucinations.
+Trusted mini-agents obey three rules:
+
+1. **Tools directly produce all results.**
+2. **Each result only comes from one trusted tool.**
+3. **Tool inputs have trusted human oversight.**
+
+The LLM proposes inputs to tools, humans check those inputs, and tools produce results.
+Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
+Downstream of tool inputs, hallucinated results are structurally impossible.
+
+Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
+
+## Who this is for
+
+This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work.
+Although the underlying concepts generalize to other programming languages and frameworks, all the examples are in R and Shiny.
+No prior experience with [`ellmer`](https://ellmer.tidyverse.org/) or [`shinychat`](https://posit-dev.github.io/shinychat/r/) is necessary.
+
+## Contents
+
+After introducing the concepts, the guide builds a minimalist example of a trusted mini-agent, then concludes with a motivating example.
+
+- [**Chapter 1: Deconstructing agents.**](agents.qmd) An overview of agents, their relevant components, and how they work together, laying the groundwork for trusted mini-agents in later chapters.
+- [**Chapter 2: Controlling hallucinations.**](hallucinations.qmd) An overview of the trusted mini-agent pattern and how it controls hallucinations, featuring the concept for the weather agent in [Chapter 4](tools.qmd).
+- [**Chapter 3: A trusted mini-agent template.**](template.qmd) A minimal Shiny app that can be developed into a trusted mini-agent.
+- [**Chapter 4: Registering tools in a full working example.**](tools.qmd) A full working trusted mini-agent that demonstrates the concepts.
+- [**Chapter 5: Example: CRAN download metrics.**](downloads.qmd) A motivating example to show the practical usefulness of trusted mini-agents.
+
+## Acknowledgements
+
+* [Simon Couch](https://simonpcouch.com/) and [Sara Altman](https://saraaltman.com/) covered similar topics in their 2026 talk at [R/Pharma genAI Day](https://rinpharma.com/docs/ai-day/). In their [presentation](https://simonpcouch.github.io/gen-ai-pharma-26), they recommended: "Design the scaffold so that it matters less if [LLMs are] wrong."
+The trusted mini-agent pattern attempts to explore this idea to its fullest extent.
+* [Hadley Wickham](https://hadley.nz/)'s [keynote](https://www.youtube.com/watch?v=ctc2kx3LxG8&t=1124s) at [useR! 2025](https://user2025.r-project.org/) described the central role of tools in the development of agents.
+This talk was the original spark that led to the strategy in this guide.
+* Early one-on-one conversations with [Joe Cheng](https://github.com/jcheng5) helped clarify the different roles and uses of [registered tools](https://ellmer.tidyverse.org/articles/tool-calling.html) versus [structured data](https://ellmer.tidyverse.org/articles/structured-data.html) in [`ellmer`](https://ellmer.tidyverse.org/)-powered agents.

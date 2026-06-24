@@ -1,0 +1,126 @@
+# Controlling hallucinations {#sec-hallucinations}
+
+When it comes to reliability, the components in and around agents have different strengths and weaknesses.
+
+Component | Strengths | Weaknesses
+---|---|---
+LLM | Proposing ideas, translating human intent into tool inputs. | LLMs hallucinate, and their outputs must be verified by humans.
+Tools | Trustworthy and testable. Outputs are reliable given correct inputs. | Limited flexibility, inputs need verification.
+User | Setting goals, framing intent, checking tool inputs. | Slow, fatigues easily, cannot reliably check tool outputs.
+
+To control hallucinations, we leverage these strengths and compensate for the weaknesses.
+This chapter builds the intuition for how to do that, and formalizes it into the set of rules that define trusted mini-agents.
+
+## Agents are vulnerable to hallucinations.
+
+> "All models are wrong, but some are useful."
+>
+> — @box1987
+
+REMEMBER: An LLM is a model with less-than-perfect prediction accuracy.
+At any time for any reason, an LLM can produce a [hallucination](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)): a confident-sounding prediction that is completely wrong.
+Prompt engineering and [skill creation](https://agentskills.io) can never eliminate hallucinations entirely.
+The choice of prompt and model improves convenience, but it cannot guarantee correctness.
+
+::: {.callout-tip}
+Prompts, skills, and models are about *convenience*, not correctness.
+:::
+
+For example, consider a simple weather agent.
+The agent has a single `get_weather()` tool, which scrapes the National Weather Service (NWS) API for real weather data.
+The agent elicits a location from the user, calls `get_weather()` to get the weather at that location, returns the result to the LLM, and relays the LLM's response back to the user.
+Even though `get_weather()` gives the agent access to reliable data, hallucinations can still happen through the LLM.
+
+![Sequence diagram showing vulnerability in a weather agent. The user asks "What's the weather in Chicago?", the LLM generates a tool call get_weather(lat = 41.8, long = -87.6) marked as "VULNERABLE" because the coordinates are AI-generated, the tool returns correct data (temperature: 72, weather: Sunny), but the LLM hallucinates a completely different response: "It's 50 degrees Fahrenheit and rainy in Indianapolis."](./images/hallucinations/hallucination1.png)
+
+## How to fix the weather agent
+
+To control hallucinations in the weather agent, we do not try to improve our system prompt or choose a "better" LLM.
+That would be wishful thinking.
+Instead, we identify precisely where hallucinations can happen, and we engineer the [harness](https://www.langchain.com/blog/the-anatomy-of-an-agent-harness) to eliminate those vulnerabilities.
+
+### Fix 1 of 3: Help the human review the location.
+
+The AI-generated text of a tool call is a fallible LLM prediction.
+To control hallucinations in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort.
+In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in "get_weather(41.8, -87.6)".
+Checking the raw coordinates of every tool call is simply too inconvenient for a human.
+Instead, we render an eye-catching interactive map with a pin in the location.
+That way, it becomes obvious to any human user whether the LLM chose the right place.
+
+![Sequence diagram showing Fix 1. The user asks "What's the weather in Chicago?" and an interactive map of Chicago with a pin is displayed for human review before calling get_weather(lat = 41.8, long = -87.6). The tool returns correct data, but the LLM still hallucinates a wrong response. The map helps the user verify the location input.](./images/hallucinations/fix1.png)
+
+### Fix 2 of 3: Bypass the LLM to report the weather.
+
+We do not trust the LLM to describe NWS weather data, even if it's just relaying data back to the user.
+Because it would require output from an LLM, even this simple task would be vulnerable to hallucinations.
+However, we do trust the NWS weather data itself.
+Instead of reading about the weather from the LLM, we should read it directly from the tool it comes from.
+We engineer the tool to bypass the LLM and return NWS weather data straight to the user interface.
+
+![Sequence diagram showing Fix 2. The user asks "What's the weather in Chicago?", an interactive map is shown for review, then get_weather is called. The tool output (temperature: 72, weather: Sunny) bypasses the LLM entirely and is returned directly to the user, eliminating the hallucination risk in the LLM's response.](./images/hallucinations/fix2.png)
+
+### Fix 3 of 3: Never bypass the `get_weather()` tool.
+
+Now, if the LLM chooses to call `get_weather()`, then we can trust the weather data we see.
+But what if the LLM decides to bypass `get_weather()` with a different tool?
+An agent like [Claude Code](https://code.claude.com/) may have [dozens of tools](https://code.claude.com/docs/en/tools-reference), including tools to write and execute arbitrary code.
+Such general-purpose tools may compete with our weather tool and create a backdoor for LLM hallucinations.
+For example, if our weather agent has [Claude Code](https://code.claude.com/)'s `Write()` and `Bash()` tools, then the LLM may hallucinate code to fake the data instead of calling our trusted `get_weather()` tool.
+
+![Sequence diagram showing the problem of tool bypass. The user asks "What's the weather in Chicago?" but instead of calling get_weather, the LLM hallucinates by writing and executing a script called "post_fake_weather.sh" using Write and Bash tools. This produces fabricated data (temperature: -999, weather: vortex) that bypasses the trusted tool entirely.](./images/hallucinations/hallucination2.png)
+
+Weather data must never come from the LLM, and it must never come from untrusted tools.
+We engineer the user interface so that it only ever shows weather data from `get_weather()`.
+
+![Sequence diagram showing Fix 3. The user asks "What's the weather in Chicago?", the map is shown for review, then get_weather is called and its output goes directly to the user. Red prohibition symbols block two alternative paths: the LLM cannot send results directly to the user, and no other tool can bypass get_weather to produce weather data.](./images/hallucinations/fix3.png)
+
+## Defining trusted mini-agents
+
+We formalize these lessons from the weather agent into a general pattern for building reliable AI systems.
+
+::: {.callout-note icon=false appearance="simple"}
+## Definition: Trusted Mini-Agent
+
+A **trusted mini-agent** is a least-privilege AI agent that engineers out hallucinations with the following three rules:
+
+1. **Tools directly produce all results.** No result comes from the LLM. And for each type of result, there exists a tool to produce it.
+2. **Each result only comes from one trusted tool.** No alternative tool can bypass the designated tool.
+3. **Tool inputs have trusted human oversight.** The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
+:::
+
+The LLM proposes inputs to tools, humans check those inputs, and tools produce results.
+Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
+Downstream of tool inputs, hallucinated results are structurally impossible.
+
+The three rules map to the three fixes we made to the weather agent.
+
+ | Rule | Fix
+---|---|---
+1. Tools directly produce all results. | Bypass the LLM to report the weather.
+2. Each result only comes from one trusted tool. | Never bypass the `get_weather()` tool.
+3. Tool inputs have trusted human oversight. | Show the location in an interactive map.
+
+In terms of tools and results, a trusted mini-agent is a bijective function.
+Rule 1 implies surjectivity: every result can be produced by at least one tool.
+Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool.
+
+![Diagram illustrating a bijective function f from X to Y. The set X (tools) contains get_weather() and write_code(), with an arrow exclusively mapping the get_weather() tool to weather data. Below, a separate set Z (other sources) contains "LLM", which is excluded from producing results. This shows that each result type maps to exactly one trusted tool.](./images/hallucinations/bijective.png)
+
+Bijectivity is key: it ensures that results are trusted as long as the tools and their inputs are trusted.
+Tools are easy to test with [expectation-based unit tests](https://testthat.r-lib.org).
+Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.
+
+## When trusted mini-agents are useful
+
+Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming.
+However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
+The hardest part is framing the problem.
+The goal is to insert the LLM where:
+
+1. The LLM proposes solutions better than a human.
+2. A human easily checks those solutions.
+
+No scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems.
+
+## References
