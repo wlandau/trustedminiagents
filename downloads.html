@@ -200,8 +200,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link active" data-scroll-target="#how-it-works"><span class="header-section-number">5.1</span> How it works</a></li>
   <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">5.2</span> Implementation</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">5.3</span> Testing</a></li>
-  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">5.4</span> Full app code</a></li>
+  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">5.3</span> Full app code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">5.4</span> Testing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/downloads.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -231,7 +231,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="how-it-works" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="how-it-works"><span class="header-section-number">5.1</span> How it works</h2>
 <p>The app interface looks like this:</p>
-<p><img src="./images/downloads/app.png" class="img-fluid"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/downloads/app.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the completed CRAN downloads app showing a shinychat interface on the left with a user query about Bayesian statistics packages, a table of packages and dates in the center for human review, and a trusted download metrics line plot on the right.</figcaption>
+</figure>
+</div>
 <p>The human user describes a set of packages and a date range to query. For example:</p>
 <blockquote class="blockquote">
 <p>I want to compare the popularity of R packages for Bayesian statistics. Give me this year’s downloads for the most well-known Bayesian modeling packages.</p>
@@ -351,203 +356,203 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="testing" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="testing"><span class="header-section-number">5.3</span> Testing</h2>
+<section id="full-app-code" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">5.3</span> Full app code</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>new_query_tool <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">tool</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> <span class="cf">function</span>(packages, from, to) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      data <span class="ot">&lt;-</span> cranlogs<span class="sc">::</span><span class="fu">cran_downloads</span>(packages, <span class="at">from =</span> from, <span class="at">to =</span> to)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>packages <span class="ot">&lt;-</span> packages</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>dates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> from, <span class="at">to =</span> to)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>downloads <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count, <span class="at">color =</span> package))</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      ellmer<span class="sc">::</span><span class="fu">ContentToolResult</span>(<span class="st">"The download metrics have been plotted."</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"query_downloads"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">paste</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Query CRAN download metrics for a set of R packages."</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Before getting the 'from' and 'to' dates, you must"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"use the current_time tool to get the current date and time."</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">arguments =</span> <span class="fu">list</span>(</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">packages =</span> ellmer<span class="sc">::</span><span class="fu">type_array</span>(</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        ellmer<span class="sc">::</span><span class="fu">type_string</span>(<span class="at">description =</span> <span class="st">"The name of an R package."</span>),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"A vector of R package names to query."</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> ellmer<span class="sc">::</span><span class="fu">type_string</span>(</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"The yyyy-mm-dd start date for the download metrics query."</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> ellmer<span class="sc">::</span><span class="fu">type_string</span>(</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"The yyyy-mm-dd end date for the download metrics query."</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>current_time <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">tool</span>(</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> Sys.time,</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"current_time"</span>,</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">"Get the current date and time."</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="fu">paste</span>(</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"You are an software developer familiar with the R package ecosystem."</span>,</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">"The user provides you with a collection of R packages to query,"</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">"then the metrics tool provides informative metrics about each package."</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">new_query_tool</span>(values))</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">register_tool</span>(current_time)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>  chat</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"CRAN download metrics agent"</span>,</span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat"</span>,</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a>      <span class="st">"chat"</span>,</span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">messages =</span> <span class="fu">paste</span>(</span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Describe a set of R packages to query"</span>,</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"and the date range for the download metrics. Example prompt:</span><span class="sc">\n\n</span><span class="st">"</span>,</span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">\"</span><span class="st">Get this year's download metrics for the most popular packages"</span>,</span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>        <span class="st">"for custom Bayesian analysis models.</span><span class="sc">\"</span><span class="st">"</span></span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"Packages and dates to query"</span>),</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">tableOutput</span>(<span class="st">"dates"</span>),</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">textOutput</span>(<span class="st">"packages"</span>)</span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"Trusted download metrics"</span>),</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">plotOutput</span>(<span class="st">"downloads"</span>)</span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb6-84"><a href="#cb6-84" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
+<span id="cb6-85"><a href="#cb6-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">packages =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-86"><a href="#cb6-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">dates =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-87"><a href="#cb6-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">downloads =</span> <span class="cn">NULL</span></span>
+<span id="cb6-88"><a href="#cb6-88" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-89"><a href="#cb6-89" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>(values)</span>
+<span id="cb6-90"><a href="#cb6-90" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
+<span id="cb6-91"><a href="#cb6-91" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb6-92"><a href="#cb6-92" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
+<span id="cb6-93"><a href="#cb6-93" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-94"><a href="#cb6-94" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dates <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderTable</span>({</span>
+<span id="cb6-95"><a href="#cb6-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>dates)</span>
+<span id="cb6-96"><a href="#cb6-96" aria-hidden="true" tabindex="-1"></a>    values<span class="sc">$</span>dates</span>
+<span id="cb6-97"><a href="#cb6-97" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-98"><a href="#cb6-98" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>packages <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderText</span>({</span>
+<span id="cb6-99"><a href="#cb6-99" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span><span class="fu">req</span>(values<span class="sc">$</span>packages)</span>
+<span id="cb6-100"><a href="#cb6-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(values<span class="sc">$</span>packages, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
+<span id="cb6-101"><a href="#cb6-101" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-102"><a href="#cb6-102" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>downloads <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderPlot</span>({</span>
+<span id="cb6-103"><a href="#cb6-103" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>downloads)</span>
+<span id="cb6-104"><a href="#cb6-104" aria-hidden="true" tabindex="-1"></a>    values<span class="sc">$</span>downloads</span>
+<span id="cb6-105"><a href="#cb6-105" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-106"><a href="#cb6-106" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-107"><a href="#cb6-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-108"><a href="#cb6-108" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="testing" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="testing"><span class="header-section-number">5.4</span> Testing</h2>
 <p>We use expectation-based testing to ensure the app works. We do not cover every possible test here, but we demonstrate the most important ones covering the tool function and the app itself.</p>
-<p>Unlike the weather agent, we do not need to mock anything. CRAN download statistics for past dates are fixed and will not change retroactively. This means we can write fully deterministic tests by querying a specific package over a known historical date range.</p>
-<p>We begin with the tool function itself. We test that <code>cranlogs::cran_downloads()</code> returns data in the expected format for a known query:</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>tests/testthat/test-query_tool.R</strong></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="tests/testthat/test-query_tool.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"query tool returns expected data for a known past date range"</span>, {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_on_cran</span>()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_if_offline</span>(<span class="at">host =</span> <span class="st">"cranlogs.r-pkg.org"</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  from <span class="ot">&lt;-</span> <span class="st">"2024-01-01"</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  to <span class="ot">&lt;-</span> <span class="st">"2024-01-07"</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> cranlogs<span class="sc">::</span><span class="fu">cran_downloads</span>(packages, <span class="at">from =</span> from, <span class="at">to =</span> to)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_s3_class</span>(data, <span class="st">"data.frame"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_named</span>(data, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"count"</span>, <span class="st">"package"</span>))</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(data<span class="sc">$</span>package)), <span class="fu">sort</span>(packages))</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_true</span>(<span class="fu">all</span>(data<span class="sc">$</span>count <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">min</span>(data<span class="sc">$</span>date), <span class="fu">as.Date</span>(from))</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">max</span>(data<span class="sc">$</span>date), <span class="fu">as.Date</span>(to))</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">nrow</span>(data), <span class="fu">length</span>(packages) <span class="sc">*</span> <span class="dv">7</span>L)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"query tool returns stable results for past dates"</span>, {</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_on_cran</span>()</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_if_offline</span>(<span class="at">host =</span> <span class="st">"cranlogs.r-pkg.org"</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  data <span class="ot">&lt;-</span> cranlogs<span class="sc">::</span><span class="fu">cran_downloads</span>(<span class="st">"rlang"</span>, <span class="at">from =</span> <span class="st">"2024-06-01"</span>, <span class="at">to =</span> <span class="st">"2024-06-03"</span>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">nrow</span>(data), <span class="dv">3</span>L)</span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_true</span>(<span class="fu">all</span>(data<span class="sc">$</span>count <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Past download counts are immutable, so we can assert exact values.</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(data<span class="sc">$</span>count, <span class="fu">c</span>(<span class="dv">33043</span>L, <span class="dv">32194</span>L, <span class="dv">60045</span>L))</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Because past download statistics are immutable, we can go further and assert exact download counts. If the test ever fails, it indicates an issue with the <code>cranlogs</code> API rather than our code.</p>
-<p>To test the full app with <code>shinytest2</code>, we use a prompt that requests a specific past date range. This keeps the download results deterministic without any mocking. To set up the test:</p>
+<p>We begin with the download metrics tool. Tools are callable functions, which makes them easy to test. Instead of a reactive values we use a temporary environment. The <a href="https://vdiffr.r-lib.org/"><code>vdiffr</code></a> R package helps with regression testing on static plots.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-file="tests/testthat/test-query_tool.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"the download query tool works."</span>, {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">skip_if_offline</span>()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  packages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  from <span class="ot">&lt;-</span> <span class="st">"2024-01-01"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  to <span class="ot">&lt;-</span> <span class="st">"2024-01-02"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> <span class="fu">new.env</span>(<span class="at">parent =</span> <span class="fu">emptyenv</span>())</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  tool <span class="ot">&lt;-</span> <span class="fu">new_query_tool</span>(values)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_s3_class</span>(tool, <span class="st">"ellmer_tool"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tool</span>(<span class="at">packages =</span> packages, <span class="at">from =</span> from, <span class="at">to =</span> to)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(values<span class="sc">$</span>packages, <span class="fu">c</span>(<span class="st">"dplyr"</span>, <span class="st">"ggplot2"</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(values<span class="sc">$</span>dates, <span class="fu">data.frame</span>(<span class="at">from =</span> from, <span class="at">to =</span> to))</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_s3_class</span>(values<span class="sc">$</span>downloads, <span class="st">"data.frame"</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_named</span>(values<span class="sc">$</span>downloads, <span class="fu">c</span>(<span class="st">"date"</span>, <span class="st">"count"</span>, <span class="st">"package"</span>))</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">sort</span>(<span class="fu">unique</span>(values<span class="sc">$</span>downloads<span class="sc">$</span>package)), <span class="fu">sort</span>(packages))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_true</span>(<span class="fu">all</span>(values<span class="sc">$</span>downloads<span class="sc">$</span>count <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">min</span>(values<span class="sc">$</span>downloads<span class="sc">$</span>date), <span class="fu">as.Date</span>(from))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">max</span>(values<span class="sc">$</span>downloads<span class="sc">$</span>date), <span class="fu">as.Date</span>(to))</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_equal</span>(<span class="fu">nrow</span>(values<span class="sc">$</span>downloads), <span class="fu">length</span>(packages) <span class="sc">*</span> <span class="dv">2</span>L)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To test the full app with <code>shinytest2</code>, we use a prompt that requests a specific past date range. To set up the test:</p>
 <ul>
 <li>Run <code>shinytest2::record_test()</code>. A browser window will launch.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/downloads/test1.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty CRAN downloads app and test recording controls.</figcaption>
+</figure>
+</div>
+<ul>
 <li>Click “Expect Shiny values”.</li>
 <li>Enter a prompt with specific past dates, such as: “Get download metrics for dplyr and ggplot2 from 2024-01-01 to 2024-01-07.” This tests the end-to-end flow of the LLM interaction, tool calling, and Shiny output.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
-<li>After the plot and package list populate, click “Expect Shiny values” again.</li>
+<li>After the plot and package list populate, click “Expect Shiny values” again. At this point, you should see:</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./images/downloads/test2.png" class="img-fluid figure-img"></p>
+<figcaption>Screenshot of the shinytest2 recording interface after test interactions, showing the populated download metrics plot and package list along with recorded Shiny values.</figcaption>
+</figure>
+</div>
+<ul>
 <li>Click “Save test and exit” on the lower right-hand side.</li>
 </ul>
-<p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code> to avoid race conditions with LLM streaming.</p>
-<p>Example:</p>
+<p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code> to avoid race conditions with LLM streaming. Example:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>tests/testthat/test-app.R</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" data-filename="tests/testthat/test-app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"test the app"</span>, {</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  app <span class="ot">&lt;-</span> AppDriver<span class="sc">$</span><span class="fu">new</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">test_path</span>(<span class="st">"../.."</span>),</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"app"</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">929</span>,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">1619</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">set_inputs</span>(</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">chat_user_input =</span> <span class="fu">paste</span>(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Get download metrics for dplyr and ggplot2"</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"from 2024-01-01 to 2024-01-07."</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Then be completely silent."</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">allow_no_input_binding_ =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">priority_ =</span> <span class="st">"event"</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" data-filename="tests/testthat/test-app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_that</span>(<span class="st">"test the app"</span>, {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  app <span class="ot">&lt;-</span> AppDriver<span class="sc">$</span><span class="fu">new</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">test_path</span>(<span class="st">"../.."</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"app"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">height =</span> <span class="dv">929</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="dv">1619</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">set_inputs</span>(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">chat_user_input =</span> <span class="fu">paste</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Get download metrics for dplyr and ggplot2"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"from 2024-01-01 to 2024-01-07."</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Then be completely silent."</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">allow_no_input_binding_ =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">priority_ =</span> <span class="st">"event"</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">wait_for_idle</span>()</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Because the prompt specifies exact past dates, the resulting download counts are deterministic. The LLM may hallucinate in its chat response, but the tool output (the plot and package list) is fully reproducible. If a test failure occurs due to LLM variability in how it interprets the prompt, it can simply be retried.</p>
-<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the LLM, but they can run without a browser in a noninteractive R session.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> shinytest2<span class="sc">::</span><span class="fu">test_app</span>()</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>Loading required package<span class="sc">:</span> testthat</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span> F W  S  OK <span class="sc">|</span> Context</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">2</span> <span class="sc">|</span> app [<span class="fl">6.8</span>s]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">9</span> <span class="sc">|</span> query_tool</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>══ Results ════════════════════════════════════════════════</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>Duration<span class="sc">:</span> <span class="fl">7.2</span> s</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>[ FAIL <span class="dv">0</span> <span class="sc">|</span> WARN <span class="dv">0</span> <span class="sc">|</span> SKIP <span class="dv">0</span> <span class="sc">|</span> PASS <span class="dv">11</span> ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="full-app-code" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">5.4</span> Full app code</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>new_query_tool <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">tool</span>(</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> <span class="cf">function</span>(packages, from, to) {</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>      data <span class="ot">&lt;-</span> cranlogs<span class="sc">::</span><span class="fu">cran_downloads</span>(packages, <span class="at">from =</span> from, <span class="at">to =</span> to)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>packages <span class="ot">&lt;-</span> packages</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>dates <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">from =</span> from, <span class="at">to =</span> to)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      values<span class="sc">$</span>downloads <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(data) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> count, <span class="at">color =</span> package))</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      ellmer<span class="sc">::</span><span class="fu">ContentToolResult</span>(<span class="st">"The download metrics have been plotted."</span>)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    },</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"query_downloads"</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">description =</span> <span class="fu">paste</span>(</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Query CRAN download metrics for a set of R packages."</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Before getting the 'from' and 'to' dates, you must"</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">"use the current_time tool to get the current date and time."</span></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">arguments =</span> <span class="fu">list</span>(</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">packages =</span> ellmer<span class="sc">::</span><span class="fu">type_array</span>(</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>        ellmer<span class="sc">::</span><span class="fu">type_string</span>(<span class="at">description =</span> <span class="st">"The name of an R package."</span>),</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"A vector of R package names to query."</span></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> ellmer<span class="sc">::</span><span class="fu">type_string</span>(</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"The yyyy-mm-dd start date for the download metrics query."</span></span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> ellmer<span class="sc">::</span><span class="fu">type_string</span>(</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">description =</span> <span class="st">"The yyyy-mm-dd end date for the download metrics query."</span></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>current_time <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">tool</span>(</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="at">fun =</span> Sys.time,</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">"current_time"</span>,</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="st">"Get the current date and time."</span></span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="fu">paste</span>(</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">"You are an software developer familiar with the R package ecosystem."</span>,</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">"The user provides you with a collection of R packages to query,"</span>,</span>
-<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">"then the metrics tool provides informative metrics about each package."</span></span>
-<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">new_query_tool</span>(values))</span>
-<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>  chat<span class="sc">$</span><span class="fu">register_tool</span>(current_time)</span>
-<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>  chat</span>
-<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-51"><a href="#cb9-51" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
-<span id="cb9-52"><a href="#cb9-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"CRAN download metrics agent"</span>,</span>
-<span id="cb9-53"><a href="#cb9-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
-<span id="cb9-54"><a href="#cb9-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb9-55"><a href="#cb9-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat"</span>,</span>
-<span id="cb9-56"><a href="#cb9-56" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(</span>
-<span id="cb9-57"><a href="#cb9-57" aria-hidden="true" tabindex="-1"></a>      <span class="st">"chat"</span>,</span>
-<span id="cb9-58"><a href="#cb9-58" aria-hidden="true" tabindex="-1"></a>      <span class="at">messages =</span> <span class="fu">paste</span>(</span>
-<span id="cb9-59"><a href="#cb9-59" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Describe a set of R packages to query"</span>,</span>
-<span id="cb9-60"><a href="#cb9-60" aria-hidden="true" tabindex="-1"></a>        <span class="st">"and the date range for the download metrics. Example prompt:</span><span class="sc">\n\n</span><span class="st">"</span>,</span>
-<span id="cb9-61"><a href="#cb9-61" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">\"</span><span class="st">Get this year's download metrics for the most popular packages"</span>,</span>
-<span id="cb9-62"><a href="#cb9-62" aria-hidden="true" tabindex="-1"></a>        <span class="st">"for custom Bayesian analysis models.</span><span class="sc">\"</span><span class="st">"</span></span>
-<span id="cb9-63"><a href="#cb9-63" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-64"><a href="#cb9-64" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb9-66"><a href="#cb9-66" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
-<span id="cb9-67"><a href="#cb9-67" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
-<span id="cb9-68"><a href="#cb9-68" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"Packages and dates to query"</span>),</span>
-<span id="cb9-69"><a href="#cb9-69" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
-<span id="cb9-70"><a href="#cb9-70" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">tableOutput</span>(<span class="st">"dates"</span>),</span>
-<span id="cb9-71"><a href="#cb9-71" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">textOutput</span>(<span class="st">"packages"</span>)</span>
-<span id="cb9-72"><a href="#cb9-72" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-73"><a href="#cb9-73" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb9-74"><a href="#cb9-74" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(</span>
-<span id="cb9-75"><a href="#cb9-75" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_header</span>(<span class="st">"Trusted download metrics"</span>),</span>
-<span id="cb9-76"><a href="#cb9-76" aria-hidden="true" tabindex="-1"></a>      bslib<span class="sc">::</span><span class="fu">card_body</span>(</span>
-<span id="cb9-77"><a href="#cb9-77" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">plotOutput</span>(<span class="st">"downloads"</span>)</span>
-<span id="cb9-78"><a href="#cb9-78" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-79"><a href="#cb9-79" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-80"><a href="#cb9-80" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-81"><a href="#cb9-81" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-82"><a href="#cb9-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-83"><a href="#cb9-83" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb9-84"><a href="#cb9-84" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
-<span id="cb9-85"><a href="#cb9-85" aria-hidden="true" tabindex="-1"></a>    <span class="at">packages =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-86"><a href="#cb9-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">dates =</span> <span class="cn">NULL</span>,</span>
-<span id="cb9-87"><a href="#cb9-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">downloads =</span> <span class="cn">NULL</span></span>
-<span id="cb9-88"><a href="#cb9-88" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb9-89"><a href="#cb9-89" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>(values)</span>
-<span id="cb9-90"><a href="#cb9-90" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb9-91"><a href="#cb9-91" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
-<span id="cb9-92"><a href="#cb9-92" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
-<span id="cb9-93"><a href="#cb9-93" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-94"><a href="#cb9-94" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dates <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderTable</span>({</span>
-<span id="cb9-95"><a href="#cb9-95" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>dates)</span>
-<span id="cb9-96"><a href="#cb9-96" aria-hidden="true" tabindex="-1"></a>    values<span class="sc">$</span>dates</span>
-<span id="cb9-97"><a href="#cb9-97" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-98"><a href="#cb9-98" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>packages <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderText</span>({</span>
-<span id="cb9-99"><a href="#cb9-99" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span><span class="fu">req</span>(values<span class="sc">$</span>packages)</span>
-<span id="cb9-100"><a href="#cb9-100" aria-hidden="true" tabindex="-1"></a>    <span class="fu">paste</span>(values<span class="sc">$</span>packages, <span class="at">collapse =</span> <span class="st">", "</span>)</span>
-<span id="cb9-101"><a href="#cb9-101" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-102"><a href="#cb9-102" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>downloads <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderPlot</span>({</span>
-<span id="cb9-103"><a href="#cb9-103" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(values<span class="sc">$</span>downloads)</span>
-<span id="cb9-104"><a href="#cb9-104" aria-hidden="true" tabindex="-1"></a>    values<span class="sc">$</span>downloads</span>
-<span id="cb9-105"><a href="#cb9-105" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb9-106"><a href="#cb9-106" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-107"><a href="#cb9-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-108"><a href="#cb9-108" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Because the prompt specifies exact past dates, the resulting download counts are deterministic. If a test failure occurs due to LLM variability in how it interprets the prompt, it can simply be retried.</p>
+<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> shinytest2<span class="sc">::</span><span class="fu">test_app</span>()</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span> F W  S  OK <span class="sc">|</span> Context</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">5</span> <span class="sc">|</span> query_tool</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">2</span> <span class="sc">|</span> shinytest2 [<span class="fl">7.5</span>s]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>══ Results ════════════════════════════════════════════════</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>Duration<span class="sc">:</span> <span class="fl">8.3</span> s</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>[ FAIL <span class="dv">0</span> <span class="sc">|</span> WARN <span class="dv">0</span> <span class="sc">|</span> SKIP <span class="dv">0</span> <span class="sc">|</span> PASS <span class="dv">7</span> ]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
