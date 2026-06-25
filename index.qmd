@@ -1,7 +1,7 @@
 
 # Introduction {.unnumbered}
 
-For critical work that needs to be correct, generative AI needs guaranteed safeguards.
+For high-stakes work that needs to be correct, generative AI needs guaranteed safeguards.
 Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and [skills](https://agentskills.io) may be.
 In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.
 
@@ -11,11 +11,12 @@ Trusted mini-agents obey three rules:
 
 1. **Tools directly produce all results.**
 2. **Each result only comes from one trusted tool.**
-3. **Tool inputs have trusted human oversight.**
+3. **Inputs to trusted tools have trusted human oversight.**
 
-The LLM proposes inputs to tools, humans check those inputs, and tools produce results.
+After a sophisticated [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop), the LLM ultimately proposes inputs to one or more critical trusted tools.
+Humans check the inputs to those trusted tools, which then produce all the important end results.
 Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
-Downstream of tool inputs, hallucinated results are structurally impossible.
+Downstream of trusted tool inputs, hallucinated final results are structurally impossible.
 
 Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
 

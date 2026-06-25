@@ -5,6 +5,9 @@ They are versatile systems with a wide range of practical uses in the real world
 In this chapter, we present a motivating example of a trusted mini-agent that queries download metrics for [R packages](https://r-pkgs.org/) on [CRAN](https://cran.r-project.org/).
 It is a simple computation, but the same strategy applies to advanced computations such as statistical modeling, analysis, and simulation.
 
+The inspiration comes from [Hadley Wickham](https://hadley.nz/)'s [CRAN download viewer](https://hadley.shinyapps.io/cran-downloads/) where users input package names and the app displays metrics.
+As explained below, the contribution of the LLM is to free users to think in terms of domains of packages instead of individual package names.
+
 ## How it works
 
 The app interface looks like this:
@@ -17,13 +20,18 @@ Example prompt:
 > I want to compare the popularity of R packages for Bayesian statistics.
 > Give me this year's downloads for the most well-known Bayesian modeling packages.
 
-The LLM translates human intent into the specific packages and dates to query.
-Downstream, the user reviews the LLM-generated packages and dates, and then a trusted tool actually scrapes and plots the downloads.
+The job of the AI is to translate human intent into specific packages and dates.
+The LLM does not have enough information to do this on its own, so it loops over tools to scrape [CRAN task veiws](https://cran.r-project.org/web/views/) and get the current date.
+This [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop) is the upstream untrusted part of the workflow.
+It has no human oversight, but that's okay: only *trusted* tools producing final results need oversight.
+Until then, the LLM can flow freely and autonomously to devise insightful inputs to *trusted* tools.
+
+Ultimately, the LLM lands on a set of packages and dates, and it shows these findings to the human user.
+The user reviews the LLM-generated packages and dates, and then a trusted tool actually scrapes and plots the downloads.
 
 The LLM-generated package list is a major convenience.
 Humans can check the list more easily than writing it from scratch.
 Describing general intent in a prompt is much easier for a human than spelling out every little detail.
-
 
 The LLM may hallucinate packages, but hallucinated download metrics are structurally impossible.
 The question is no longer "do we trust these metrics?", but instead "are these the packages we want to query?"
@@ -73,7 +81,92 @@ new_query_tool <- function(values) {
 }
 ```
 
-To help the tool generate the correct date range, we also define a `current_time` tool that returns the current date and time.
+To help the agent find appropriate packages to query, we define a `cran_task_view` tool that scrapes the [CRAN task views](https://cran.r-project.org/web/views/) and returns a list of packages for a given task view.
+This is an untrusted tool, but that's okay because it doesn't produce any final results.
+The goal is convenience, not correctness.
+
+```{.r}
+task_view_tool <- ellmer::tool(
+  fun = function(topic) {
+    base_url <- "https://cran.r-project.org/web/views/"
+    index <- rvest::read_html(base_url)
+    rows <- rvest::html_elements(index, "table tr")[-1]
+    views <- data.frame(
+      name = rvest::html_text2(rvest::html_element(rows, "a")),
+      description = rvest::html_text2(
+        rvest::html_elements(rows, "td:nth-child(2)")
+      )
+    )
+    pattern <- paste(strsplit(topic, "\\s+")[[1]], collapse = "|")
+    matches <- views[
+      grepl(pattern, views$name, ignore.case = TRUE) |
+        grepl(pattern, views$description, ignore.case = TRUE),
+    ]
+    if (nrow(matches) == 0L) {
+      return(paste0(
+        "No CRAN task views matched the topic '",
+        topic,
+        "'. ",
+        "Available views: ",
+        paste(views$name, collapse = ", ")
+      ))
+    }
+    results <- lapply(matches$name, function(view_name) {
+      page <- rvest::read_html(paste0(base_url, view_name, ".html"))
+      pkgs <- rvest::html_text2(
+        rvest::html_elements(page, "a[href*='packages'] span.CRAN")
+      )
+      pkgs <- sort(unique(setdiff(pkgs, "ctv")))
+      pkgs <- pkgs[!grepl("(archived)", pkgs, fixed = TRUE)]
+      list(
+        view = view_name,
+        description = matches$description[
+          matches$name == view_name
+        ],
+        packages = pkgs
+      )
+    })
+    lines <- vapply(
+      results,
+      function(r) {
+        paste0(
+          "Task View: ",
+          r$view,
+          " (",
+          r$description,
+          ")\n",
+          "Packages (",
+          length(r$packages),
+          "): ",
+          paste(r$packages, collapse = ", ")
+        )
+      },
+      character(1)
+    )
+    paste(lines, collapse = "\n\n")
+  },
+  name = "cran_task_view",
+  description = paste(
+    "Search CRAN Task Views to find R packages related to a topic.",
+    "Task views are curated lists of packages for specific domains",
+    "(e.g. Bayesian, Spatial, TimeSeries, MachineLearning).",
+    "Use this tool to discover relevant packages when the user",
+    "asks about packages for a particular area of analysis."
+  ),
+  arguments = list(
+    topic = ellmer::type_string(
+      description = paste(
+        "A keyword or short phrase describing the domain of interest",
+        "(e.g. 'Bayesian', 'spatial', 'time series', 'machine learning').",
+        "This is a grep pattern that will be matched against",
+        "the names and descriptions of available task views."
+      )
+    )
+  )
+)
+```
+
+And to help the agent determine the correct date range, we also define a `current_time` tool that returns the current date and time.
 
 ```{.r}
 current_time <- ellmer::tool(
@@ -83,19 +176,23 @@ current_time <- ellmer::tool(
 )
 ```
 
-The `ellmer` chat object registers both of these tools.
+The `ellmer` chat object registers all these tools.
 
 ```{.r}
 new_chat <- function(values) {
   chat <- ellmer::chat_anthropic(
     system_prompt = paste(
-      "You are an software developer familiar with the R package ecosystem.",
-      "The user provides you with a collection of R packages to query,",
-      "then the metrics tool provides informative metrics about each package."
+      "You are a software developer familiar with the R package ecosystem.",
+      "The user describes a topic or area of interest, and you use the",
+      "cran_task_view tool to discover relevant R packages.",
+      "Then you query download metrics for those packages.",
+      "If the user does not specify exact packages, use the task view tool",
+      "to identify popular packages in their area of interest first."
     )
   )
   chat$register_tool(new_query_tool(values))
   chat$register_tool(current_time)
+  chat$register_tool(task_view_tool)
   chat
 }
 ```
@@ -199,6 +296,85 @@ new_query_tool <- function(values) {
   )
 }
 
+task_view_tool <- ellmer::tool(
+  fun = function(topic) {
+    base_url <- "https://cran.r-project.org/web/views/"
+    index <- rvest::read_html(base_url)
+    rows <- rvest::html_elements(index, "table tr")[-1]
+    views <- data.frame(
+      name = rvest::html_text2(rvest::html_element(rows, "a")),
+      description = rvest::html_text2(
+        rvest::html_elements(rows, "td:nth-child(2)")
+      )
+    )
+    pattern <- paste(strsplit(topic, "\\s+")[[1]], collapse = "|")
+    matches <- views[
+      grepl(pattern, views$name, ignore.case = TRUE) |
+        grepl(pattern, views$description, ignore.case = TRUE),
+    ]
+    if (nrow(matches) == 0L) {
+      return(paste0(
+        "No CRAN task views matched the topic '",
+        topic,
+        "'. ",
+        "Available views: ",
+        paste(views$name, collapse = ", ")
+      ))
+    }
+    results <- lapply(matches$name, function(view_name) {
+      page <- rvest::read_html(paste0(base_url, view_name, ".html"))
+      pkgs <- rvest::html_text2(
+        rvest::html_elements(page, "a[href*='packages'] span.CRAN")
+      )
+      pkgs <- sort(unique(setdiff(pkgs, "ctv")))
+      pkgs <- pkgs[!grepl("(archived)", pkgs, fixed = TRUE)]
+      list(
+        view = view_name,
+        description = matches$description[
+          matches$name == view_name
+        ],
+        packages = pkgs
+      )
+    })
+    lines <- vapply(
+      results,
+      function(r) {
+        paste0(
+          "Task View: ",
+          r$view,
+          " (",
+          r$description,
+          ")\n",
+          "Packages (",
+          length(r$packages),
+          "): ",
+          paste(r$packages, collapse = ", ")
+        )
+      },
+      character(1)
+    )
+    paste(lines, collapse = "\n\n")
+  },
+  name = "cran_task_view",
+  description = paste(
+    "Search CRAN Task Views to find R packages related to a topic.",
+    "Task views are curated lists of packages for specific domains",
+    "(e.g. Bayesian, Spatial, TimeSeries, MachineLearning).",
+    "Use this tool to discover relevant packages when the user",
+    "asks about packages for a particular area of analysis."
+  ),
+  arguments = list(
+    topic = ellmer::type_string(
+      description = paste(
+        "A keyword or short phrase describing the domain of interest",
+        "(e.g. 'Bayesian', 'spatial', 'time series', 'machine learning').",
+        "This is a grep pattern that will be matched against",
+        "the names and descriptions of available task views."
+      )
+    )
+  )
+)
+
 current_time <- ellmer::tool(
   fun = Sys.time,
   name = "current_time",
@@ -208,13 +384,17 @@ current_time <- ellmer::tool(
 new_chat <- function(values) {
   chat <- ellmer::chat_anthropic(
     system_prompt = paste(
-      "You are an software developer familiar with the R package ecosystem.",
-      "The user provides you with a collection of R packages to query,",
-      "then the metrics tool provides informative metrics about each package."
+      "You are a software developer familiar with the R package ecosystem.",
+      "The user describes a topic or area of interest, and you use the",
+      "cran_task_view tool to discover relevant R packages.",
+      "Then you query download metrics for those packages.",
+      "If the user does not specify exact packages, use the task view tool",
+      "to identify popular packages in their area of interest first."
     )
   )
   chat$register_tool(new_query_tool(values))
   chat$register_tool(current_time)
+  chat$register_tool(task_view_tool)
   chat
 }
 
