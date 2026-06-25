@@ -334,11 +334,12 @@ div.csl-indent {
 <ol type="1">
 <li><strong>Tools directly produce all results.</strong> No result comes from the LLM. And for each type of result, there exists a tool to produce it.</li>
 <li><strong>Each result only comes from one trusted tool.</strong> No alternative tool can bypass the designated tool.</li>
-<li><strong>Tool inputs have trusted human oversight.</strong> The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
+<li><strong>Inputs to trusted tools have trusted human oversight.</strong> The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
 </ol>
 </div>
 </div>
-<p>The LLM proposes inputs to tools, humans check those inputs, and tools produce results. Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue. Downstream of tool inputs, hallucinated results are structurally impossible.</p>
+<p>The LLM proposes inputs to trusted tools, humans check critical inputs, and those trusted tools produce results. Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue. Downstream of tool inputs, hallucinated results are structurally impossible.</p>
+<p>Inputs to trusted tools need not come from one-shot LLM predictions. Upstream, a trusted mini-agent could have an <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a> with multiple tools, including unsupervised untrusted tools that exist only for convenience. The agent loop could be arbitrarily sophisticated, long, and complicated. What matters is that all the contributions from the AI models ultimately funnel into checkable inputs to designated reliable tools downstream. That’s what creates trust.</p>
 <p>The three rules map to the three fixes we made to the weather agent.</p>
 <table class="caption-top table">
 <colgroup>
@@ -365,7 +366,7 @@ div.csl-indent {
 <td></td>
 </tr>
 <tr class="odd">
-<td>3. Tool inputs have trusted human oversight.</td>
+<td>3. Inputs to trusted tools have trusted human oversight.</td>
 <td>Show the location in an interactive map.</td>
 <td></td>
 </tr>
@@ -378,7 +379,7 @@ div.csl-indent {
 <figcaption>Diagram illustrating a bijective function f from X to Y. The set X (tools) contains get_weather() and write_code(), with an arrow exclusively mapping the get_weather() tool to weather data. Below, a separate set Z (other sources) contains “LLM”, which is excluded from producing results. This shows that each result type maps to exactly one trusted tool.</figcaption>
 </figure>
 </div>
-<p>Bijectivity is key: it ensures that results are trusted as long as the tools and their inputs are trusted. Tools are easy to test with <a href="https://testthat.r-lib.org">expectation-based unit tests</a>. Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.</p>
+<p>Bijectivity is key: it ensures that final results are trusted as long as the tools and their inputs are trusted. Tools are easy to test with <a href="https://testthat.r-lib.org">expectation-based unit tests</a>. Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.</p>
 </section>
 <section id="when-trusted-mini-agents-are-useful" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="when-trusted-mini-agents-are-useful"><span class="header-section-number">2.4</span> When trusted mini-agents are useful</h2>
