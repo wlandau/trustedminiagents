@@ -7,11 +7,16 @@ In the life sciences, for example, LLM hallucinations risk undermining the corre
 
 This guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs.
 We introduce *trusted mini-agents*: least-privilege AI systems that engineer out hallucinations and excel in precision scenarios.
+
+## Definition
+
 Trusted mini-agents obey three rules:
 
 1. **Trusted tools directly produce all results.**
 2. **Each result only comes from one trusted tool.**
 3. **Inputs to trusted tools have trusted human oversight.**
+
+## Impact
 
 With these rules, the question is not:
 
@@ -21,7 +26,11 @@ but rather:
 
 > Is the agent trying to solve the right problem?
 
-The implied workflow combines the power of modern agents with the safeguards of traditional software engineering:
+Humans have an easier job, and results are more dependable.
+
+## Workflow
+
+The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:
 
 ![Flow diagram of a trusted mini-agent. On the left, an "Agent Loop" box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled "Autonomous reasoning." The agent loop sends "Proposed Inputs" rightward to a "Human Review" checkpoint, which can return "Rejected Proposals" back to the loop. After review, "Reviewed Inputs" flow right across a "Trust" boundary into "Trusted Tools," which perform "Nontrivial Computation" and produce "Trusted Results" below.](./images/hallucinations/flow.png)
 
