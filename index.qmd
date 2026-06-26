@@ -18,15 +18,15 @@ A trusted mini-agent is an agent that obeys the following three rules:
 
 ## Impact on users
 
-With these rules, the human user does not ask:
+Instead of:
 
 > Are these results correct?
 
-but rather:
+users ask:
 
 > Is the agent trying to solve the right problem?
 
-Human users would struggle with the former, but they can easily answer the latter.
+which humans answer much more easily and reliably.
 
 ## Workflow
 

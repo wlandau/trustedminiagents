@@ -109,15 +109,15 @@ Inputs to those tools are harder to check because they depend on user oversight,
 
 ## Impact on users
 
-With these rules, the human user does not ask:
+Instead of:
 
 > Are these results correct?
 
-but rather:
+users ask:
 
 > Is the agent trying to solve the right problem?
 
-Human users would struggle with the former, but they can easily answer the latter.
+which humans answer much more easily and reliably.
 
 ## The trusted mini-agent workflow
 
