@@ -214,18 +214,26 @@ ul.task-list li input[type="checkbox"] {
 <p>For high-stakes work that needs to be correct, generative AI needs guaranteed safeguards. Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and <a href="https://agentskills.io">skills</a> may be. In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.</p>
 <p>This guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs. We introduce <em>trusted mini-agents</em>: least-privilege AI systems that engineer out hallucinations and excel in precision scenarios. Trusted mini-agents obey three rules:</p>
 <ol type="1">
-<li><strong>Tools directly produce all results.</strong></li>
+<li><strong>Trusted tools directly produce all results.</strong></li>
 <li><strong>Each result only comes from one trusted tool.</strong></li>
 <li><strong>Inputs to trusted tools have trusted human oversight.</strong></li>
 </ol>
-<p>The rules imply a workflow that combines the power of modern agents with the safeguards of traditional software engineering:</p>
+<p>With these rules, the question is not:</p>
+<blockquote class="blockquote">
+<p>Are these results correct?</p>
+</blockquote>
+<p>but rather:</p>
+<blockquote class="blockquote">
+<p>Is the agent trying to solve the right problem?</p>
+</blockquote>
+<p>The implied workflow combines the power of modern agents with the safeguards of traditional software engineering:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/hallucinations/flow.png" class="img-fluid figure-img"></p>
 <figcaption>Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.</figcaption>
 </figure>
 </div>
-<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools that cannot produce final results.</p>
+<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
 <p>Ultimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
 <p>After a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.</p>
 <section id="who-this-is-for" class="level2">
