@@ -24,7 +24,7 @@
     "href": "index.html#impact",
     "title": "Trusted Mini-Agents",
     "section": "Impact",
-    "text": "Impact\nWith these rules, the question is not:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nHumans have an easier job, and results are more dependable.",
+    "text": "Impact\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
     "crumbs": [
       "Introduction"
     ]
@@ -164,7 +164,7 @@
     "href": "hallucinations.html#impact-of-the-rules",
     "title": "2  Controlling hallucinations",
     "section": "2.4 Impact of the rules",
-    "text": "2.4 Impact of the rules\nWith the trusted mini-agent rules, the question is not:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nHumans have an easier job, and results are more dependable.",
+    "text": "2.4 Impact of the rules\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
