@@ -26,7 +26,7 @@ users ask:
 
 > Is the agent solving the right problem?
 
-which humans answer much more easily and reliably.
+which is much easier to verify.
 
 ## Workflow
 
