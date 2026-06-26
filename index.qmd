@@ -6,19 +6,28 @@ Large language models (LLMs) inevitably hallucinate in surprising ways, no matte
 In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.
 
 This guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs.
-We introduce *trusted mini-agents*: least-privilege AI systems that engineer out hallucinations.
+We introduce *trusted mini-agents*: least-privilege AI systems that engineer out hallucinations and excel in precision scenarios.
 Trusted mini-agents obey three rules:
 
 1. **Tools directly produce all results.**
 2. **Each result only comes from one trusted tool.**
 3. **Inputs to trusted tools have trusted human oversight.**
 
-After pondering and deliberating, potentially with the aid of unsupervised untrusted tools, the LLM ultimately proposes inputs to one or more critical trusted tools.
-Humans check the inputs to those trusted tools, which then produce all the important end results.
-Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
-Downstream of trusted tool inputs, hallucinated final results are structurally impossible.
+The rules imply a workflow that combines the power of modern agents with the safeguards of traditional software engineering:
 
-Trusted mini-agents excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
+![Flow diagram of a trusted mini-agent. On the left, an "Agent Loop" box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled "Autonomous reasoning." The agent loop sends "Proposed Inputs" rightward to a "Human Review" checkpoint, which can return "Rejected Proposals" back to the loop. After review, "Reviewed Inputs" flow right across a "Trust" boundary into "Trusted Tools," which perform "Nontrivial Computation" and produce "Trusted Results" below.](./images/hallucinations/flow.png)
+
+After an initial prompt, the work begins with the [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop).
+Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools that cannot produce final results.
+
+Ultimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation.
+Those inputs reflect how the LLM frames up the problem and sets up an advanced computation.
+Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
+
+After a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed.
+Those trusted tools perform important computations such as statistical analysis, modeling, and simulation.
+Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs.
+Conditional on good inputs, hallucinated results are structurally impossible.
 
 ## Who this is for
 
