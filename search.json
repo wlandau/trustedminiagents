@@ -20,11 +20,11 @@
     ]
   },
   {
-    "objectID": "index.html#impact",
-    "href": "index.html#impact",
+    "objectID": "index.html#impact-on-users",
+    "href": "index.html#impact-on-users",
     "title": "Trusted Mini-Agents",
-    "section": "Impact",
-    "text": "Impact\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
+    "section": "Impact on users",
+    "text": "Impact on users\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
     "crumbs": [
       "Introduction"
     ]
@@ -160,11 +160,11 @@
     ]
   },
   {
-    "objectID": "hallucinations.html#impact-of-the-rules",
-    "href": "hallucinations.html#impact-of-the-rules",
+    "objectID": "hallucinations.html#impact-on-users",
+    "href": "hallucinations.html#impact-on-users",
     "title": "2  Controlling hallucinations",
-    "section": "2.4 Impact of the rules",
-    "text": "2.4 Impact of the rules\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
+    "section": "2.4 Impact on users",
+    "text": "2.4 Impact on users\nWith these rules, the human user does not ask:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nUsers struggle with the former but can easily answer the latter.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
