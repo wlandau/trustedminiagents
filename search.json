@@ -24,7 +24,7 @@
     "href": "index.html#impact-on-users",
     "title": "Trusted Mini-Agents",
     "section": "Impact on users",
-    "text": "Impact on users\nInstead of:\n\nAre these results correct?\n\nusers ask:\n\nIs the agent trying to solve the right problem?\n\nwhich humans answer much more easily and reliably.",
+    "text": "Impact on users\nInstead of:\n\nAre these results correct?\n\nusers ask:\n\nIs the agent solving the correct problem?\n\nwhich humans answer much more easily and reliably.",
     "crumbs": [
       "Introduction"
     ]
@@ -164,7 +164,7 @@
     "href": "hallucinations.html#impact-on-users",
     "title": "2  Controlling hallucinations",
     "section": "2.4 Impact on users",
-    "text": "2.4 Impact on users\nInstead of:\n\nAre these results correct?\n\nusers ask:\n\nIs the agent trying to solve the right problem?\n\nwhich humans answer much more easily and reliably.",
+    "text": "2.4 Impact on users\nInstead of:\n\nAre these results correct?\n\nusers ask:\n\nIs the agent solving the correct problem?\n\nwhich humans answer much more easily and reliably.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
