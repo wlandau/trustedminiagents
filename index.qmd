@@ -16,7 +16,7 @@ A trusted mini-agent is an agent that obeys the following three rules:
 2. **Each result only comes from one trusted tool.**
 3. **Inputs to trusted tools have trusted human oversight.**
 
-## Impact
+## Impact on users
 
 With these rules, the human user does not ask:
 

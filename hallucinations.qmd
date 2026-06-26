@@ -107,7 +107,7 @@ Bijectivity is key: it ensures that final results are trusted as long as the too
 Tools are easy to test with [expectation-based unit tests](https://testthat.r-lib.org).
 Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.
 
-## Impact of the rules
+## Impact on users
 
 With these rules, the human user does not ask:
 
