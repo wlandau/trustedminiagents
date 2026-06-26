@@ -10,7 +10,7 @@ We introduce *trusted mini-agents*: least-privilege AI systems that engineer out
 
 ## Definition
 
-Trusted mini-agents obey three rules:
+A trusted mini-agent is an agent that obeys the following three rules:
 
 1. **Trusted tools directly produce all results.**
 2. **Each result only comes from one trusted tool.**
