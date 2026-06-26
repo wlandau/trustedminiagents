@@ -109,7 +109,7 @@ Inputs to those tools are harder to check because they depend on user oversight,
 
 ## Impact of the rules
 
-With the trusted mini-agent rules, the question is not:
+With these rules, the human user does not ask:
 
 > Are these results correct?
 
@@ -117,7 +117,7 @@ but rather:
 
 > Is the agent trying to solve the right problem?
 
-Humans have an easier job, and results are more dependable.
+Users struggle with the former but can easily answer the latter.
 
 ## The trusted mini-agent workflow
 
