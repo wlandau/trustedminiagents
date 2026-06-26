@@ -109,7 +109,7 @@ Inputs to those tools are harder to check because they depend on user oversight,
 
 ## The trusted mini-agent workflow
 
-With the three trusted mini-agent rules, the question is not:
+With trusted mini-agents, the question is not:
 
 > Are these results correct?
 
