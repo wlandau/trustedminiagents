@@ -14,7 +14,7 @@
     "href": "index.html#definition",
     "title": "Trusted Mini-Agents",
     "section": "Definition",
-    "text": "Definition\nTrusted mini-agents obey three rules:\n\nTrusted tools directly produce all results.\nEach result only comes from one trusted tool.\nInputs to trusted tools have trusted human oversight.",
+    "text": "Definition\nA trusted mini-agent is an agent that obeys the following three rules:\n\nTrusted tools directly produce all results.\nEach result only comes from one trusted tool.\nInputs to trusted tools have trusted human oversight.",
     "crumbs": [
       "Introduction"
     ]
