@@ -4,7 +4,37 @@
     "href": "index.html",
     "title": "Trusted Mini-Agents",
     "section": "",
-    "text": "Introduction\nFor high-stakes work that needs to be correct, generative AI needs guaranteed safeguards. Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and skills may be. In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.\nThis guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs. We introduce trusted mini-agents: least-privilege AI systems that engineer out hallucinations and excel in precision scenarios. Trusted mini-agents obey three rules:\nWith these rules, the question is not:\nbut rather:\nThe implied workflow combines the power of modern agents with the safeguards of traditional software engineering:\nAfter an initial prompt, the work begins with the agent loop. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.\nUltimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.\nAfter a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.",
+    "text": "Introduction\nFor high-stakes work that needs to be correct, generative AI needs guaranteed safeguards. Large language models (LLMs) inevitably hallucinate in surprising ways, no matter how good your prompts and skills may be. In the life sciences, for example, LLM hallucinations risk undermining the correctness of statistical deliverables, impacting the health and safety of millions of patients.\nThis guide proposes a strategy to achieve trust without sacrificing the convenience of LLMs. We introduce trusted mini-agents: least-privilege AI systems that engineer out hallucinations and excel in precision scenarios.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#definition",
+    "href": "index.html#definition",
+    "title": "Trusted Mini-Agents",
+    "section": "Definition",
+    "text": "Definition\nTrusted mini-agents obey three rules:\n\nTrusted tools directly produce all results.\nEach result only comes from one trusted tool.\nInputs to trusted tools have trusted human oversight.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#impact",
+    "href": "index.html#impact",
+    "title": "Trusted Mini-Agents",
+    "section": "Impact",
+    "text": "Impact\nWith these rules, the question is not:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nHumans have an easier job, and results are more dependable.",
+    "crumbs": [
+      "Introduction"
+    ]
+  },
+  {
+    "objectID": "index.html#workflow",
+    "href": "index.html#workflow",
+    "title": "Trusted Mini-Agents",
+    "section": "Workflow",
+    "text": "Workflow\nThe trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:\n\n\n\nFlow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.\n\n\nAfter an initial prompt, the work begins with the agent loop. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.\nUltimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.\nAfter a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.",
     "crumbs": [
       "Introduction"
     ]
@@ -130,11 +160,21 @@
     ]
   },
   {
+    "objectID": "hallucinations.html#impact-of-the-rules",
+    "href": "hallucinations.html#impact-of-the-rules",
+    "title": "2  Controlling hallucinations",
+    "section": "2.4 Impact of the rules",
+    "text": "2.4 Impact of the rules\nWith the trusted mini-agent rules, the question is not:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nHumans have an easier job, and results are more dependable.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
+    ]
+  },
+  {
     "objectID": "hallucinations.html#the-trusted-mini-agent-workflow",
     "href": "hallucinations.html#the-trusted-mini-agent-workflow",
     "title": "2  Controlling hallucinations",
-    "section": "2.4 The trusted mini-agent workflow",
-    "text": "2.4 The trusted mini-agent workflow\nWith trusted mini-agents, the question is not:\n\nAre these results correct?\n\nbut rather:\n\nIs the agent trying to solve the right problem?\n\nThe implied workflow combines the power of modern agents with the safeguards of traditional software engineering:\n\n\n\nFlow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.\n\n\nAfter an initial prompt, the work begins with the agent loop. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.\nUltimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.\nAfter a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.",
+    "section": "2.5 The trusted mini-agent workflow",
+    "text": "2.5 The trusted mini-agent workflow\nThe trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:\n\n\n\nFlow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.\n\n\nAfter an initial prompt, the work begins with the agent loop. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.\nUltimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.\nAfter a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
@@ -143,8 +183,8 @@
     "objectID": "hallucinations.html#when-trusted-mini-agents-are-useful",
     "href": "hallucinations.html#when-trusted-mini-agents-are-useful",
     "title": "2  Controlling hallucinations",
-    "section": "2.5 When trusted mini-agents are useful",
-    "text": "2.5 When trusted mini-agents are useful\nCompared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the LLM where:\n\nThe LLM proposes solutions better than a human.\nA human easily checks those solutions.\n\nNo scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems.",
+    "section": "2.6 When trusted mini-agents are useful",
+    "text": "2.6 When trusted mini-agents are useful\nCompared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the LLM where:\n\nThe LLM proposes solutions better than a human.\nA human easily checks those solutions.\n\nNo scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
@@ -153,8 +193,8 @@
     "objectID": "hallucinations.html#references",
     "href": "hallucinations.html#references",
     "title": "2  Controlling hallucinations",
-    "section": "2.6 References",
-    "text": "2.6 References\n\n\n\n\nBox, George E. P., and Norman Richard Draper. 1987. Empirical Model-Building and Response Surfaces. Wiley Series in Probability and Mathematical Statistics. Wiley.",
+    "section": "2.7 References",
+    "text": "2.7 References\n\n\n\n\nBox, George E. P., and Norman Richard Draper. 1987. Empirical Model-Building and Response Surfaces. Wiley Series in Probability and Mathematical Statistics. Wiley.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
