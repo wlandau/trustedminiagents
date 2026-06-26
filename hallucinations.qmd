@@ -89,7 +89,8 @@ A **trusted mini-agent** is a least-privilege AI agent that engineers out halluc
 3. **Inputs to trusted tools have trusted human oversight.** The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
 :::
 
-The LLM proposes inputs to trusted tools, humans check critical inputs, and those trusted tools produce results.
+After pondering and deliberating, potentially with the aid of unsupervised untrusted tools, the LLM ultimately proposes inputs to one or more critical trusted tools.
+Humans check those inputs, and the trusted tools produce results.
 Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
 Downstream of tool inputs, hallucinated results are structurally impossible.
 

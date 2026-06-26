@@ -13,7 +13,7 @@ Trusted mini-agents obey three rules:
 2. **Each result only comes from one trusted tool.**
 3. **Inputs to trusted tools have trusted human oversight.**
 
-After a sophisticated [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop), the LLM ultimately proposes inputs to one or more critical trusted tools.
+After pondering and deliberating, potentially with the aid of unsupervised untrusted tools, the LLM ultimately proposes inputs to one or more critical trusted tools.
 Humans check the inputs to those trusted tools, which then produce all the important end results.
 Users catch hallucinated inputs if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
 Downstream of trusted tool inputs, hallucinated final results are structurally impossible.
