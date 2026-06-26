@@ -24,7 +24,7 @@ Instead of:
 
 users ask:
 
-> Is the agent trying to solve the right problem?
+> Is the agent solving the correct problem?
 
 which humans answer much more easily and reliably.
 
