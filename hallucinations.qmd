@@ -115,7 +115,7 @@ Instead of:
 
 users ask:
 
-> Is the agent solving the correct problem?
+> Is the agent solving the right problem?
 
 which humans answer much more easily and reliably.
 
