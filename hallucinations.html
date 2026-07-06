@@ -270,12 +270,22 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>For example, consider a simple weather agent. The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, hallucinations can still happen through the LLM.</p>
+<p>For example, consider a simple weather agent.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, hallucinations can still happen through the LLM.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/hallucinations/hallucination1.png" class="img-fluid figure-img"></p>
 <figcaption>Sequence diagram showing vulnerability in a weather agent. The user asks “What’s the weather in Chicago?”, the LLM generates a tool call get_weather(lat = 41.8, long = -87.6) marked as “VULNERABLE” because the coordinates are AI-generated, the tool returns correct data (temperature: 72, weather: Sunny), but the LLM hallucinates a completely different response: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.”</figcaption>
 </figure>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>As explained in the <a href="./agents.html#sec-workflow">previous chapter</a>, we interpret the arrows in the diagram as part of the harness. The arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the LLM-generated tool call to the tool itself. (The harness, not the LLM, actually runs tools.) As we will see below, designing a trusted mini-agent is all about drawing the best arrows.</p>
+</div>
+</div>
 </div>
 </section>
 <section id="how-to-fix-the-weather-agent" class="level2" data-number="2.2">
@@ -424,6 +434,12 @@ div.csl-indent {
 Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building and Response Surfaces</em>. Wiley Series in Probability and Mathematical Statistics. Wiley.
 </div>
 </div>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p> The <a href="https://ellmer.tidyverse.org/articles/tool-calling.html#introduction">documentation of <code>ellmer</code></a> cautions against this sequence diagram because it draws a direct arrow from the LLM to the tool. As the <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> authors rightly emphasize, the LLM does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness (see the <a href="./agents.html#sec-workflow">previous chapter</a>). We do not imply that LLMs run tools. We only imply that the harness delivers the call from the LLM to the tool. This simplified framing helps us build trusted mini-agents.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->

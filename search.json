@@ -94,17 +94,37 @@
     "href": "agents.html#agent-llm-harness",
     "title": "1  Deconstructing agents",
     "section": "1.2 Agent = LLM + harness",
-    "text": "1.2 Agent = LLM + harness\nAt the implementation level, an agent is an LLM combined with a “harness”. The harness is the non-AI computing infrastructure that surrounds the LLM: the chat interface, the conversation history, long-term memory files, the agent loop, and above all, tools.\n\n\n\nDiagram showing the components of an agent harness. On the left, the Model (LLM) simply predicts text. On the right, the Harness contains four parts: the context window (user prompt, system prompt, conversation history, tool definitions, tool results), registered tools (web_search, read_file, run_code, query_database, send_email, edit_document), and the agent loop (gather context, take action, verify results, repeat until done).",
+    "text": "1.2 Agent = LLM + harness\nAt the implementation level, an agent is an LLM combined with a “harness”. The harness is the non-AI computing infrastructure that surrounds the LLM: the chat interface, the conversation history, long-term memory files, the agent loop, and above all, tools.\n\n\n\nDiagram showing the components of an agent harness. On the left, the model (LLM) simply predicts text. On the right, the harness contains four parts: the context window (user prompt, system prompt, conversation history, tool definitions, tool results), registered tools (web_search, read_file, run_code, query_database, send_email, edit_document), and the agent loop (gather context, take action, verify results, repeat until done).",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Deconstructing agents</span>"
     ]
   },
   {
-    "objectID": "agents.html#tools-the-essence-of-agents",
-    "href": "agents.html#tools-the-essence-of-agents",
+    "objectID": "agents.html#how-agents-use-tools",
+    "href": "agents.html#how-agents-use-tools",
     "title": "1  Deconstructing agents",
-    "section": "1.3 Tools: the essence of agents",
-    "text": "1.3 Tools: the essence of agents\nA tool is a classic non-AI capability that the LLM can ask the harness to call. Tools empower the agent to perceive the world and act on it. Structrually, a tool is a function combined with metadata.\n\\[\n\\begin{aligned}\n\\text{Tool} = \\text{Function} + \\text{Metadata}\n\\end{aligned}\n\\]\nA function is a transformation from structured inputs to structured outputs, such as a system library, R function, API, or script file. The metadata is a set of instructions in the system prompt that tells the LLM when and how to call the function. When the LLM decides it needs the tool, it “predicts” a call to the function using AI-generated arguments. The agent loop (example: Claude Code’s agent loop) in the harness detects and runs the tool call, then returns the results back to the LLM. With tool output, the LLM can incorporate real-world data into its text predictions.\nFor example, suppose we have a tool that scrapes the National Weather Service (NWS) API. We write an R function get_weather(), and we include metadata to describe its inputs, outputs, and purpose. This metadata becomes part of the instructions in the system prompt. Because of these instructions, when the user prompts:\n\n“What’s the weather in Chicago?”\n\nthe LLM may decide to predict the string:\n\nget_weather(41.8, -87.6)\n\nThis reply is a text prediction like any other LLM prediction. Its components “get_weather”, “41.8”, and “-87.6” are AI-generated. However, this string also has a special structure that the harness recognizes as a tool call.1 The agent loop detects and runs the tool call, then returns the tool output (i.e. the real weather data) to the LLM. This weather data may inform the LLM’s next prediction.\n\n\n\nSequence diagram showing how tools work. The user asks “What’s the weather in Chicago?”, the LLM calls get_weather(lat = 41.8, long = -87.6), the tool returns real data (temperature: 72, weather: Sunny), and the LLM relays the result: “It’s 72 degrees Fahrenheit and sunny in Chicago.”",
+    "section": "1.3 How agents use tools",
+    "text": "1.3 How agents use tools\nA tool is an external capability that the LLM can request to use. Tools empower the agent to perceive the world and act on it. Structrually, a tool is a function combined with metadata.\n\\[\n\\begin{aligned}\n\\text{Tool} = \\text{Function} + \\text{Metadata}\n\\end{aligned}\n\\]\nA function is a transformation from structured inputs to structured outputs, such as a system library, R function, API, or script file. The metadata is a set of instructions in the system prompt that tells the LLM when and how to use the function.\nTo request to use a tool, the LLM generates a tool call. A tool call is a string of text that identifies the tool and specifies a set of input values (i.e. function arguments). Tool calls are structured in a format like JSON so the harness can validate them against schemas. This enforced structure lets the harness parse the call and evaluate the tool.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Deconstructing agents</span>"
+    ]
+  },
+  {
+    "objectID": "agents.html#example-a-weather-agent",
+    "href": "agents.html#example-a-weather-agent",
+    "title": "1  Deconstructing agents",
+    "section": "1.4 Example: a weather agent",
+    "text": "1.4 Example: a weather agent\nLet’s design an agent to get the current weather at a given location in the United States. Suppose we have a tool that scrapes the National Weather Service (NWS) API. We write an R function get_weather(), and we include metadata to describe its inputs, outputs, and purpose. Suppose the user prompts:\n\n“What’s the weather in Chicago?”\n\nInstead of a plain language response, the LLM may generate a JSON tool call:\n{\n  \"tool\": \"get_weather\",\n  \"input\": {\n    \"lat\": 41.8,\n    \"long\": -87.6\n  }\n}\nThe harness recognizes this JSON string as a tool call and validates it against the schema for get_weather(). Afterwards, it runs the underlying function call:\nget_weather(lat = 41.8, long = -87.6)\nand emits structured output back to the model:\n{\"temperature\": \"72°F\", \"weather\": \"Sunny\"}\nThe model may then incorporate this structured output into its next response to the user.\n\nIt’s 72°F and sunny in Chicago.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Deconstructing agents</span>"
+    ]
+  },
+  {
+    "objectID": "agents.html#sec-workflow",
+    "href": "agents.html#sec-workflow",
+    "title": "1  Deconstructing agents",
+    "section": "1.5 Illustrating the workflow",
+    "text": "1.5 Illustrating the workflow\nThe following sequence diagram illustrates the workflow of the example weather agent from the previous section.1\n\n\n\nSequence diagram showing the flow of control and information in an agent with a “get_weather” tool. The user asks “What’s the weather in Chicago?”, the harness passes the prompt to the LLM, the LLM generates a tool call, the harness passes the underlying function call (“get_weather(lat = 41.8, long = -87.6)”) from the LLM to the tool, the tool returns structured data (temperature: 72, weather: Sunny) which the harness relays to the LLM, and the LLM generates a response that the harness delivers to the user: “It’s 72 degrees Fahrenheit and sunny in Chicago.”\n\n\nInformation and control flow among the user, LLM, and tool. The harness orchestrates the flow of control and brokers communication among the components. Think of the harness as the image background and the collection of horizontal arrows in the diagram. The background glues the components together, and each arrow converts an output from one component into an input to another. Designing a trusted mini-agent is all about drawing the correct arrows, as we will see in the next chapter.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Deconstructing agents</span>"
     ]
@@ -114,7 +134,7 @@
     "href": "agents.html#footnotes",
     "title": "1  Deconstructing agents",
     "section": "",
-    "text": "“get_weather(41.8, -87.6)” is an oversimplification. A real agent may require a more complicated string that fits a formal JSON schema.↩︎",
+    "text": "The documentation of ellmer cautions against this diagram because it draws a direct arrow from the LLM to the tool. As the ellmer authors rightly emphasize, the LLM does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness. We do not imply that LLMs run tools. We only imply that the harness delivers the call from the LLM to the tool. This simplified framing helps us build trusted mini-agents in later chapters.↩︎",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Deconstructing agents</span>"
     ]
@@ -124,7 +144,7 @@
     "href": "hallucinations.html",
     "title": "2  Controlling hallucinations",
     "section": "",
-    "text": "2.1 Agents are vulnerable to hallucinations.\nWhen it comes to reliability, the components in and around agents have different strengths and weaknesses.\nTo control hallucinations, we leverage these strengths and compensate for the weaknesses. This chapter builds the intuition for how to do that, and formalizes it into the set of rules that define trusted mini-agents.\nREMEMBER: An LLM is a model with less-than-perfect prediction accuracy. At any time for any reason, an LLM can produce a hallucination: a confident-sounding prediction that is completely wrong. Prompt engineering and skill creation can never eliminate hallucinations entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.\nFor example, consider a simple weather agent. The agent has a single get_weather() tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls get_weather() to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though get_weather() gives the agent access to reliable data, hallucinations can still happen through the LLM.",
+    "text": "2.1 Agents are vulnerable to hallucinations.\nWhen it comes to reliability, the components in and around agents have different strengths and weaknesses.\nTo control hallucinations, we leverage these strengths and compensate for the weaknesses. This chapter builds the intuition for how to do that, and formalizes it into the set of rules that define trusted mini-agents.\nREMEMBER: An LLM is a model with less-than-perfect prediction accuracy. At any time for any reason, an LLM can produce a hallucination: a confident-sounding prediction that is completely wrong. Prompt engineering and skill creation can never eliminate hallucinations entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.\nFor example, consider a simple weather agent.1 The agent has a single get_weather() tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls get_weather() to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though get_weather() gives the agent access to reliable data, hallucinations can still happen through the LLM.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
@@ -134,7 +154,7 @@
     "href": "hallucinations.html#agents-are-vulnerable-to-hallucinations.",
     "title": "2  Controlling hallucinations",
     "section": "",
-    "text": "“All models are wrong, but some are useful.”\n— Box and Draper (1987)\n\n\n\n\n\n\n\n\nPrompts, skills, and models are about convenience, not correctness.\n\n\n\n\n\n\n\nSequence diagram showing vulnerability in a weather agent. The user asks “What’s the weather in Chicago?”, the LLM generates a tool call get_weather(lat = 41.8, long = -87.6) marked as “VULNERABLE” because the coordinates are AI-generated, the tool returns correct data (temperature: 72, weather: Sunny), but the LLM hallucinates a completely different response: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.”",
+    "text": "“All models are wrong, but some are useful.”\n— Box and Draper (1987)\n\n\n\n\n\n\n\n\nPrompts, skills, and models are about convenience, not correctness.\n\n\n\n\n\n\n\nSequence diagram showing vulnerability in a weather agent. The user asks “What’s the weather in Chicago?”, the LLM generates a tool call get_weather(lat = 41.8, long = -87.6) marked as “VULNERABLE” because the coordinates are AI-generated, the tool returns correct data (temperature: 72, weather: Sunny), but the LLM hallucinates a completely different response: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.”\n\n\n\n\n\n\n\n\nAs explained in the previous chapter, we interpret the arrows in the diagram as part of the harness. The arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the LLM-generated tool call to the tool itself. (The harness, not the LLM, actually runs tools.) As we will see below, designing a trusted mini-agent is all about drawing the best arrows.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
@@ -195,6 +215,16 @@
     "title": "2  Controlling hallucinations",
     "section": "2.7 References",
     "text": "2.7 References\n\n\n\n\nBox, George E. P., and Norman Richard Draper. 1987. Empirical Model-Building and Response Surfaces. Wiley Series in Probability and Mathematical Statistics. Wiley.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
+    ]
+  },
+  {
+    "objectID": "hallucinations.html#footnotes",
+    "href": "hallucinations.html#footnotes",
+    "title": "2  Controlling hallucinations",
+    "section": "",
+    "text": "The documentation of ellmer cautions against this sequence diagram because it draws a direct arrow from the LLM to the tool. As the ellmer authors rightly emphasize, the LLM does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness (see the previous chapter). We do not imply that LLMs run tools. We only imply that the harness delivers the call from the LLM to the tool. This simplified framing helps us build trusted mini-agents.↩︎",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Controlling hallucinations</span>"
     ]
