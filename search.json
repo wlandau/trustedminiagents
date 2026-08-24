@@ -259,45 +259,45 @@
   {
     "objectID": "template.html",
     "href": "template.html",
-    "title": "4  Shiny template",
+    "title": "4  Agent template",
     "section": "",
     "text": "4.1 Prerequisites\nWeb applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a Shiny app in R. Users can begin with this template and add their own ellmer tools to create a trusted mini-agent that fits their needs. The next chapter covers tools.\nAt minimum, we use these R packages to implement Shiny-based trusted mini-agents.",
     "crumbs": [
       "Implementation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Shiny template</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Agent template</span>"
     ]
   },
   {
     "objectID": "template.html#prerequisites",
     "href": "template.html#prerequisites",
-    "title": "4  Shiny template",
+    "title": "4  Agent template",
     "section": "",
     "text": "Package\nRole\n\n\n\n\nellmer\nAI model chat client with tool registration and streaming.\n\n\nshinychat\nDrop-in chat UI for Shiny that binds to an ellmer chat object.\n\n\nbslib\nBootstrap-based interface elements such as page_sidebar and theming.",
     "crumbs": [
       "Implementation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Shiny template</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Agent template</span>"
     ]
   },
   {
     "objectID": "template.html#the-template-app",
     "href": "template.html#the-template-app",
-    "title": "4  Shiny template",
+    "title": "4  Agent template",
     "section": "4.2 The template app",
     "text": "4.2 The template app\nThe app has a simple interface: a sidebar with the untrusted AI chat, a bslib card where humans review AI-generated tool inputs, and a bslib card for trusted results.\n\n\n\nScreenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled “do not trust any AI output here!” with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled “Humans review AI-generated tool inputs here” and another labeled “Trusted results go here,” illustrating the three-region layout of trust zones.\n\n\nIt is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.",
     "crumbs": [
       "Implementation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Shiny template</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Agent template</span>"
     ]
   },
   {
     "objectID": "template.html#implementation",
     "href": "template.html#implementation",
-    "title": "4  Shiny template",
+    "title": "4  Agent template",
     "section": "4.3 Implementation",
     "text": "4.3 Implementation\nWe separately consider the ellmer chat object, Shiny UI, and Shiny server function.\n\n4.3.1 Chat object\nIn ellmer, the chat object brokers communication with the AI model, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see the next chapter).\nFor convenience, we create a separate constructor for the ellmer chat object. This compartmentalization will be useful when we add tools and complicated system prompts.\nWe use chat_anthropic() in this example, but any chat object will do.\nnew_chat &lt;- function() {\n  ellmer::chat_anthropic(\n    system_prompt = \"You are a friendly, concise assistant.\"\n  )\n}\n\n\n4.3.2 Shiny UI\nIn a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results. That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.\nui &lt;- bslib::page_sidebar(\n  title = \"Trusted mini-agent template\",\n  theme = bslib::bs_theme(bootswatch = \"cosmo\"),\n  sidebar = bslib::sidebar(\n    title = \"AI chat (do not trust any AI output here!)\",\n    shinychat::chat_ui(\"chat\")\n  ),\n  bslib::layout_columns(\n    bslib::card(\"Humans review AI-generated tool inputs here.\"),\n    bslib::card(\"Trusted results go here.\")\n  )\n)\n\n\n4.3.3 Shiny server function\nIn the Shiny server, we have a reactive expression that watches for user prompts from the shinychat interface and streams the AI model’s reply back into the UI token-by-token.\nserver &lt;- function(input, output, session) {\n  chat &lt;- new_chat()\n  shiny::observeEvent(input$chat_user_input, {\n    stream &lt;- chat$stream_async(input$chat_user_input, stream = \"content\")\n    shinychat::chat_append(\"chat\", stream)\n  })\n}\n\n\n4.3.4 Full app code\nThis app.R script is a blank template to help you begin implementing your own trusted mini-agent.\n\n\napp.R\n\nnew_chat &lt;- function() {\n  ellmer::chat_anthropic(\n    system_prompt = \"You are a friendly, concise assistant.\"\n  )\n}\n\nui &lt;- bslib::page_sidebar(\n  title = \"Trusted mini-agent template\",\n  theme = bslib::bs_theme(bootswatch = \"cosmo\"),\n  sidebar = bslib::sidebar(\n    title = \"AI chat (do not trust any AI output here!)\",\n    shinychat::chat_ui(\"chat\")\n  ),\n  bslib::layout_columns(\n    bslib::card(\"Humans review AI-generated tool inputs here.\"),\n    bslib::card(\"Trusted results go here.\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  chat &lt;- new_chat()\n  shiny::observeEvent(input$chat_user_input, {\n    stream &lt;- chat$stream_async(input$chat_user_input, stream = \"content\")\n    shinychat::chat_append(\"chat\", stream)\n  })\n}\n\nshiny::shinyApp(ui, server)",
     "crumbs": [
       "Implementation",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Shiny template</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Agent template</span>"
     ]
   },
   {
