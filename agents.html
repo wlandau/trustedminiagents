@@ -110,6 +110,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
@@ -206,7 +210,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A trusted mini-agent template in Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -218,7 +222,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
     </ul>
@@ -266,10 +270,34 @@ window.Quarto = {
 <h2 data-number="1.1" class="anchored" data-anchor-id="large-language-models-are-not-agents."><span class="header-section-number">1.1</span> Large language models are not agents.</h2>
 <p>By itself, a large language model is just a text-in/text-out machine learning model. When generating predictions, an LLM has no ability to learn, no agency, and no ability to make decisions. It only predicts lexical “tokens” similarly to how a simple linear regression model predicts new outcomes on a new dataset.</p>
 <p>No statistical model makes perfect predictions, which is why LLMs <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinate</a>. For example, suppose an LLM makes a prediction on this new dataset: “What’s the weather in Chicago?” The LLM blindly pattern-matches text to accompany the new data, and this prediction could be wrong.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/agents/llm1.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing a user asking “What’s the weather in Chicago?” and the LLM responding with a hallucination: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.” The LLM fabricates an incorrect answer without access to real data.</figcaption>
+<div id="fig-llm-hallucination" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}, 'sequence': {'actorFontSize': 18}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(220, 38, 38, 0.25)
+    LLM-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
+    note over User,LLM: Hallucination (wrong city)
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1: Sequence diagram of a bare LLM hallucinating. The user asks about the weather in Chicago, but the LLM predicts a confident-sounding response with the Indianapolis weather instead.
+</figcaption>
 </figure>
 </div>
 </section>
@@ -320,13 +348,37 @@ window.Quarto = {
 <section id="sec-workflow" class="level2" data-number="1.5">
 <h2 data-number="1.5" class="anchored" data-anchor-id="sec-workflow"><span class="header-section-number">1.5</span> Illustrating the workflow</h2>
 <p>The following <a href="https://en.wikipedia.org/wiki/Sequence_diagram">sequence diagram</a> illustrates the workflow of the example weather agent from the previous section.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/agents/llm2.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing the flow of control and information in an agent with a “get_weather” tool. The user asks “What’s the weather in Chicago?”, the harness passes the prompt to the LLM, the LLM generates a tool call, the harness passes the underlying function call (“get_weather(lat = 41.8, long = -87.6)”) from the LLM to the tool, the tool returns structured data (temperature: 72, weather: Sunny) which the harness relays to the LLM, and the LLM generates a response that the harness delivers to the user: “It’s 72 degrees Fahrenheit and sunny in Chicago.”</figcaption>
+<div id="fig-weather-success" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weather-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63'}, 'sequence': {'actorFontSize': 18}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: "What's the weather in Chicago?"
+    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    Tool-&gt;&gt;LLM: {"temperature": 72, "weather": "Sunny"}
+    LLM-&gt;&gt;User: It's 72°F and sunny in Chicago.
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent interaction. The harness brokers the flow between the user, LLM, and tool, and each arrow converts an output from one component into an input for the next: the user’s question becomes a tool call, and the tool’s result becomes the LLM’s reply.
+</figcaption>
 </figure>
 </div>
-<p>Control and information flow among the user, LLM, and tool. The harness brokers this flow. Think of the harness as the image background and the collection of horizontal arrows in the diagram. The background glues the components together, and each arrow converts an output from one component into an input to another. For example, the arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the LLM-generated tool call to the tool itself. (The harness, not the LLM, actually runs tools.) Designing a trusted mini-agent is all about drawing the best arrows, as we will see in the <a href="./hallucinations.html">next chapter</a>.</p>
+<p>The harness implicitly includes the horizontal arrows in the diagram. For example, the arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the LLM-generated tool call to the tool itself. (The harness, not the LLM, actually runs tools.) Designing a trusted mini-agent is all about drawing the best arrows, as we will see in the <a href="./hallucinations.html">next chapter</a>.</p>
 
 
 </section>

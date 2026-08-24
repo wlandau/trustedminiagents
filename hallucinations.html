@@ -94,7 +94,40 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -161,7 +194,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A trusted mini-agent template in Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -173,7 +206,7 @@ div.csl-indent {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
     </ul>
@@ -274,10 +307,40 @@ div.csl-indent {
 </div>
 </div>
 <p>For example, consider a simple weather agent.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, hallucinations can still happen through the LLM.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/hallucinations/hallucination1.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing vulnerability in a weather agent. The user asks “What’s the weather in Chicago?”, the LLM generates a tool call get_weather(lat = 41.8, long = -87.6) marked as “VULNERABLE” because the coordinates are AI-generated, the tool returns correct data (temperature: 72, weather: Sunny), but the LLM hallucinates a completely different response: “It’s 50 degrees Fahrenheit and rainy in Indianapolis.”</figcaption>
+<div id="fig-weather-vulnerable" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(220, 38, 38, 0.25)
+    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over LLM,Tool: Vulnerable (AI-generated coordinates)
+    end
+    Tool-&gt;&gt;LLM: {"temperature": 72, "weather": "Sunny"}
+    rect rgba(220, 38, 38, 0.25)
+    LLM-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
+    note over User,LLM: Hallucination (wrong city)
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The LLM generates the coordinates for <code>get_weather()</code> unchecked, and even though the tool returns correct data for Chicago, the LLM can still hallucinate when relaying the result, reporting the wrong city to the user.
+</figcaption>
 </figure>
 </div>
 <div class="callout callout-style-simple callout-tip">
@@ -297,37 +360,184 @@ div.csl-indent {
 <section id="fix-1-of-3-help-the-human-review-the-location." class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</h3>
 <p>The AI-generated text of a tool call is a fallible LLM prediction. To control hallucinations in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort. In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in “get_weather(41.8, -87.6)”. Checking the raw coordinates of every tool call is simply too inconvenient for a human. Instead, we render an eye-catching interactive map with a pin in the location. That way, it becomes obvious to any human user whether the LLM chose the right place.</p>
+<div id="fig-fix1" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fix1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(234, 179, 8, 0.25)
+    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    end
+    Tool-&gt;&gt;LLM: {"temperature": 72, "weather": "Sunny"}
+    rect rgba(220, 38, 38, 0.25)
+    LLM-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
+    note over User,LLM: Hallucination (wrong city)
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/hallucinations/fix1.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing Fix 1. The user asks “What’s the weather in Chicago?” and an interactive map of Chicago with a pin is displayed for human review before calling get_weather(lat = 41.8, long = -87.6). The tool returns correct data, but the LLM still hallucinates a wrong response. The map helps the user verify the location input.</figcaption>
+<p><img src="./images/hallucinations/leaflet.png" class="img-fluid figure-img"></p>
+<figcaption>① Reviewer sees this map.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.2: Sequence diagram showing Fix 1. The user asks “What’s the weather in Chicago?” and an interactive map of Chicago with a pin is displayed for human review before calling get_weather(lat = 41.8, long = -87.6). The map helps the user verify the location input.
+</figcaption>
 </figure>
 </div>
 </section>
 <section id="fix-2-of-3-bypass-the-llm-to-report-the-weather." class="level3" data-number="2.2.2">
 <h3 data-number="2.2.2" class="anchored" data-anchor-id="fix-2-of-3-bypass-the-llm-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the LLM to report the weather.</h3>
 <p>We do not trust the LLM to describe NWS weather data, even if it’s just relaying data back to the user. Because it would require output from an LLM, even this simple task would be vulnerable to hallucinations. However, we do trust the NWS weather data itself. Instead of reading about the weather from the LLM, we should read it directly from the tool it comes from. We engineer the tool to bypass the LLM and return NWS weather data straight to the user interface.</p>
+<div id="fig-fix2" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(234, 179, 8, 0.25)
+    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    end
+    Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/hallucinations/fix2.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing Fix 2. The user asks “What’s the weather in Chicago?”, an interactive map is shown for review, then get_weather is called. The tool output (temperature: 72, weather: Sunny) bypasses the LLM entirely and is returned directly to the user, eliminating the hallucination risk in the LLM’s response.</figcaption>
+<p><img src="./images/hallucinations/leaflet.png" class="img-fluid figure-img"></p>
+<figcaption>① Reviewer sees this map.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.3: Sequence diagram showing Fix 2. After the map confirms the location, <code>get_weather()</code> sends NWS weather data directly to the user interface instead of relaying it through the LLM. Bypassing the LLM for this step eliminates the risk of a hallucinated weather report.
+</figcaption>
 </figure>
 </div>
 </section>
 <section id="fix-3-of-3-never-bypass-the-get_weather-tool." class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</h3>
 <p>Now, if the LLM chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the LLM decides to bypass <code>get_weather()</code> with a different tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for LLM hallucinations. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the LLM may hallucinate code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/hallucinations/hallucination2.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing the problem of tool bypass. The user asks “What’s the weather in Chicago?” but instead of calling get_weather, the LLM hallucinates by writing and executing a script called “post_fake_weather.sh” using Write and Bash tools. This produces fabricated data (temperature: -999, weather: vortex) that bypasses the trusted tool entirely.</figcaption>
+<div id="fig-fake-weather" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(220, 38, 38, 0.25)
+    LLM-&gt;&gt;Tool: Write("fake_weather.sh")&lt;br&gt;Bash("fake_weather.sh")
+    note over LLM,Tool: Hallucination (bypasses get_weather())
+    end
+    rect rgba(220, 38, 38, 0.25)
+    Tool-&gt;&gt;User: {"temperature": -999, "weather": "Vortex"}
+    note over Tool,User: Fake data
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.4: Sequence diagram of a hallucination that bypasses <code>get_weather()</code> entirely. Instead of calling the trusted tool, the LLM writes and runs its own script to fabricate weather data, producing a result that looks legitimate but comes from an untrusted source.
+</figcaption>
 </figure>
 </div>
-<p>Weather data must never come from the LLM, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
+<p>Trusted weather data must never come from the LLM, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
+<div id="fig-fix3" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row quarto-layout-valign-center">
+<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
+sequenceDiagram
+    participant User
+    participant LLM
+    participant Tool
+
+    User-&gt;&gt;LLM: What's the weather in Chicago?
+    rect rgba(234, 179, 8, 0.25)
+    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    end
+    Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
+    rect rgba(107, 114, 128, 0.2)
+    LLM--xUser: ✗ Do not trust LLM for weather data.
+    end
+    rect rgba(107, 114, 128, 0.2)
+    LLM--xTool: ✗ No other tool can produce weather data.
+    end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/hallucinations/fix3.png" class="img-fluid figure-img"></p>
-<figcaption>Sequence diagram showing Fix 3. The user asks “What’s the weather in Chicago?”, the map is shown for review, then get_weather is called and its output goes directly to the user. Red prohibition symbols block two alternative paths: the LLM cannot send results directly to the user, and no other tool can bypass get_weather to produce weather data.</figcaption>
+<p><img src="./images/hallucinations/leaflet.png" class="img-fluid figure-img"></p>
+<figcaption>① Reviewer sees this map.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code> sends NWS data directly to the user interface, no other tool besides <code>get_weather()</code> can produce weather data, and claims about weather data from the LLM are not trusted.
+</figcaption>
 </figure>
 </div>
 </section>
@@ -385,11 +595,48 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/hallucinations/bijective.png" class="img-fluid figure-img"></p>
-<figcaption>Diagram illustrating a bijective function f from X to Y. The set X (tools) contains get_weather() and write_code(), with an arrow exclusively mapping the get_weather() tool to weather data. Below, a separate set Z (other sources) contains “LLM”, which is excluded from producing results. This shows that each result type maps to exactly one trusted tool.</figcaption>
+<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool. Here is a mental model of bijectivity for an enhanced weather tool that also reports <a href="https://en.wikipedia.org/wiki/Emergency_Alert_System">emergency alerts</a>:</p>
+<div id="fig-bijective" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bijective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<p><span class="math display">\[
+\Large f: X \mapsto Y
+\]</span></p>
+<div class="cell" data-fig-width="7.5" data-layout-align="center">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#1F3A63','edgeLabelBackground':'#ffffff','fontSize':'18px'}}}%%
+flowchart LR
+    subgraph X["X: tools"]
+        direction TB
+        gw["get_weather()"]
+        gn["get_emergency_alerts()"]
+    end
+    subgraph Y["Y: types of results"]
+        wd["Weather data"]
+        nd["Emergency alert data"]
+    end
+    gw --&gt; wd
+    gn --&gt; nd
+
+    style gw fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style gn fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style wd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style nd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style X fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
+    style Y fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bijective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.6: Diagram illustrating a bijective function <span class="math inline">\(f\)</span> from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>. The set <span class="math inline">\(X\)</span> (tools) contains <code>get_weather()</code> and <code>get_emergency_alerts()</code>; the set <span class="math inline">\(Y\)</span> (types of results) contains Weather data and Emergency alert data. Each tool maps to exactly one type of result, and each type of result is produced by exactly one tool, illustrating Rules 1 and 2 of a trusted mini-agent.
+</figcaption>
 </figure>
 </div>
 <p>Bijectivity is key: it ensures that final results are trusted as long as the tools and their inputs are trusted. Tools are easy to test with <a href="https://testthat.r-lib.org">expectation-based unit tests</a>. Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.</p>
@@ -409,10 +656,54 @@ div.csl-indent {
 <section id="the-trusted-mini-agent-workflow" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="the-trusted-mini-agent-workflow"><span class="header-section-number">2.5</span> The trusted mini-agent workflow</h2>
 <p>The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/hallucinations/flow.png" class="img-fluid figure-img"></p>
-<figcaption>Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.</figcaption>
+<div id="fig-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
+flowchart LR
+    subgraph AgentLoop["Agent Loop"]
+        direction TB
+        LLM["LLM"]
+        UT["Untrusted&lt;br&gt;Tools"]
+        LLM --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
+        UT --&gt; LLM
+    end
+
+    HR["Human&lt;br&gt;Review"]
+
+    subgraph Trust["Trust"]
+        direction TB
+        TT["Trusted&lt;br&gt;Tools"]
+        TR["Trusted&lt;br&gt;Results"]
+        TT --&gt;|"Nontrivial&lt;br&gt;Computation"| TR
+    end
+
+    AgentLoop --&gt;|"Proposed Inputs"| HR
+    HR --&gt;|"Rejected Proposals"| AgentLoop
+    HR --&gt;|"Reviewed Inputs"| TT
+
+    style LLM fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
+    style HR fill:#166534,color:#ffffff,stroke:#166534
+    style TT fill:#166534,color:#ffffff,stroke:#166534
+    style TR fill:#166534,color:#ffffff,stroke:#166534
+    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
+    style Trust fill:#F3F4F6,stroke:#9CA3AF
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2.7: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
+</figcaption>
 </figure>
 </div>
 <p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
@@ -853,8 +1144,8 @@ Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./template.html" class="pagination-link" aria-label="A trusted mini-agent template in Shiny">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A trusted mini-agent template in Shiny</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./template.html" class="pagination-link" aria-label="Shiny template">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

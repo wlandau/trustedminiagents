@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
-<meta name="dcterms.date" content="2026-08-21">
+<meta name="dcterms.date" content="2026-08-24">
 
 <title>Trusted Mini-Agents</title>
 <style>
@@ -76,6 +76,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -143,7 +147,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A trusted mini-agent template in Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -155,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
     </ul>
@@ -203,7 +207,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">August 21, 2026</p>
+      <p class="date">August 24, 2026</p>
     </div>
   </div>
   
@@ -243,10 +247,54 @@ ul.task-list li input[type="checkbox"] {
 <section id="workflow" class="level2">
 <h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
 <p>The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/hallucinations/flow.png" class="img-fluid figure-img"></p>
-<figcaption>Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” rightward to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow right across a “Trust” boundary into “Trusted Tools,” which perform “Nontrivial Computation” and produce “Trusted Results” below.</figcaption>
+<div id="fig-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
+flowchart LR
+    subgraph AgentLoop["Agent Loop"]
+        direction TB
+        LLM["LLM"]
+        UT["Untrusted&lt;br&gt;Tools"]
+        LLM --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
+        UT --&gt; LLM
+    end
+
+    HR["Human&lt;br&gt;Review"]
+
+    subgraph Trust["Trust"]
+        direction TB
+        TT["Trusted&lt;br&gt;Tools"]
+        TR["Trusted&lt;br&gt;Results"]
+        TT --&gt;|"Nontrivial&lt;br&gt;Computation"| TR
+    end
+
+    AgentLoop --&gt;|"Proposed Inputs"| HR
+    HR --&gt;|"Rejected Proposals"| AgentLoop
+    HR --&gt;|"Reviewed Inputs"| TT
+
+    style LLM fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
+    style HR fill:#166534,color:#ffffff,stroke:#166534
+    style TT fill:#166534,color:#ffffff,stroke:#166534
+    style TR fill:#166534,color:#ffffff,stroke:#166534
+    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
+    style Trust fill:#F3F4F6,stroke:#9CA3AF
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
+</figcaption>
 </figure>
 </div>
 <p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
@@ -264,7 +312,7 @@ ul.task-list li input[type="checkbox"] {
 <li><a href="./hallucinations.html"><strong>Chapter 2: Controlling hallucinations.</strong></a> An overview of the trusted mini-agent pattern and how it controls hallucinations, featuring the concept for the weather agent in <a href="./weather.html">Chapter 4</a>.</li>
 <li><a href="./template.html"><strong>Chapter 3: A trusted mini-agent template.</strong></a> A minimal Shiny app that can be developed into a trusted mini-agent.</li>
 <li><a href="./weather.html"><strong>Chapter 4: Example: weather agent.</strong></a> A full working trusted mini-agent that gets the weather.</li>
-<li><a href="./simulation.html"><strong>Chapter 5: Example: clinical trial simulation.</strong></a> A motivating example to show the practical usefulness of trusted mini-agents.</li>
+<li><a href="./simulation.html"><strong>Chapter 5: Example: simulation.</strong></a> A motivating example to show the practical usefulness of trusted mini-agents.</li>
 </ul>
 </section>
 <section id="acknowledgements" class="level2">

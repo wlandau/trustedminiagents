@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>5&nbsp; A real-world example in clinical trial simulation – Trusted Mini-Agents</title>
+<title>5&nbsp; Example: simulation – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -109,6 +109,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
+<meta name="mermaid-theme" content="neutral">
+<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -123,7 +127,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./simulation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./simulation.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -176,7 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">A trusted mini-agent template in Shiny</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -188,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
     </ul>
@@ -202,18 +206,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link active" data-scroll-target="#how-it-works"><span class="header-section-number">5.1</span> How it works</a></li>
-  <li><a href="#potential-future-work-empowering-the-agent" id="toc-potential-future-work-empowering-the-agent" class="nav-link" data-scroll-target="#potential-future-work-empowering-the-agent"><span class="header-section-number">5.2</span> Potential future work: empowering the agent</a></li>
-  <li><a href="#clinical-trial-simulation" id="toc-clinical-trial-simulation" class="nav-link" data-scroll-target="#clinical-trial-simulation"><span class="header-section-number">5.3</span> Clinical trial simulation</a>
+  <li><a href="#app-design" id="toc-app-design" class="nav-link" data-scroll-target="#app-design"><span class="header-section-number">5.2</span> App design</a></li>
+  <li><a href="#potential-future-work-empowering-the-agent" id="toc-potential-future-work-empowering-the-agent" class="nav-link" data-scroll-target="#potential-future-work-empowering-the-agent"><span class="header-section-number">5.3</span> Potential future work: empowering the agent</a></li>
+  <li><a href="#clinical-trial-simulation" id="toc-clinical-trial-simulation" class="nav-link" data-scroll-target="#clinical-trial-simulation"><span class="header-section-number">5.4</span> Clinical trial simulation</a>
   <ul class="collapse">
-  <li><a href="#simulation-1-continuous-endpoints" id="toc-simulation-1-continuous-endpoints" class="nav-link" data-scroll-target="#simulation-1-continuous-endpoints"><span class="header-section-number">5.3.1</span> Simulation 1: continuous endpoints</a></li>
-  <li><a href="#simulation-2-binary-endpoints" id="toc-simulation-2-binary-endpoints" class="nav-link" data-scroll-target="#simulation-2-binary-endpoints"><span class="header-section-number">5.3.2</span> Simulation 2: binary endpoints</a></li>
+  <li><a href="#simulation-1-continuous-endpoints" id="toc-simulation-1-continuous-endpoints" class="nav-link" data-scroll-target="#simulation-1-continuous-endpoints"><span class="header-section-number">5.4.1</span> Simulation 1: continuous endpoints</a></li>
+  <li><a href="#simulation-2-binary-endpoints" id="toc-simulation-2-binary-endpoints" class="nav-link" data-scroll-target="#simulation-2-binary-endpoints"><span class="header-section-number">5.4.2</span> Simulation 2: binary endpoints</a></li>
   </ul></li>
-  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools"><span class="header-section-number">5.4</span> Tools</a></li>
-  <li><a href="#chat-object" id="toc-chat-object" class="nav-link" data-scroll-target="#chat-object"><span class="header-section-number">5.5</span> Chat object</a></li>
-  <li><a href="#shiny-ui" id="toc-shiny-ui" class="nav-link" data-scroll-target="#shiny-ui"><span class="header-section-number">5.6</span> Shiny UI</a></li>
-  <li><a href="#shiny-server" id="toc-shiny-server" class="nav-link" data-scroll-target="#shiny-server"><span class="header-section-number">5.7</span> Shiny server</a></li>
-  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">5.8</span> Full app code</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">5.9</span> Testing</a></li>
+  <li><a href="#tools" id="toc-tools" class="nav-link" data-scroll-target="#tools"><span class="header-section-number">5.5</span> Tools</a></li>
+  <li><a href="#chat-object" id="toc-chat-object" class="nav-link" data-scroll-target="#chat-object"><span class="header-section-number">5.6</span> Chat object</a></li>
+  <li><a href="#shiny-ui" id="toc-shiny-ui" class="nav-link" data-scroll-target="#shiny-ui"><span class="header-section-number">5.7</span> Shiny UI</a></li>
+  <li><a href="#shiny-server" id="toc-shiny-server" class="nav-link" data-scroll-target="#shiny-server"><span class="header-section-number">5.8</span> Shiny server</a></li>
+  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">5.9</span> Full app code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">5.10</span> Testing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/simulation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
@@ -222,7 +227,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-simulation" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">A real-world example in clinical trial simulation</span></span></h1>
+<h1 class="title"><span id="sec-simulation" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></h1>
 </div>
 
 
@@ -253,15 +258,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The LLM may hallucinate scenarios, but those scenarios are easy for a human to check. Given good scenarios, hallucinated results are structurally impossible.</p>
 <p>This is where the trusted mini-agent pattern really shines. The large language model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the LLM, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
 </section>
-<section id="potential-future-work-empowering-the-agent" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="potential-future-work-empowering-the-agent"><span class="header-section-number">5.2</span> Potential future work: empowering the agent</h2>
+<section id="app-design" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">5.2</span> App design</h2>
+<p>The following diagram demonstrates the flow of control in the simulation app we are about to build.</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  subgraph Untrusted due to the LLM
+    U["User input"] --&gt; C["shinychat UI"]
+    C --&gt; U
+    C --&gt; L[ellmer chat]
+    L --&gt; LLM
+    LLM --&gt; L
+    L --&gt; C
+  end
+  subgraph Trusted due to testing
+    L --&gt; TC["simulate_trial_continuous()"]
+    L --&gt; TB["simulate_trial_binary()"]
+    TC --&gt; RV["reactiveValues:&lt;br&gt;assumptions, results"]
+    TB --&gt; RV
+  end
+  subgraph Trusted on good inputs
+    RV --&gt; R["Results data"]
+  end
+  subgraph Human oversight
+    RV --&gt; A["Assumptions table of&lt;br&gt;LLM-generated trial scenarios"]
+  end
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the LLM. At its discretion, the LLM sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>simulate_trial_binary(...)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
+<p>The simulation tools run the statistical functions with the LLM-supplied assumptions and write both the assumptions and the results to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, the simulation tools are the only things that can write to those <code>reactiveValues()</code> slots.</strong> The <code>reactiveValues()</code> list is just a repository: it can hold many different types of results, so multiple trusted tools — one per endpoint type — can deposit their outputs into it. <strong>This constraint still enforces rule 2 (injectivity) of trusted mini-agents.</strong> Each result that reaches the user originates from a designated, tested tool, never directly from the LLM or the user.</p>
+<p>The assumptions table renders the LLM-generated trial scenarios, so the user can check whether the LLM’s translation of their query looks correct. If the simulation tools are correct and the assumptions reflect the design the user wants, then hallucinated results are structurally impossible.</p>
+</section>
+<section id="potential-future-work-empowering-the-agent" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="potential-future-work-empowering-the-agent"><span class="header-section-number">5.3</span> Potential future work: empowering the agent</h2>
 <p>Modern agents don’t just one-shot proposed ideas, they <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">loop</a> over untrusted tools and take time to reason without interruption. For example, extra tools could scrape <a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a> or <a href="https://clinicaltrials.gov/">ClinicalTrials.gov</a> for relevant literature, and the queries could inform the simulation assumptions. These tools don’t strictly need oversight because they don’t directly produce critical results, they only inform the LLM’s reasoning. Human oversight only needs to happen downstream, when inputs go into trusted tools that directly produce final results.</p>
 </section>
-<section id="clinical-trial-simulation" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="clinical-trial-simulation"><span class="header-section-number">5.3</span> Clinical trial simulation</h2>
+<section id="clinical-trial-simulation" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="clinical-trial-simulation"><span class="header-section-number">5.4</span> Clinical trial simulation</h2>
 <p>Clinical trials are designed with statistical tradeoffs. An ideal clinical trial shows evidence of safety and efficacy for safe and effective therapies, while rejecting therapies that are unsafe or ineffective, all while enrolling as few patients as possible. Simulation allows clinical trial sponsors to evaluate these tradeoffs empirically. In this section, we present two simple examples of trial simulation methods. Later, we build each simulation type into a tool as part of a trusted mini-agent.</p>
-<section id="simulation-1-continuous-endpoints" class="level3" data-number="5.3.1">
-<h3 data-number="5.3.1" class="anchored" data-anchor-id="simulation-1-continuous-endpoints"><span class="header-section-number">5.3.1</span> Simulation 1: continuous endpoints</h3>
+<section id="simulation-1-continuous-endpoints" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="simulation-1-continuous-endpoints"><span class="header-section-number">5.4.1</span> Simulation 1: continuous endpoints</h3>
 <p>Suppose we design a parallel two-arm randomized controlled trial (RCT) to evaluate a new drug. The outcome measure of the trial is a continuous measurement taken on each patient. We use simulation to estimate the probability that the trial declares efficacy.</p>
 <p>For each study arm (treatment and control), we assume values for the mean response, the standard deviation of responses, and the number of patients. We simulate many trials by sampling patient responses from the independent normal distributions, then we apply a frequentist hypothesis test to test efficacy in each simulated trial. The fraction of p-values below a given significance level is an estimate of the probability that the trial declares efficacy.</p>
 <p>For simplicity, we fix the pseudo-random number generation seed and the number of simulations. In real-world apps, these should be inputs just like <code>n_treatment</code> and <code>n_control</code>. The <code>stopifnot()</code> assertions on the inputs are helpful for catching hallucinated inputs before they even reach human eyes.</p>
@@ -317,8 +361,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(p_values <span class="sc">&lt;</span> significance_level)</span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="simulation-2-binary-endpoints" class="level3" data-number="5.3.2">
-<h3 data-number="5.3.2" class="anchored" data-anchor-id="simulation-2-binary-endpoints"><span class="header-section-number">5.3.2</span> Simulation 2: binary endpoints</h3>
+<section id="simulation-2-binary-endpoints" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="simulation-2-binary-endpoints"><span class="header-section-number">5.4.2</span> Simulation 2: binary endpoints</h3>
 <p>Simulation 2 is similar, but the endpoint is binary: each patient either has a favorable outcome (a response) or an unfavorable one under the randomized regimen (treatment or control). We simulate the number of responders in each arm from independent binomial distributions, then apply a test of proportions to see if the treatment response rate is significantly higher than that of the control group.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Simulate a two-arm randomized controlled trial</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'   with a binary endpoint.</span></span>
@@ -379,8 +423,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 </section>
-<section id="tools" class="level2" data-number="5.4">
-<h2 data-number="5.4" class="anchored" data-anchor-id="tools"><span class="header-section-number">5.4</span> Tools</h2>
+<section id="tools" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="tools"><span class="header-section-number">5.5</span> Tools</h2>
 <p>We write an <code>ellmer</code> tool constructor for each simulation type. Each constructor accepts a Shiny reactive values list and returns an <code>ellmer</code> tool that can modify those reactive values. We assume two reactive values: a table of assumptions that the user will check, and a table of efficacy probabilities computed by the statistical content of the tools.</p>
 <p>Unlike the statistical functions above, these tools accept multiple design scenarios at a time. This is key for evaluating trade-offs in real-world clinical trial simulations. To accomplish this, we use a custom wrapper around <code>ellmer::type_array()</code>:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>type_vector <span class="ot">&lt;-</span> <span class="cf">function</span>(type) {</span>
@@ -572,8 +616,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="chat-object" class="level2" data-number="5.5">
-<h2 data-number="5.5" class="anchored" data-anchor-id="chat-object"><span class="header-section-number">5.5</span> Chat object</h2>
+<section id="chat-object" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="chat-object"><span class="header-section-number">5.6</span> Chat object</h2>
 <p>The <code>ellmer</code> chat object registers the above tools and has a more in-depth system prompt to set the context and the goal for the agent. Remember: the system prompt is about convenience, not correctness. The level of trust in the results should not depend on the system prompt. Trust should depend on the reliability of the tools and the trust we place in human oversight.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
@@ -592,8 +636,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  chat</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="shiny-ui" class="level2" data-number="5.6">
-<h2 data-number="5.6" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">5.6</span> Shiny UI</h2>
+<section id="shiny-ui" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">5.7</span> Shiny UI</h2>
 <p>The Shiny UI has a chat interface, a panel for results, and a panel for the human to review LLM-generated clinical trial simulation assumptions.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Clinical trial simulation agent"</span>,</span>
@@ -635,8 +679,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="shiny-server" class="level2" data-number="5.7">
-<h2 data-number="5.7" class="anchored" data-anchor-id="shiny-server"><span class="header-section-number">5.7</span> Shiny server</h2>
+<section id="shiny-server" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="shiny-server"><span class="header-section-number">5.8</span> Shiny server</h2>
 <p>The Shiny server function facilitates the chat and renders the results and assumptions tables.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
@@ -658,8 +702,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="full-app-code" class="level2" data-number="5.8">
-<h2 data-number="5.8" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">5.8</span> Full app code</h2>
+<section id="full-app-code" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">5.9</span> Full app code</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Simulate a two-arm randomized controlled trial</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'   with a continuous endpoint.</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Estimates the probability that a parallel two-arm RCT declares</span></span>
@@ -1038,8 +1082,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-376"><a href="#cb9-376" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-377"><a href="#cb9-377" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="testing" class="level2" data-number="5.9">
-<h2 data-number="5.9" class="anchored" data-anchor-id="testing"><span class="header-section-number">5.9</span> Testing</h2>
+<section id="testing" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="testing"><span class="header-section-number">5.10</span> Testing</h2>
 <p>We use expectation-based testing to ensure the app works. We do not cover every possible test here, but we demonstrate the most important ones covering the simulation functions and the app itself.</p>
 <p>We begin with the simulation functions. Because the pseudo-random number generator seed is fixed inside each function, the outputs are deterministic given the inputs. This means we can test exact expected values without mocking. Examples:</p>
 <div class="code-with-filename">
