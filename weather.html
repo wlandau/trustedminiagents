@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>4&nbsp; Example: weather agent – Trusted Mini-Agents</title>
+<title>5&nbsp; Example: weather agent – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -128,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./weather.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation</a></li><li class="breadcrumb-item"><a href="./weather.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -166,36 +166,64 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Concepts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./agents.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./errors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Implementation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -206,25 +234,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">4.1</span> Overview</a></li>
-  <li><a href="#app-design" id="toc-app-design" class="nav-link" data-scroll-target="#app-design"><span class="header-section-number">4.2</span> App design</a></li>
-  <li><a href="#weather-api-function" id="toc-weather-api-function" class="nav-link" data-scroll-target="#weather-api-function"><span class="header-section-number">4.3</span> Weather API function</a></li>
-  <li><a href="#weather-tool-constructor" id="toc-weather-tool-constructor" class="nav-link" data-scroll-target="#weather-tool-constructor"><span class="header-section-number">4.4</span> Weather tool constructor</a></li>
-  <li><a href="#leaflet-map" id="toc-leaflet-map" class="nav-link" data-scroll-target="#leaflet-map"><span class="header-section-number">4.5</span> Leaflet map</a></li>
-  <li><a href="#chat-constructor-with-tool-registration" id="toc-chat-constructor-with-tool-registration" class="nav-link" data-scroll-target="#chat-constructor-with-tool-registration"><span class="header-section-number">4.6</span> Chat constructor with tool registration</a></li>
-  <li><a href="#app-ui" id="toc-app-ui" class="nav-link" data-scroll-target="#app-ui"><span class="header-section-number">4.7</span> App UI</a></li>
-  <li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function"><span class="header-section-number">4.8</span> Server function</a></li>
-  <li><a href="#complete-app-code" id="toc-complete-app-code" class="nav-link" data-scroll-target="#complete-app-code"><span class="header-section-number">4.9</span> Complete app code</a></li>
-  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">4.10</span> Testing</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview"><span class="header-section-number">5.1</span> Overview</a></li>
+  <li><a href="#app-design" id="toc-app-design" class="nav-link" data-scroll-target="#app-design"><span class="header-section-number">5.2</span> App design</a></li>
+  <li><a href="#weather-api-function" id="toc-weather-api-function" class="nav-link" data-scroll-target="#weather-api-function"><span class="header-section-number">5.3</span> Weather API function</a></li>
+  <li><a href="#weather-tool-constructor" id="toc-weather-tool-constructor" class="nav-link" data-scroll-target="#weather-tool-constructor"><span class="header-section-number">5.4</span> Weather tool constructor</a></li>
+  <li><a href="#leaflet-map" id="toc-leaflet-map" class="nav-link" data-scroll-target="#leaflet-map"><span class="header-section-number">5.5</span> Leaflet map</a></li>
+  <li><a href="#chat-constructor-with-tool-registration" id="toc-chat-constructor-with-tool-registration" class="nav-link" data-scroll-target="#chat-constructor-with-tool-registration"><span class="header-section-number">5.6</span> Chat constructor with tool registration</a></li>
+  <li><a href="#app-ui" id="toc-app-ui" class="nav-link" data-scroll-target="#app-ui"><span class="header-section-number">5.7</span> App UI</a></li>
+  <li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function"><span class="header-section-number">5.8</span> Server function</a></li>
+  <li><a href="#complete-app-code" id="toc-complete-app-code" class="nav-link" data-scroll-target="#complete-app-code"><span class="header-section-number">5.9</span> Complete app code</a></li>
+  <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">5.10</span> Testing</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/weather.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation</a></li><li class="breadcrumb-item"><a href="./weather.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-weather" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></h1>
+<h1 class="title"><span id="sec-weather" class="quarto-section-identifier"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></h1>
 </div>
 
 
@@ -242,8 +270,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This chapter builds on the template in <a href="./template.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny app. We use the weather agent example from <a href="./errors.html">Chapter 2</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent.</p>
-<section id="overview" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
+<section id="overview" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">5.1</span> Overview</h2>
 <p>This is the appearance of the app we will build.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -258,8 +286,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>The leaflet map in the middle is super easy to check, so we can be confident the app is checking the weather in the right place.</li>
 </ol>
 </section>
-<section id="app-design" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">4.2</span> App design</h2>
+<section id="app-design" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">5.2</span> App design</h2>
 <p>The following diagram demonstrates the flow of control in the weather app we are about to build.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
@@ -295,8 +323,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>get_weather()</code> is a function that accepts a pair of geographic coordinates and returns the location and its weather to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, <code>get_weather()</code> is the only thing that can write to those <code>reactiveValues()</code> slots.</strong> <strong>This constraint enforces rule 2 (injectivity) of trusted mini-agents.</strong> Neither the user nor the AI model can update those reactive values any other way.</p>
 <p>The leaflet map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then AI-generated errors in the weather data are structurally impossible.</p>
 </section>
-<section id="weather-api-function" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">4.3</span> Weather API function</h2>
+<section id="weather-api-function" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">5.3</span> Weather API function</h2>
 <p>Our agent relies on an internal R function that accepts geographic coordinates and returns weather data. This is a simple function that the agentic tool will eventually call.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Fetch current weather at a US location.</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Fetches the current (or nearest-to-current) forecast period</span></span>
@@ -388,8 +416,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="weather-tool-constructor" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="weather-tool-constructor"><span class="header-section-number">4.4</span> Weather tool constructor</h2>
+<section id="weather-tool-constructor" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="weather-tool-constructor"><span class="header-section-number">5.4</span> Weather tool constructor</h2>
 <p>We write <code>get_weather()</code> as an <a href="https://ellmer.tidyverse.org/reference/tool.html"><code>ellmer::tool()</code></a>, but with a twist: instead of returning a tool object, we write a tool constructor that accepts a <code>reactiveValues()</code> list and instantiates a tool tied to those reactive values. The tool can access the <code>values</code> object because <code>values</code> is inside the <a href="https://www.r-bloggers.com/2012/12/closures-in-r-a-useful-abstraction/">closure</a> of the <code>fun</code> argument of <code>ellmer::tool()</code>.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Weather tool constructor</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a weather tool for `ellmer`.</span></span>
@@ -428,8 +456,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="leaflet-map" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="leaflet-map"><span class="header-section-number">4.5</span> Leaflet map</h2>
+<section id="leaflet-map" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="leaflet-map"><span class="header-section-number">5.5</span> Leaflet map</h2>
 <p>The leaflet map helps the user check the correctness of AI-generated location data. It accepts geographic coordinates and renders a map with a pin dropped at that location.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Build a leaflet map centered on a US location.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Construct an OpenStreetMap-tiled `leaflet` widget centered</span></span>
@@ -467,8 +495,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="chat-constructor-with-tool-registration" class="level2" data-number="4.6">
-<h2 data-number="4.6" class="anchored" data-anchor-id="chat-constructor-with-tool-registration"><span class="header-section-number">4.6</span> Chat constructor with tool registration</h2>
+<section id="chat-constructor-with-tool-registration" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="chat-constructor-with-tool-registration"><span class="header-section-number">5.6</span> Chat constructor with tool registration</h2>
 <p>As before, we write a constructor for the chat object. This time, however, there is an extra step to create a new weather tool with a given set of reactive values, then register the new tool with the chat object.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>(values) {</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
@@ -481,8 +509,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  chat</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="app-ui" class="level2" data-number="4.7">
-<h2 data-number="4.7" class="anchored" data-anchor-id="app-ui"><span class="header-section-number">4.7</span> App UI</h2>
+<section id="app-ui" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="app-ui"><span class="header-section-number">5.7</span> App UI</h2>
 <p>The app UI has three main components: an untrusted <code>shinychat</code> UI for the conversation, a <code>leaflet</code> output for the map for human review, and a trusted table output for the weather data. <strong>Remember: because of the three levels of trust, these components should be in separate UI elements.</strong> It should be clear to the user that trusted output comes from the weather table, not from the chat.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted weather agent"</span>,</span>
@@ -511,8 +539,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="server-function" class="level2" data-number="4.8">
-<h2 data-number="4.8" class="anchored" data-anchor-id="server-function"><span class="header-section-number">4.8</span> Server function</h2>
+<section id="server-function" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="server-function"><span class="header-section-number">5.8</span> Server function</h2>
 <p>The server function defines the reactive values for the weather results and geographic coordinates. The chat object is lazily created with the given reactive values list, and there are reactive expressions for the chat, leaflet map, and weather data.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  values <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">reactiveValues</span>(</span>
@@ -537,8 +565,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="complete-app-code" class="level2" data-number="4.9">
-<h2 data-number="4.9" class="anchored" data-anchor-id="complete-app-code"><span class="header-section-number">4.9</span> Complete app code</h2>
+<section id="complete-app-code" class="level2" data-number="5.9">
+<h2 data-number="5.9" class="anchored" data-anchor-id="complete-app-code"><span class="header-section-number">5.9</span> Complete app code</h2>
 <p>Here is the full code for the app.</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -769,8 +797,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-223"><a href="#cb7-223" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="testing" class="level2" data-number="4.10">
-<h2 data-number="4.10" class="anchored" data-anchor-id="testing"><span class="header-section-number">4.10</span> Testing</h2>
+<section id="testing" class="level2" data-number="5.10">
+<h2 data-number="5.10" class="anchored" data-anchor-id="testing"><span class="header-section-number">5.10</span> Testing</h2>
 <p>We use expectation-based testing to ensure the app works. We do not cover every possible test here, but we demonstrate the most important ones covering the tool function and the app itself.</p>
 <p>We begin with the <code>weather_api()</code> function. The weather changes over time, but we can still test that the function returns data in the expected format and that it correctly handles invalid input. Examples:</p>
 <div class="code-with-filename">
@@ -1299,12 +1327,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./template.html" class="pagination-link" aria-label="Shiny template">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Shiny template</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./simulation.html" class="pagination-link" aria-label="Example: simulation">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

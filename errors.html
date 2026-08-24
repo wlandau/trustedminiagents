@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>2&nbsp; Controlling AI errors – Trusted Mini-Agents</title>
+<title>2&nbsp; AI errors – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -55,7 +55,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./template.html" rel="next">
+<link href="./definition.html" rel="next">
 <link href="./agents.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -99,35 +99,6 @@ div.csl-indent {
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -141,7 +112,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./errors.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./errors.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -179,36 +150,64 @@ window.Quarto = {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Concepts</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./agents.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./errors.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./definition.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Implementation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./template.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Shiny template</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./weather.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
-        <li class="sidebar-item">
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -226,20 +225,16 @@ window.Quarto = {
   <li><a href="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather." id="toc-fix-2-of-3-bypass-the-ai-model-to-report-the-weather." class="nav-link" data-scroll-target="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the AI model to report the weather.</a></li>
   <li><a href="#fix-3-of-3-never-bypass-the-get_weather-tool." id="toc-fix-3-of-3-never-bypass-the-get_weather-tool." class="nav-link" data-scroll-target="#fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</a></li>
   </ul></li>
-  <li><a href="#defining-trusted-mini-agents" id="toc-defining-trusted-mini-agents" class="nav-link" data-scroll-target="#defining-trusted-mini-agents"><span class="header-section-number">2.3</span> Defining trusted mini-agents</a></li>
-  <li><a href="#impact-on-users" id="toc-impact-on-users" class="nav-link" data-scroll-target="#impact-on-users"><span class="header-section-number">2.4</span> Impact on users</a></li>
-  <li><a href="#the-trusted-mini-agent-workflow" id="toc-the-trusted-mini-agent-workflow" class="nav-link" data-scroll-target="#the-trusted-mini-agent-workflow"><span class="header-section-number">2.5</span> The trusted mini-agent workflow</a></li>
-  <li><a href="#when-trusted-mini-agents-are-useful" id="toc-when-trusted-mini-agents-are-useful" class="nav-link" data-scroll-target="#when-trusted-mini-agents-are-useful"><span class="header-section-number">2.6</span> When trusted mini-agents are useful</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">2.7</span> References</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">2.3</span> References</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/errors.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./errors.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-hallucinations" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></h1>
+<h1 class="title"><span id="sec-errors" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span></h1>
 </div>
 
 
@@ -256,39 +251,7 @@ window.Quarto = {
 </header>
 
 
-<p>When it comes to reliability, the components in and around agents have different strengths and weaknesses.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Component</th>
-<th>Strengths</th>
-<th>Weaknesses</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>AI model</td>
-<td>Proposing ideas, translating human intent into tool inputs.</td>
-<td>AI models produce errors, and their outputs must be verified by humans.</td>
-</tr>
-<tr class="even">
-<td>Tools</td>
-<td>Trustworthy and testable. Outputs are reliable given correct inputs.</td>
-<td>Limited flexibility, inputs need verification.</td>
-</tr>
-<tr class="odd">
-<td>User</td>
-<td>Setting goals, framing intent, checking tool inputs.</td>
-<td>Slow, fatigues easily, cannot reliably check tool outputs.</td>
-</tr>
-</tbody>
-</table>
-<p>To control AI errors, we leverage these strengths and compensate for the weaknesses. This chapter builds the intuition for how to do that, and formalizes it into the set of rules that define trusted mini-agents.</p>
+<p>This chapter explores the downstream consequences of AI errors in agent harnesses, and it shows how to harden an example weather agent against such errors. The intuition from this chapter motivates the formal definition of a trusted mini-agent in the <a href="./definition.html">next chapter</a>.</p>
 <section id="agents-are-vulnerable-to-ai-errors." class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="agents-are-vulnerable-to-ai-errors."><span class="header-section-number">2.1</span> Agents are vulnerable to AI errors.</h2>
 <blockquote class="blockquote">
@@ -542,185 +505,8 @@ Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code
 </div>
 </section>
 </section>
-<section id="defining-trusted-mini-agents" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="defining-trusted-mini-agents"><span class="header-section-number">2.3</span> Defining trusted mini-agents</h2>
-<p>We formalize these lessons from the weather agent into a general pattern for building reliable AI systems.</p>
-<div class="callout callout-style-simple callout-note no-icon callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Definition: Trusted Mini-Agent
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A <strong>trusted mini-agent</strong> is a least-privilege AI agent that engineers out AI errors with the following three rules:</p>
-<ol type="1">
-<li><strong>Trusted tools directly produce all results.</strong> No result comes from the AI model. And for each type of result, there exists a tool to produce it.</li>
-<li><strong>Each result only comes from one trusted tool.</strong> No alternative tool can bypass the designated tool.</li>
-<li><strong>Inputs to trusted tools have trusted human oversight.</strong> The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
-</ol>
-</div>
-</div>
-<p>The three rules map to the three fixes we made to the weather agent.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Rule</th>
-<th>Fix</th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1. Trusted tools directly produce all results.</td>
-<td>Bypass the AI model to report the weather.</td>
-<td></td>
-</tr>
-<tr class="even">
-<td>2. Each result only comes from one trusted tool.</td>
-<td>Never bypass the <code>get_weather()</code> tool.</td>
-<td></td>
-</tr>
-<tr class="odd">
-<td>3. Inputs to trusted tools have trusted human oversight.</td>
-<td>Show the location in an interactive map.</td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool. Here is a mental model of bijectivity for an enhanced weather tool that also reports <a href="https://en.wikipedia.org/wiki/Emergency_Alert_System">emergency alerts</a>:</p>
-<div id="fig-bijective" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-bijective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<p><span class="math display">\[
-\Large f: X \mapsto Y
-\]</span></p>
-<div class="cell" data-fig-width="7.5" data-layout-align="center">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#1F3A63','edgeLabelBackground':'#ffffff','fontSize':'18px'}}}%%
-flowchart LR
-    subgraph X["X: tools"]
-        direction TB
-        gw["get_weather()"]
-        gn["get_emergency_alerts()"]
-    end
-    subgraph Y["Y: types of results"]
-        wd["Weather data"]
-        nd["Emergency alert data"]
-    end
-    gw --&gt; wd
-    gn --&gt; nd
-
-    style gw fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style gn fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style wd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style nd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style X fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
-    style Y fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bijective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.6: Diagram illustrating a bijective function <span class="math inline">\(f\)</span> from <span class="math inline">\(X\)</span> to <span class="math inline">\(Y\)</span>. The set <span class="math inline">\(X\)</span> (tools) contains <code>get_weather()</code> and <code>get_emergency_alerts()</code>; the set <span class="math inline">\(Y\)</span> (types of results) contains Weather data and Emergency alert data. Each tool maps to exactly one type of result, and each type of result is produced by exactly one tool, illustrating Rules 1 and 2 of a trusted mini-agent.
-</figcaption>
-</figure>
-</div>
-<p>Bijectivity is key: it ensures that final results are trusted as long as the tools and their inputs are trusted. Tools are easy to test with <a href="https://testthat.r-lib.org">expectation-based unit tests</a>. Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.</p>
-</section>
-<section id="impact-on-users" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="impact-on-users"><span class="header-section-number">2.4</span> Impact on users</h2>
-<p>Instead of:</p>
-<blockquote class="blockquote">
-<p>Are these results correct?</p>
-</blockquote>
-<p>users ask:</p>
-<blockquote class="blockquote">
-<p>Is the agent solving the right problem?</p>
-</blockquote>
-<p>which is much easier to verify.</p>
-</section>
-<section id="the-trusted-mini-agent-workflow" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="the-trusted-mini-agent-workflow"><span class="header-section-number">2.5</span> The trusted mini-agent workflow</h2>
-<p>The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:</p>
-<div id="fig-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    subgraph AgentLoop["Agent Loop"]
-        direction TB
-        Model["Model"]
-        UT["Untrusted&lt;br&gt;Tools"]
-        Model --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
-        UT --&gt; Model
-    end
-
-    HR["Human&lt;br&gt;Review"]
-
-    subgraph Trust["Trust"]
-        direction TB
-        TT["Trusted&lt;br&gt;Tools"]
-        TR["Trusted&lt;br&gt;Results"]
-        TT --&gt;|"Nontrivial&lt;br&gt;Computation"| TR
-    end
-
-    AgentLoop --&gt;|"Proposed Inputs"| HR
-    HR --&gt;|"Rejected Proposals"| AgentLoop
-    HR --&gt;|"Reviewed Inputs"| TT
-
-    style Model fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
-    style HR fill:#166534,color:#ffffff,stroke:#166534
-    style TT fill:#166534,color:#ffffff,stroke:#166534
-    style TR fill:#166534,color:#ffffff,stroke:#166534
-    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
-    style Trust fill:#F3F4F6,stroke:#9CA3AF
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.7: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the AI model and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
-</figcaption>
-</figure>
-</div>
-<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the AI model ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
-<p>Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the AI model frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for AI errors, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
-<p>After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, AI-generated errors in the results are structurally impossible.</p>
-</section>
-<section id="when-trusted-mini-agents-are-useful" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="when-trusted-mini-agents-are-useful"><span class="header-section-number">2.6</span> When trusted mini-agents are useful</h2>
-<p>Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the AI model where:</p>
-<ol type="1">
-<li>The AI model proposes solutions better than a human.</li>
-<li>A human easily checks those solutions.</li>
-</ol>
-<p>No scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems. For example, there are powerful opportunities in clinical trial simulation, as discussed later in <a href="./simulation.html">Chapter 6</a>.</p>
-</section>
-<section id="references" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="references"><span class="header-section-number">2.7</span> References</h2>
+<section id="references" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="references"><span class="header-section-number">2.3</span> References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
@@ -1144,8 +930,8 @@ Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./template.html" class="pagination-link" aria-label="Shiny template">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Shiny template</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./definition.html" class="pagination-link" aria-label="The formal definition">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
