@@ -174,8 +174,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hallucinations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling hallucinations</span></span></a>
+  <a href="./errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -241,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This chapter builds on the template in <a href="./template.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny app. We use the weather agent example from <a href="./hallucinations.html">Chapter 2</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent.</p>
+<p>This chapter builds on the template in <a href="./template.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny app. We use the weather agent example from <a href="./errors.html">Chapter 2</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent.</p>
 <section id="overview" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">4.1</span> Overview</h2>
 <p>This is the appearance of the app we will build.</p>
@@ -252,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>In the <code>shinychat</code> interface on the left, the user asks for the weather in a US city. The leaflet map in the middle lets the user easily check if the AI-generated coordinates for the city are correct. Trustworthy weather data is displayed on the right.</p>
-<p>It is important to emphasize how the user interface separates the untrusted conversation with the AI model on the left from the trusted weather data on the right. The AI-reported weather in the chat may be a hallucination, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
+<p>It is important to emphasize how the user interface separates the untrusted conversation with the AI model on the left from the trusted weather data on the right. The AI-reported weather in the chat may be erroneous, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
 <ol type="1">
 <li>We guarantee it comes from a trusted tool (<code>get_weather()</code>).</li>
 <li>The leaflet map in the middle is super easy to check, so we can be confident the app is checking the weather in the right place.</li>
@@ -293,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the AI model. At its discretion, the AI model sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>get_weather(41.8, -87.6)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
 <p><code>get_weather()</code> is a function that accepts a pair of geographic coordinates and returns the location and its weather to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, <code>get_weather()</code> is the only thing that can write to those <code>reactiveValues()</code> slots.</strong> <strong>This constraint enforces rule 2 (injectivity) of trusted mini-agents.</strong> Neither the user nor the AI model can update those reactive values any other way.</p>
-<p>The leaflet map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then hallucinated weather data is structurally impossible.</p>
+<p>The leaflet map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then AI-generated errors in the weather data are structurally impossible.</p>
 </section>
 <section id="weather-api-function" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">4.3</span> Weather API function</h2>
@@ -835,7 +835,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
-<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may produce errors, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the leaflet app and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>

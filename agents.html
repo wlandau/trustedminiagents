@@ -71,7 +71,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./hallucinations.html" rel="next">
+<link href="./errors.html" rel="next">
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -203,8 +203,8 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hallucinations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling hallucinations</span></span></a>
+  <a href="./errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -265,11 +265,11 @@ window.Quarto = {
 </header>
 
 
-<p>An <a href="https://en.wikipedia.org/wiki/AI_agent">agent</a> is an artificial intelligence system that interacts with its environment, pursues goals, and takes actions. Because agents rely on <a href="https://en.wikipedia.org/wiki/Large_language_model">AI models</a>, they are vulnerable to bizarre unpredictable errors called <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinations</a>. To develop an agent that controls hallucinations, we first need to understand the relevant components of agents and how they work together. This chapter describes these concepts and lays the groundwork for trusted mini-agents in later chapters.</p>
+<p>An <a href="https://en.wikipedia.org/wiki/AI_agent">agent</a> is an artificial intelligence system that interacts with its environment, pursues goals, and takes actions. Because agents rely on <a href="https://en.wikipedia.org/wiki/Large_language_model">AI models</a>, they are vulnerable to unpredictable errors. A few of the most common types of errors include subtle misinterpretations of prompts, lack of alignment with the user, and confident fabrications called <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinations</a>. To develop an agent that controls AI errors, we first need to understand the relevant components of agents and how they work together. This chapter describes these concepts and lays the groundwork for trusted mini-agents in later chapters.</p>
 <section id="ai-models-are-not-agents." class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="ai-models-are-not-agents."><span class="header-section-number">1.1</span> AI models are not agents.</h2>
 <p>By itself, an AI model is just a text-in/text-out machine learning model. When generating predictions, an AI model has no ability to learn, no agency, and no ability to make decisions. It only predicts lexical “tokens” similarly to how a simple linear regression model predicts new outcomes on a new dataset.</p>
-<p>No statistical model makes perfect predictions, which is why AI models <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinate</a>. For example, suppose an AI model makes a prediction on this new dataset: “What’s the weather in Chicago?” The AI model blindly pattern-matches text to accompany the new data, and this prediction could be wrong.</p>
+<p>No statistical model makes perfect predictions, which is why AI models <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">produce errors</a>. For example, suppose an AI model makes a prediction on this new dataset: “What’s the weather in Chicago?” The AI model blindly pattern-matches text to accompany the new data, and this prediction could be wrong.</p>
 <div id="fig-llm-hallucination" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -286,7 +286,7 @@ sequenceDiagram
     User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(220, 38, 38, 0.25)
     Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,Model: Hallucination (wrong city)
+    note over User,Model: AI error (wrong city)
     end
 </pre>
 </div>
@@ -296,7 +296,7 @@ sequenceDiagram
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: Sequence diagram of a bare AI model hallucinating. The user asks about the weather in Chicago, but the AI model predicts a confident-sounding response with the Indianapolis weather instead.
+Figure&nbsp;1.1: Sequence diagram of a bare AI model producing an error. The user asks about the weather in Chicago, but the AI model predicts a confident-sounding response with the Indianapolis weather instead.
 </figcaption>
 </figure>
 </div>
@@ -378,7 +378,7 @@ Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent intera
 </figcaption>
 </figure>
 </div>
-<p>The harness implicitly includes the horizontal arrows in the diagram. For example, the arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the AI-generated tool call to the tool itself. (The harness, not the AI model, actually runs tools.) Designing a trusted mini-agent is all about drawing the best arrows, as we will see in the <a href="./hallucinations.html">next chapter</a>.</p>
+<p>The harness implicitly includes the horizontal arrows in the diagram. For example, the arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the AI-generated tool call to the tool itself. (The harness, not the AI model, actually runs tools.) Designing a trusted mini-agent is all about drawing the best arrows, as we will see in the <a href="./errors.html">next chapter</a>.</p>
 
 
 </section>
@@ -797,8 +797,8 @@ Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent intera
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./hallucinations.html" class="pagination-link" aria-label="Controlling hallucinations">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling hallucinations</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./errors.html" class="pagination-link" aria-label="Controlling AI errors">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

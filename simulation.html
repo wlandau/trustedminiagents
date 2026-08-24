@@ -173,8 +173,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./hallucinations.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling hallucinations</span></span></a>
+  <a href="./errors.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Controlling AI errors</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -255,7 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </figure>
 </div>
 <p>The human user describes scenarios for a clinical trial design in natural language. The AI model translates the human intent into rigorous simulation parameters. The user reviews those assumptions in the table at the top. If we trust the simulation code, and if the assumptions represent the design the user wants, then we can trust the results.</p>
-<p>The AI model may hallucinate scenarios, but those scenarios are easy for a human to check. Given good scenarios, hallucinated results are structurally impossible.</p>
+<p>The AI model may generate erroneous scenarios, but those scenarios are easy for a human to check. Given good scenarios, AI-generated errors in the results are structurally impossible.</p>
 <p>This is where the trusted mini-agent pattern really shines. The AI model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the AI model, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
 </section>
 <section id="app-design" class="level2" data-number="5.2">
@@ -295,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the AI model. At its discretion, the AI model sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>simulate_trial_binary(...)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
 <p>The simulation tools run the statistical functions with the AI-supplied assumptions and write both the assumptions and the results to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, the simulation tools are the only things that can write to those <code>reactiveValues()</code> slots.</strong> The <code>reactiveValues()</code> list is just a repository: it can hold many different types of results, so multiple trusted tools — one per endpoint type — can deposit their outputs into it. <strong>This constraint still enforces rule 2 (injectivity) of trusted mini-agents.</strong> Each result that reaches the user originates from a designated, tested tool, never directly from the AI model or the user.</p>
-<p>The assumptions table renders the AI-generated trial scenarios, so the user can check whether the AI model’s translation of their query looks correct. If the simulation tools are correct and the assumptions reflect the design the user wants, then hallucinated results are structurally impossible.</p>
+<p>The assumptions table renders the AI-generated trial scenarios, so the user can check whether the AI model’s translation of their query looks correct. If the simulation tools are correct and the assumptions reflect the design the user wants, then AI-generated errors in the results are structurally impossible.</p>
 </section>
 <section id="potential-future-work-empowering-the-agent" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="potential-future-work-empowering-the-agent"><span class="header-section-number">5.3</span> Potential future work: empowering the agent</h2>
@@ -308,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 data-number="5.4.1" class="anchored" data-anchor-id="simulation-1-continuous-endpoints"><span class="header-section-number">5.4.1</span> Simulation 1: continuous endpoints</h3>
 <p>Suppose we design a parallel two-arm randomized controlled trial (RCT) to evaluate a new drug. The outcome measure of the trial is a continuous measurement taken on each patient. We use simulation to estimate the probability that the trial declares efficacy.</p>
 <p>For each study arm (treatment and control), we assume values for the mean response, the standard deviation of responses, and the number of patients. We simulate many trials by sampling patient responses from the independent normal distributions, then we apply a frequentist hypothesis test to test efficacy in each simulated trial. The fraction of p-values below a given significance level is an estimate of the probability that the trial declares efficacy.</p>
-<p>For simplicity, we fix the pseudo-random number generation seed and the number of simulations. In real-world apps, these should be inputs just like <code>n_treatment</code> and <code>n_control</code>. The <code>stopifnot()</code> assertions on the inputs are helpful for catching hallucinated inputs before they even reach human eyes.</p>
+<p>For simplicity, we fix the pseudo-random number generation seed and the number of simulations. In real-world apps, these should be inputs just like <code>n_treatment</code> and <code>n_control</code>. The <code>stopifnot()</code> assertions on the inputs are helpful for catching erroneous inputs before they even reach human eyes.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Simulate a two-arm randomized controlled trial</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'   with a continuous endpoint.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Estimates the probability that a parallel two-arm RCT declares</span></span>
@@ -1146,7 +1146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
-<li>Enter the prompt “Call simulate_trial_binary(scenario = ‘Power’, n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>Enter the prompt “Call simulate_trial_binary(scenario = ‘Power’, n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may produce errors, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the assumptions and results tables populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
