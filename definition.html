@@ -282,36 +282,31 @@ window.Quarto = {
 <p>The three rules map to the three fixes we made to the weather agent.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
+<col style="width: 50%">
+<col style="width: 50%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Rule</th>
 <th>Fix</th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1. Trusted tools directly produce all results.</td>
 <td>Bypass the AI model to report the weather.</td>
-<td></td>
 </tr>
 <tr class="even">
 <td>2. Each result only comes from one trusted tool.</td>
 <td>Never bypass the <code>get_weather()</code> tool.</td>
-<td></td>
 </tr>
 <tr class="odd">
 <td>3. Inputs to trusted tools have trusted human oversight.</td>
 <td>Show the location in an interactive map.</td>
-<td></td>
 </tr>
 </tbody>
 </table>
-<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one distinct unique designated tool. Here is a mental model of bijectivity for an enhanced weather tool that also reports <a href="https://en.wikipedia.org/wiki/Emergency_Alert_System">emergency alerts</a>:</p>
+<p>In terms of tools and results, a trusted mini-agent is a bijective function. Rule 1 implies surjectivity: every result can be produced by at least one tool. Rule 2 implies injectivity: each result must originate from at most one designated tool. Here is a mental model of bijectivity for an enhanced weather tool that also reports <a href="https://en.wikipedia.org/wiki/Emergency_Alert_System">emergency alerts</a>:</p>
 <div id="fig-bijective" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-bijective-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -422,7 +417,7 @@ Figure&nbsp;3.2: Flow diagram of a trusted mini-agent. On the left, an “Agent 
 </figcaption>
 </figure>
 </div>
-<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the AI model ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
+<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the AI model ponders and deliberates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
 <p>Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the AI model frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for AI errors, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
 <p>After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, AI-generated errors in the results are structurally impossible.</p>
 </section>
@@ -433,7 +428,7 @@ Figure&nbsp;3.2: Flow diagram of a trusted mini-agent. On the left, an “Agent 
 <li>The AI model proposes solutions better than a human.</li>
 <li>A human easily checks those solutions.</li>
 </ol>
-<p>No scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems. For example, there are powerful opportunities in clinical trial simulation, as discussed later in <a href="./simulation.html">Chapter 6</a>.</p>
+<p>No scenario is too small for a trusted mini-agent, and specific, targeted problems offer some of the most powerful opportunities. For example, clinical trial simulation offers powerful opportunities, as discussed later in <a href="./simulation.html">Chapter 6</a>.</p>
 
 
 </section>

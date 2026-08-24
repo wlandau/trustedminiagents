@@ -352,7 +352,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#'   weather &lt;- weather_api(latitude = 39.7684, longitude = -86.1581)</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#'   str(weather)</span></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>weather_api <span class="ot">&lt;-</span> <span class="cf">function</span>(latitude, longitude) {</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assertions are super important for any agent tool.</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assertions are critical for any agent tool.</span></span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.numeric</span>(latitude),</span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(latitude) <span class="sc">==</span> <span class="dv">1</span>,</span>
@@ -598,7 +598,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#'   weather &lt;- weather_api(latitude = 39.7684, longitude = -86.1581)</span></span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#'   str(weather)</span></span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>weather_api <span class="ot">&lt;-</span> <span class="cf">function</span>(latitude, longitude) {</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assertions are super important for any agent tool.</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Assertions are critical for any agent tool.</span></span>
 <span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
 <span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">is.numeric</span>(latitude),</span>
 <span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">length</span>(latitude) <span class="sc">==</span> <span class="dv">1</span>,</span>
@@ -827,7 +827,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">expect_error</span>(<span class="fu">weather_api</span>(<span class="at">latitude =</span> <span class="fu">c</span>(<span class="dv">39</span>, <span class="dv">40</span>), <span class="at">longitude =</span> <span class="sc">-</span><span class="dv">86</span>))</span>
 <span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>The weather is always changing, so <code>weather_api()</code> will return different values at different times. This poses a problem for other types of tests, which is why <code>weather_api()</code> has an environment variable that lets us mock the API response with a stable fixture::</p>
+<p>The weather is always changing, so <code>weather_api()</code> will return different values at different times. This poses a problem for other types of tests, which is why <code>weather_api()</code> has an environment variable that lets us mock the API response with a stable fixture:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>app.R</strong></pre>
@@ -863,9 +863,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
-<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may produce errors, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling, and Shiny output. The AI model may produce errors, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
-<li>After the leaflet app and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
+<li>After the leaflet map and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
