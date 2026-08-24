@@ -236,7 +236,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Web applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing LLM-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a <a href="https://shiny.posit.co">Shiny</a> app in R. Users can begin with this template and add their own <a href="https://ellmer.tidyverse.org/reference/tool.html"><code>ellmer</code> tools</a> to create a trusted mini-agent that fits their needs. <a href="./weather.html">The next chapter</a> covers tools.</p>
+<p>Web applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a <a href="https://shiny.posit.co">Shiny</a> app in R. Users can begin with this template and add their own <a href="https://ellmer.tidyverse.org/reference/tool.html"><code>ellmer</code> tools</a> to create a trusted mini-agent that fits their needs. <a href="./weather.html">The next chapter</a> covers tools.</p>
 <section id="prerequisites" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">3.1</span> Prerequisites</h2>
 <p>At minimum, we use these R packages to implement Shiny-based trusted mini-agents.</p>
@@ -250,7 +250,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td><a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a></td>
-<td>LLM chat client with tool registration and streaming.</td>
+<td>AI model chat client with tool registration and streaming.</td>
 </tr>
 <tr class="even">
 <td><a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a></td>
@@ -265,11 +265,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-template-app" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="the-template-app"><span class="header-section-number">3.2</span> The template app</h2>
-<p>The app has a simple interface: a sidebar with the untrusted AI chat, a <code>bslib</code> card where humans review LLM-generated tool inputs, and a <code>bslib</code> card for trusted results.</p>
+<p>The app has a simple interface: a sidebar with the untrusted AI chat, a <code>bslib</code> card where humans review AI-generated tool inputs, and a <code>bslib</code> card for trusted results.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/template/app.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled “do not trust any AI output here!” with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled “Humans review LLM-generated tool inputs here” and another labeled “Trusted results go here,” illustrating the three-region layout of trust zones.</figcaption>
+<figcaption>Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled “do not trust any AI output here!” with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled “Humans review AI-generated tool inputs here” and another labeled “Trusted results go here,” illustrating the three-region layout of trust zones.</figcaption>
 </figure>
 </div>
 <p>It is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss hallucinations.</p>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We separately consider the <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> chat object, Shiny UI, and Shiny server function.</p>
 <section id="chat-object" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="chat-object"><span class="header-section-number">3.3.1</span> Chat object</h3>
-<p>In <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a>, the chat object brokers communication with the LLM, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see <a href="./weather.html">the next chapter</a>).</p>
+<p>In <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a>, the chat object brokers communication with the AI model, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see <a href="./weather.html">the next chapter</a>).</p>
 <p>For convenience, we create a separate constructor for the <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> chat object. This compartmentalization will be useful when we add <a href="./weather.html">tools</a> and complicated system prompts.</p>
 <p>We use <a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html"><code>chat_anthropic()</code></a> in this example, but any <a href="https://ellmer.tidyverse.org/reference/index.html#chatbots">chat object</a> will do.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
@@ -299,14 +299,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(<span class="st">"chat"</span>)</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review LLM-generated tool inputs here."</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Trusted results go here."</span>)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="shiny-server-function" class="level3" data-number="3.3.3">
 <h3 data-number="3.3.3" class="anchored" data-anchor-id="shiny-server-function"><span class="header-section-number">3.3.3</span> Shiny server function</h3>
-<p>In the Shiny server, we have a reactive expression that watches for user prompts from the <code>shinychat</code> interface and streams the LLM’s reply back into the UI token-by-token.</p>
+<p>In the Shiny server, we have a reactive expression that watches for user prompts from the <code>shinychat</code> interface and streams the AI model’s reply back into the UI token-by-token.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
@@ -336,7 +336,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(<span class="st">"chat"</span>)</span>
 <span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review LLM-generated tool inputs here."</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
 <span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Trusted results go here."</span>)</span>
 <span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>)</span>

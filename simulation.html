@@ -251,12 +251,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="./images/simulation/app.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled “do not trust LLM output in here” with a user prompt describing a binary endpoint trial and the AI’s response. The main panel displays two tables: “Design assumptions (HUMAN USER MUST REVIEW THIS)” showing simulation parameters for Power and Type I Error scenarios, and “Results (trusted given the assumptions)” showing efficacy probabilities of 0.65 and 0.04 for each scenario.</figcaption>
+<figcaption>Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled “do not trust AI model output in here” with a user prompt describing a binary endpoint trial and the AI’s response. The main panel displays two tables: “Design assumptions (HUMAN USER MUST REVIEW THIS)” showing simulation parameters for Power and Type I Error scenarios, and “Results (trusted given the assumptions)” showing efficacy probabilities of 0.65 and 0.04 for each scenario.</figcaption>
 </figure>
 </div>
-<p>The human user describes scenarios for a clinical trial design in natural language. The LLM translates the human intent into rigorous simulation parameters. The user reviews those assumptions in the table at the top. If we trust the simulation code, and if the assumptions represent the design the user wants, then we can trust the results.</p>
-<p>The LLM may hallucinate scenarios, but those scenarios are easy for a human to check. Given good scenarios, hallucinated results are structurally impossible.</p>
-<p>This is where the trusted mini-agent pattern really shines. The large language model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the LLM, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
+<p>The human user describes scenarios for a clinical trial design in natural language. The AI model translates the human intent into rigorous simulation parameters. The user reviews those assumptions in the table at the top. If we trust the simulation code, and if the assumptions represent the design the user wants, then we can trust the results.</p>
+<p>The AI model may hallucinate scenarios, but those scenarios are easy for a human to check. Given good scenarios, hallucinated results are structurally impossible.</p>
+<p>This is where the trusted mini-agent pattern really shines. The AI model makes the process of conceiving and tuning clinical trial designs more effortless and productive. But because of the structure around the AI model, the question is no longer “do we trust these results?”, it’s “do these assumptions reflect the scenarios the user wants to simulate?” That second question is much easier for human users to verify.</p>
 </section>
 <section id="app-design" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">5.2</span> App design</h2>
@@ -267,12 +267,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-  subgraph Untrusted due to the LLM
+  subgraph Untrusted due to the model
     U["User input"] --&gt; C["shinychat UI"]
     C --&gt; U
     C --&gt; L[ellmer chat]
-    L --&gt; LLM
-    LLM --&gt; L
+    L --&gt; Model
+    Model --&gt; L
     L --&gt; C
   end
   subgraph Trusted due to testing
@@ -285,7 +285,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     RV --&gt; R["Results data"]
   end
   subgraph Human oversight
-    RV --&gt; A["Assumptions table of&lt;br&gt;LLM-generated trial scenarios"]
+    RV --&gt; A["Assumptions table of&lt;br&gt;model-generated trial scenarios"]
   end
 </pre>
 </div>
@@ -293,13 +293,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the LLM. At its discretion, the LLM sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>simulate_trial_binary(...)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
-<p>The simulation tools run the statistical functions with the LLM-supplied assumptions and write both the assumptions and the results to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, the simulation tools are the only things that can write to those <code>reactiveValues()</code> slots.</strong> The <code>reactiveValues()</code> list is just a repository: it can hold many different types of results, so multiple trusted tools — one per endpoint type — can deposit their outputs into it. <strong>This constraint still enforces rule 2 (injectivity) of trusted mini-agents.</strong> Each result that reaches the user originates from a designated, tested tool, never directly from the LLM or the user.</p>
-<p>The assumptions table renders the LLM-generated trial scenarios, so the user can check whether the LLM’s translation of their query looks correct. If the simulation tools are correct and the assumptions reflect the design the user wants, then hallucinated results are structurally impossible.</p>
+<p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the AI model. At its discretion, the AI model sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>simulate_trial_binary(...)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
+<p>The simulation tools run the statistical functions with the AI-supplied assumptions and write both the assumptions and the results to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, the simulation tools are the only things that can write to those <code>reactiveValues()</code> slots.</strong> The <code>reactiveValues()</code> list is just a repository: it can hold many different types of results, so multiple trusted tools — one per endpoint type — can deposit their outputs into it. <strong>This constraint still enforces rule 2 (injectivity) of trusted mini-agents.</strong> Each result that reaches the user originates from a designated, tested tool, never directly from the AI model or the user.</p>
+<p>The assumptions table renders the AI-generated trial scenarios, so the user can check whether the AI model’s translation of their query looks correct. If the simulation tools are correct and the assumptions reflect the design the user wants, then hallucinated results are structurally impossible.</p>
 </section>
 <section id="potential-future-work-empowering-the-agent" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="potential-future-work-empowering-the-agent"><span class="header-section-number">5.3</span> Potential future work: empowering the agent</h2>
-<p>Modern agents don’t just one-shot proposed ideas, they <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">loop</a> over untrusted tools and take time to reason without interruption. For example, extra tools could scrape <a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a> or <a href="https://clinicaltrials.gov/">ClinicalTrials.gov</a> for relevant literature, and the queries could inform the simulation assumptions. These tools don’t strictly need oversight because they don’t directly produce critical results, they only inform the LLM’s reasoning. Human oversight only needs to happen downstream, when inputs go into trusted tools that directly produce final results.</p>
+<p>Modern agents don’t just one-shot proposed ideas, they <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">loop</a> over untrusted tools and take time to reason without interruption. For example, extra tools could scrape <a href="https://pubmed.ncbi.nlm.nih.gov/">PubMed</a> or <a href="https://clinicaltrials.gov/">ClinicalTrials.gov</a> for relevant literature, and the queries could inform the simulation assumptions. These tools don’t strictly need oversight because they don’t directly produce critical results, they only inform the AI model’s reasoning. Human oversight only needs to happen downstream, when inputs go into trusted tools that directly produce final results.</p>
 </section>
 <section id="clinical-trial-simulation" class="level2" data-number="5.4">
 <h2 data-number="5.4" class="anchored" data-anchor-id="clinical-trial-simulation"><span class="header-section-number">5.4</span> Clinical trial simulation</h2>
@@ -437,12 +437,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The tool constructor for continuous endpoints is as follows. The <code>ellmer::ContentToolResult()</code> call at the end of the wrapper function sends the efficacy results back to the LLM. Accessing the results helps the LLM think and reason, and it is for convenience only. This output will also show up in the <code>shinychat</code> interface, but on sheer principle, users should not trust anything in the chat window.</p>
+<p>The tool constructor for continuous endpoints is as follows. The <code>ellmer::ContentToolResult()</code> call at the end of the wrapper function sends the efficacy results back to the AI model. Accessing the results helps the AI model think and reason, and it is for convenience only. This output will also show up in the <code>shinychat</code> interface, but on sheer principle, users should not trust anything in the chat window.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Continuous endpoint trial simulation tool constructor.</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a trial simulation tool for `ellmer` that estimates</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'   the probability of declaring efficacy in a two-arm RCT with a continuous</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'   endpoint. The tool runs `simulate_trial_continuous()` with the</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'   LLM-supplied assumptions and writes the results to a Shiny</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'   AI-supplied assumptions and writes the results to a Shiny</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'   `reactiveValues()` list.</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return An `ellmer` tool object that can be registered with</span></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'   an `ellmer` chat object.</span></span>
@@ -534,7 +534,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a trial simulation tool for `ellmer` that estimates</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'   the probability of declaring efficacy in a two-arm RCT with a binary</span></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#'   endpoint. The tool runs `simulate_trial_binary()` with the</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'   LLM-supplied assumptions and writes the results to a Shiny</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'   AI-supplied assumptions and writes the results to a Shiny</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#'   `reactiveValues()` list.</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return An `ellmer` tool object that can be registered with</span></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#'   an `ellmer` chat object.</span></span>
@@ -638,12 +638,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="shiny-ui" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">5.7</span> Shiny UI</h2>
-<p>The Shiny UI has a chat interface, a panel for results, and a panel for the human to review LLM-generated clinical trial simulation assumptions.</p>
+<p>The Shiny UI has a chat interface, a panel for results, and a panel for the human to review AI-generated clinical trial simulation assumptions.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Clinical trial simulation agent"</span>,</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust LLM output in here)"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust AI model output in here)"</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="st">"30vw"</span>,</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"height: 100%; padding-top: 15px; overflow-x: hidden;"</span>,</span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(</span>
@@ -829,7 +829,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-123"><a href="#cb9-123" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a trial simulation tool for `ellmer` that estimates</span></span>
 <span id="cb9-124"><a href="#cb9-124" aria-hidden="true" tabindex="-1"></a><span class="co">#'   the probability of declaring efficacy in a two-arm RCT with a binary</span></span>
 <span id="cb9-125"><a href="#cb9-125" aria-hidden="true" tabindex="-1"></a><span class="co">#'   endpoint. The tool runs `simulate_trial_binary()` with the</span></span>
-<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="co">#'   LLM-supplied assumptions and writes the results to a Shiny</span></span>
+<span id="cb9-126"><a href="#cb9-126" aria-hidden="true" tabindex="-1"></a><span class="co">#'   AI-supplied assumptions and writes the results to a Shiny</span></span>
 <span id="cb9-127"><a href="#cb9-127" aria-hidden="true" tabindex="-1"></a><span class="co">#'   `reactiveValues()` list.</span></span>
 <span id="cb9-128"><a href="#cb9-128" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return An `ellmer` tool object that can be registered with</span></span>
 <span id="cb9-129"><a href="#cb9-129" aria-hidden="true" tabindex="-1"></a><span class="co">#'   an `ellmer` chat object.</span></span>
@@ -915,7 +915,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-209"><a href="#cb9-209" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Create a trial simulation tool for `ellmer` that estimates</span></span>
 <span id="cb9-210"><a href="#cb9-210" aria-hidden="true" tabindex="-1"></a><span class="co">#'   the probability of declaring efficacy in a two-arm RCT with a continuous</span></span>
 <span id="cb9-211"><a href="#cb9-211" aria-hidden="true" tabindex="-1"></a><span class="co">#'   endpoint. The tool runs `simulate_trial_continuous()` with the</span></span>
-<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="co">#'   LLM-supplied assumptions and writes the results to a Shiny</span></span>
+<span id="cb9-212"><a href="#cb9-212" aria-hidden="true" tabindex="-1"></a><span class="co">#'   AI-supplied assumptions and writes the results to a Shiny</span></span>
 <span id="cb9-213"><a href="#cb9-213" aria-hidden="true" tabindex="-1"></a><span class="co">#'   `reactiveValues()` list.</span></span>
 <span id="cb9-214"><a href="#cb9-214" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return An `ellmer` tool object that can be registered with</span></span>
 <span id="cb9-215"><a href="#cb9-215" aria-hidden="true" tabindex="-1"></a><span class="co">#'   an `ellmer` chat object.</span></span>
@@ -1024,7 +1024,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-318"><a href="#cb9-318" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Clinical trial simulation agent"</span>,</span>
 <span id="cb9-319"><a href="#cb9-319" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
 <span id="cb9-320"><a href="#cb9-320" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust LLM output in here)"</span>,</span>
+<span id="cb9-321"><a href="#cb9-321" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust AI model output in here)"</span>,</span>
 <span id="cb9-322"><a href="#cb9-322" aria-hidden="true" tabindex="-1"></a>    <span class="at">width =</span> <span class="st">"30vw"</span>,</span>
 <span id="cb9-323"><a href="#cb9-323" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="st">"height: 100%; padding-top: 15px; overflow-x: hidden;"</span>,</span>
 <span id="cb9-324"><a href="#cb9-324" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(</span>
@@ -1146,7 +1146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
-<li>Enter the prompt “Call simulate_trial_binary(scenario = ‘Power’, n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent.” This tests the end-to-end flow of the LLM interaction, the tool calling and Shiny output. The LLM may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>Enter the prompt “Call simulate_trial_binary(scenario = ‘Power’, n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the assumptions and results tables populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
@@ -1159,7 +1159,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li>Click “Save test and exit” on the lower right-hand side.</li>
 </ul>
-<p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code> to avoid race conditions with LLM streaming.</p>
+<p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code> to avoid race conditions with AI model streaming.</p>
 <p>Example:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -1192,7 +1192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
 <span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the LLM, but they can run without a browser in a noninteractive R session.</p>
+<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the AI model, but they can run without a browser in a noninteractive R session.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> shinytest2<span class="sc">::</span><span class="fu">test_app</span>()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span> F W  S  OK <span class="sc">|</span> Context</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span>          <span class="dv">2</span> <span class="sc">|</span> app [<span class="fl">8.8</span>s]</span>

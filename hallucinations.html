@@ -223,7 +223,7 @@ window.Quarto = {
   <li><a href="#how-to-fix-the-weather-agent" id="toc-how-to-fix-the-weather-agent" class="nav-link" data-scroll-target="#how-to-fix-the-weather-agent"><span class="header-section-number">2.2</span> How to fix the weather agent</a>
   <ul class="collapse">
   <li><a href="#fix-1-of-3-help-the-human-review-the-location." id="toc-fix-1-of-3-help-the-human-review-the-location." class="nav-link" data-scroll-target="#fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</a></li>
-  <li><a href="#fix-2-of-3-bypass-the-llm-to-report-the-weather." id="toc-fix-2-of-3-bypass-the-llm-to-report-the-weather." class="nav-link" data-scroll-target="#fix-2-of-3-bypass-the-llm-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the LLM to report the weather.</a></li>
+  <li><a href="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather." id="toc-fix-2-of-3-bypass-the-ai-model-to-report-the-weather." class="nav-link" data-scroll-target="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the AI model to report the weather.</a></li>
   <li><a href="#fix-3-of-3-never-bypass-the-get_weather-tool." id="toc-fix-3-of-3-never-bypass-the-get_weather-tool." class="nav-link" data-scroll-target="#fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</a></li>
   </ul></li>
   <li><a href="#defining-trusted-mini-agents" id="toc-defining-trusted-mini-agents" class="nav-link" data-scroll-target="#defining-trusted-mini-agents"><span class="header-section-number">2.3</span> Defining trusted mini-agents</a></li>
@@ -272,9 +272,9 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td>LLM</td>
+<td>AI model</td>
 <td>Proposing ideas, translating human intent into tool inputs.</td>
-<td>LLMs hallucinate, and their outputs must be verified by humans.</td>
+<td>AI models hallucinate, and their outputs must be verified by humans.</td>
 </tr>
 <tr class="even">
 <td>Tools</td>
@@ -295,7 +295,7 @@ window.Quarto = {
 <p>“All models are wrong, but some are useful.”</p>
 <p>— <span class="citation" data-cites="box1987">Box and Draper (<a href="#ref-box1987" role="doc-biblioref">1987</a>)</span></p>
 </blockquote>
-<p>REMEMBER: An LLM is a model with less-than-perfect prediction accuracy. At any time for any reason, an LLM can produce a <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucination</a>: a confident-sounding prediction that is completely wrong. Prompt engineering and <a href="https://agentskills.io">skill creation</a> can never eliminate hallucinations entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.</p>
+<p>REMEMBER: An AI model has less-than-perfect prediction accuracy. At any time for any reason, an AI model can produce a <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucination</a>: a confident-sounding prediction that is completely wrong. Prompt engineering and <a href="https://agentskills.io">skill creation</a> can never eliminate hallucinations entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.</p>
 <div class="callout callout-style-simple callout-tip">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -306,7 +306,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>For example, consider a simple weather agent.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the LLM, and relays the LLM’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, hallucinations can still happen through the LLM.</p>
+<p>For example, consider a simple weather agent.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the AI model, and relays the AI model’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, hallucinations can still happen through the AI model.</p>
 <div id="fig-weather-vulnerable" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -318,18 +318,18 @@ window.Quarto = {
 <pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
 sequenceDiagram
     participant User
-    participant LLM
+    participant Model
     participant Tool
 
-    User-&gt;&gt;LLM: What's the weather in Chicago?
+    User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(220, 38, 38, 0.25)
-    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over LLM,Tool: Vulnerable (AI-generated coordinates)
+    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over Model,Tool: Vulnerable (AI-generated coordinates)
     end
-    Tool-&gt;&gt;LLM: {"temperature": 72, "weather": "Sunny"}
+    Tool-&gt;&gt;Model: {"temperature": 72, "weather": "Sunny"}
     rect rgba(220, 38, 38, 0.25)
-    LLM-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,LLM: Hallucination (wrong city)
+    Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
+    note over User,Model: Hallucination (wrong city)
     end
 </pre>
 </div>
@@ -339,7 +339,7 @@ sequenceDiagram
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The LLM generates the coordinates for <code>get_weather()</code> unchecked, and even though the tool returns correct data for Chicago, the LLM can still hallucinate when relaying the result, reporting the wrong city to the user.
+Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The AI model generates the coordinates for <code>get_weather()</code> unchecked, and even though the tool returns correct data for Chicago, the AI model can still hallucinate when relaying the result, reporting the wrong city to the user.
 </figcaption>
 </figure>
 </div>
@@ -349,17 +349,17 @@ Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The 
 <i class="callout-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>As explained in the <a href="./agents.html#sec-workflow">previous chapter</a>, we interpret the arrows in the diagram as part of the harness. The arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the LLM-generated tool call to the tool itself. (The harness, not the LLM, actually runs tools.) As we will see below, designing a trusted mini-agent is all about drawing the best arrows.</p>
+<p>As explained in the <a href="./agents.html#sec-workflow">previous chapter</a>, we interpret the arrows in the diagram as part of the harness. The arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the AI-generated tool call to the tool itself. (The harness, not the AI model, actually runs tools.) As we will see below, designing a trusted mini-agent is all about drawing the best arrows.</p>
 </div>
 </div>
 </div>
 </section>
 <section id="how-to-fix-the-weather-agent" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="how-to-fix-the-weather-agent"><span class="header-section-number">2.2</span> How to fix the weather agent</h2>
-<p>To control hallucinations in the weather agent, we do not try to improve our system prompt or choose a “better” LLM. That would be wishful thinking. Instead, we identify precisely where hallucinations can happen, and we engineer the <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> to eliminate those vulnerabilities.</p>
+<p>To control hallucinations in the weather agent, we do not try to improve our system prompt or choose a “better” AI model. That would be wishful thinking. Instead, we identify precisely where hallucinations can happen, and we engineer the <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> to eliminate those vulnerabilities.</p>
 <section id="fix-1-of-3-help-the-human-review-the-location." class="level3" data-number="2.2.1">
 <h3 data-number="2.2.1" class="anchored" data-anchor-id="fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</h3>
-<p>The AI-generated text of a tool call is a fallible LLM prediction. To control hallucinations in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort. In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in “get_weather(41.8, -87.6)”. Checking the raw coordinates of every tool call is simply too inconvenient for a human. Instead, we render an eye-catching interactive map with a pin in the location. That way, it becomes obvious to any human user whether the LLM chose the right place.</p>
+<p>The AI-generated text of a tool call is a fallible prediction from the AI model. To control hallucinations in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort. In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in “get_weather(41.8, -87.6)”. Checking the raw coordinates of every tool call is simply too inconvenient for a human. Instead, we render an eye-catching interactive map with a pin in the location. That way, it becomes obvious to any human user whether the AI model chose the right place.</p>
 <div id="fig-fix1" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fix1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -372,18 +372,18 @@ Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The 
 <pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
 sequenceDiagram
     participant User
-    participant LLM
+    participant Model
     participant Tool
 
-    User-&gt;&gt;LLM: What's the weather in Chicago?
+    User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(234, 179, 8, 0.25)
-    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over Model,Tool: ① Coordinates rendered as a map for review.
     end
-    Tool-&gt;&gt;LLM: {"temperature": 72, "weather": "Sunny"}
+    Tool-&gt;&gt;Model: {"temperature": 72, "weather": "Sunny"}
     rect rgba(220, 38, 38, 0.25)
-    LLM-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,LLM: Hallucination (wrong city)
+    Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
+    note over User,Model: Hallucination (wrong city)
     end
 </pre>
 </div>
@@ -407,9 +407,9 @@ Figure&nbsp;2.2: Sequence diagram showing Fix 1. The user asks “What’s the w
 </figure>
 </div>
 </section>
-<section id="fix-2-of-3-bypass-the-llm-to-report-the-weather." class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="fix-2-of-3-bypass-the-llm-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the LLM to report the weather.</h3>
-<p>We do not trust the LLM to describe NWS weather data, even if it’s just relaying data back to the user. Because it would require output from an LLM, even this simple task would be vulnerable to hallucinations. However, we do trust the NWS weather data itself. Instead of reading about the weather from the LLM, we should read it directly from the tool it comes from. We engineer the tool to bypass the LLM and return NWS weather data straight to the user interface.</p>
+<section id="fix-2-of-3-bypass-the-ai-model-to-report-the-weather." class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="fix-2-of-3-bypass-the-ai-model-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the AI model to report the weather.</h3>
+<p>We do not trust the AI model to describe NWS weather data, even if it’s just relaying data back to the user. Because it would require output from an AI model, even this simple task would be vulnerable to hallucinations. However, we do trust the NWS weather data itself. Instead of reading about the weather from the AI model, we should read it directly from the tool it comes from. We engineer the tool to bypass the AI model and return NWS weather data straight to the user interface.</p>
 <div id="fig-fix2" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -422,13 +422,13 @@ Figure&nbsp;2.2: Sequence diagram showing Fix 1. The user asks “What’s the w
 <pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
 sequenceDiagram
     participant User
-    participant LLM
+    participant Model
     participant Tool
 
-    User-&gt;&gt;LLM: What's the weather in Chicago?
+    User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(234, 179, 8, 0.25)
-    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over Model,Tool: ① Coordinates rendered as a map for review.
     end
     Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
 </pre>
@@ -448,14 +448,14 @@ sequenceDiagram
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Sequence diagram showing Fix 2. After the map confirms the location, <code>get_weather()</code> sends NWS weather data directly to the user interface instead of relaying it through the LLM. Bypassing the LLM for this step eliminates the risk of a hallucinated weather report.
+Figure&nbsp;2.3: Sequence diagram showing Fix 2. After the map confirms the location, <code>get_weather()</code> sends NWS weather data directly to the user interface instead of relaying it through the AI model. Bypassing the AI model for this step eliminates the risk of a hallucinated weather report.
 </figcaption>
 </figure>
 </div>
 </section>
 <section id="fix-3-of-3-never-bypass-the-get_weather-tool." class="level3" data-number="2.2.3">
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</h3>
-<p>Now, if the LLM chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the LLM decides to bypass <code>get_weather()</code> with a different tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for LLM hallucinations. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the LLM may hallucinate code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
+<p>Now, if the AI model chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the AI model decides to bypass <code>get_weather()</code> with a different tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for AI model hallucinations. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the AI model may hallucinate code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
 <div id="fig-fake-weather" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -467,13 +467,13 @@ Figure&nbsp;2.3: Sequence diagram showing Fix 2. After the map confirms the loca
 <pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
 sequenceDiagram
     participant User
-    participant LLM
+    participant Model
     participant Tool
 
-    User-&gt;&gt;LLM: What's the weather in Chicago?
+    User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(220, 38, 38, 0.25)
-    LLM-&gt;&gt;Tool: Write("fake_weather.sh")&lt;br&gt;Bash("fake_weather.sh")
-    note over LLM,Tool: Hallucination (bypasses get_weather())
+    Model-&gt;&gt;Tool: Write("fake_weather.sh")&lt;br&gt;Bash("fake_weather.sh")
+    note over Model,Tool: Hallucination (bypasses get_weather())
     end
     rect rgba(220, 38, 38, 0.25)
     Tool-&gt;&gt;User: {"temperature": -999, "weather": "Vortex"}
@@ -487,11 +487,11 @@ sequenceDiagram
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: Sequence diagram of a hallucination that bypasses <code>get_weather()</code> entirely. Instead of calling the trusted tool, the LLM writes and runs its own script to fabricate weather data, producing a result that looks legitimate but comes from an untrusted source.
+Figure&nbsp;2.4: Sequence diagram of a hallucination that bypasses <code>get_weather()</code> entirely. Instead of calling the trusted tool, the AI model writes and runs its own script to fabricate weather data, producing a result that looks legitimate but comes from an untrusted source.
 </figcaption>
 </figure>
 </div>
-<p>Trusted weather data must never come from the LLM, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
+<p>Trusted weather data must never come from the AI model, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
 <div id="fig-fix3" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -504,20 +504,20 @@ Figure&nbsp;2.4: Sequence diagram of a hallucination that bypasses <code>get_wea
 <pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
 sequenceDiagram
     participant User
-    participant LLM
+    participant Model
     participant Tool
 
-    User-&gt;&gt;LLM: What's the weather in Chicago?
+    User-&gt;&gt;Model: What's the weather in Chicago?
     rect rgba(234, 179, 8, 0.25)
-    LLM-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over LLM,Tool: ① Coordinates rendered as a map for review.
+    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
+    note over Model,Tool: ① Coordinates rendered as a map for review.
     end
     Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
     rect rgba(107, 114, 128, 0.2)
-    LLM--xUser: ✗ Do not trust LLM for weather data.
+    Model--xUser: ✗ Do not trust the model for weather data.
     end
     rect rgba(107, 114, 128, 0.2)
-    LLM--xTool: ✗ No other tool can produce weather data.
+    Model--xTool: ✗ No other tool can produce weather data.
     end
 </pre>
 </div>
@@ -536,7 +536,7 @@ sequenceDiagram
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code> sends NWS data directly to the user interface, no other tool besides <code>get_weather()</code> can produce weather data, and claims about weather data from the LLM are not trusted.
+Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code> sends NWS data directly to the user interface, no other tool besides <code>get_weather()</code> can produce weather data, and claims about weather data from the AI model are not trusted.
 </figcaption>
 </figure>
 </div>
@@ -557,7 +557,7 @@ Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code
 <div class="callout-body-container callout-body">
 <p>A <strong>trusted mini-agent</strong> is a least-privilege AI agent that engineers out hallucinations with the following three rules:</p>
 <ol type="1">
-<li><strong>Trusted tools directly produce all results.</strong> No result comes from the LLM. And for each type of result, there exists a tool to produce it.</li>
+<li><strong>Trusted tools directly produce all results.</strong> No result comes from the AI model. And for each type of result, there exists a tool to produce it.</li>
 <li><strong>Each result only comes from one trusted tool.</strong> No alternative tool can bypass the designated tool.</li>
 <li><strong>Inputs to trusted tools have trusted human oversight.</strong> The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.</li>
 </ol>
@@ -580,7 +580,7 @@ Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code
 <tbody>
 <tr class="odd">
 <td>1. Trusted tools directly produce all results.</td>
-<td>Bypass the LLM to report the weather.</td>
+<td>Bypass the AI model to report the weather.</td>
 <td></td>
 </tr>
 <tr class="even">
@@ -668,10 +668,10 @@ Figure&nbsp;2.6: Diagram illustrating a bijective function <span class="math inl
 flowchart LR
     subgraph AgentLoop["Agent Loop"]
         direction TB
-        LLM["LLM"]
+        Model["Model"]
         UT["Untrusted&lt;br&gt;Tools"]
-        LLM --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
-        UT --&gt; LLM
+        Model --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
+        UT --&gt; Model
     end
 
     HR["Human&lt;br&gt;Review"]
@@ -687,7 +687,7 @@ flowchart LR
     HR --&gt;|"Rejected Proposals"| AgentLoop
     HR --&gt;|"Reviewed Inputs"| TT
 
-    style LLM fill:#1F3A63,color:#ffffff,stroke:#1F3A63
+    style Model fill:#1F3A63,color:#ffffff,stroke:#1F3A63
     style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
     style HR fill:#166534,color:#ffffff,stroke:#166534
     style TT fill:#166534,color:#ffffff,stroke:#166534
@@ -702,19 +702,19 @@ flowchart LR
 </div>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.7: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the LLM and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
+Figure&nbsp;2.7: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the AI model and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
 </figcaption>
 </figure>
 </div>
-<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the LLM ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
-<p>Ultimately, the LLM proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the LLM frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
-<p>After a trusted system of review, the LLM-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.</p>
+<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the AI model ponders and delibererates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
+<p>Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the AI model frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for hallucinations, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
+<p>After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, hallucinated results are structurally impossible.</p>
 </section>
 <section id="when-trusted-mini-agents-are-useful" class="level2" data-number="2.6">
 <h2 data-number="2.6" class="anchored" data-anchor-id="when-trusted-mini-agents-are-useful"><span class="header-section-number">2.6</span> When trusted mini-agents are useful</h2>
-<p>Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the LLM where:</p>
+<p>Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the AI model where:</p>
 <ol type="1">
-<li>The LLM proposes solutions better than a human.</li>
+<li>The AI model proposes solutions better than a human.</li>
 <li>A human easily checks those solutions.</li>
 </ol>
 <p>No scenario is too small for a trusted mini-agent, and there are powerful opportunities in specific targeted problems. For example, there are powerful opportunities in clinical trial simulation, as discussed later in <a href="./simulation.html">Chapter 6</a>.</p>
@@ -732,7 +732,7 @@ Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building
 <section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn1"><p> The <a href="https://ellmer.tidyverse.org/articles/tool-calling.html#introduction">documentation of <code>ellmer</code></a> cautions against this sequence diagram because it draws a direct arrow from the LLM to the tool. As the <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> authors rightly emphasize, the LLM does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness (see the <a href="./agents.html#sec-workflow">previous chapter</a>). We do not imply that LLMs run tools. We only imply that the harness delivers the call from the LLM to the tool. This simplified framing helps us build trusted mini-agents.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p> The <a href="https://ellmer.tidyverse.org/articles/tool-calling.html#introduction">documentation of <code>ellmer</code></a> cautions against this sequence diagram because it draws a direct arrow from the AI model to the tool. As the <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> authors rightly emphasize, the AI model does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness (see the <a href="./agents.html#sec-workflow">previous chapter</a>). We do not imply that AI models run tools. We only imply that the harness delivers the call from the AI model to the tool. This simplified framing helps us build trusted mini-agents.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

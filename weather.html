@@ -251,8 +251,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <figcaption>Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.</figcaption>
 </figure>
 </div>
-<p>In the <code>shinychat</code> interface on the left, the user asks for the weather in a US city. The leaflet map in the middle lets the user easily check if the LLM-generated coordinates for the city are correct. Trustworthy weather data is displayed on the right.</p>
-<p>It is important to emphasize how the user interface separates the untrusted LLM conversation on the left from the trusted weather data on the right. The LLM-reported weather in the chat may be a hallucination, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
+<p>In the <code>shinychat</code> interface on the left, the user asks for the weather in a US city. The leaflet map in the middle lets the user easily check if the AI-generated coordinates for the city are correct. Trustworthy weather data is displayed on the right.</p>
+<p>It is important to emphasize how the user interface separates the untrusted conversation with the AI model on the left from the trusted weather data on the right. The AI-reported weather in the chat may be a hallucination, and the user should not rely on it. The weather data on the right, however, is trustworthy because:</p>
 <ol type="1">
 <li>We guarantee it comes from a trusted tool (<code>get_weather()</code>).</li>
 <li>The leaflet map in the middle is super easy to check, so we can be confident the app is checking the weather in the right place.</li>
@@ -267,12 +267,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-  subgraph Untrusted due to the LLM
+  subgraph Untrusted due to the model
     U["User input"] --&gt; C["shinychat UI"]
     C --&gt; U
     C --&gt; L[ellmer chat]
-    L --&gt; LLM
-    LLM --&gt; L
+    L --&gt; Model
+    Model --&gt; L
     L --&gt; C
   end
   subgraph Trusted due to testing
@@ -283,7 +283,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     RV --&gt; W["Weather data"]
   end
   subgraph Human oversight
-    RV --&gt; M["leaflet map of&lt;br&gt;LLM-generated lat and long"]
+    RV --&gt; M["leaflet map of&lt;br&gt;model-generated lat and long"]
   end
 </pre>
 </div>
@@ -291,9 +291,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the LLM. At its discretion, the LLM sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>get_weather(41.8, -87.6)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
-<p><code>get_weather()</code> is a function that accepts a pair of geographic coordinates and returns the location and its weather to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, <code>get_weather()</code> is the only thing that can write to those <code>reactiveValues()</code> slots.</strong> <strong>This constraint enforces rule 2 (injectivity) of trusted mini-agents.</strong> Neither the user nor the LLM can update those reactive values any other way.</p>
-<p>The leaflet map renders the coordinates the LLM picked, so the user can check whether the LLM’s resolution of their query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then hallucinated weather data is structurally impossible.</p>
+<p>The user enters a prompt into the <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> UI, and there is a flow of conversation between the user and the AI model. At its discretion, the AI model sends <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> the text for a tool call (e.g.&nbsp;<code>get_weather(41.8, -87.6)</code>), at which point <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> runs the tool call instead of simply relaying the text back to <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a>.</p>
+<p><code>get_weather()</code> is a function that accepts a pair of geographic coordinates and returns the location and its weather to a <a href="https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html"><code>reactiveValues()</code></a> list. <strong>Crucially, <code>get_weather()</code> is the only thing that can write to those <code>reactiveValues()</code> slots.</strong> <strong>This constraint enforces rule 2 (injectivity) of trusted mini-agents.</strong> Neither the user nor the AI model can update those reactive values any other way.</p>
+<p>The leaflet map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct. If the <code>get_weather()</code> tool is correct and the map points to the right location, then hallucinated weather data is structurally impossible.</p>
 </section>
 <section id="weather-api-function" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="weather-api-function"><span class="header-section-number">4.3</span> Weather API function</h2>
@@ -430,7 +430,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="leaflet-map" class="level2" data-number="4.5">
 <h2 data-number="4.5" class="anchored" data-anchor-id="leaflet-map"><span class="header-section-number">4.5</span> Leaflet map</h2>
-<p>The leaflet map helps the user check the correctness of LLM-generated location data. It accepts geographic coordinates and renders a map with a pin dropped at that location.</p>
+<p>The leaflet map helps the user check the correctness of AI-generated location data. It accepts geographic coordinates and renders a map with a pin dropped at that location.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' @title Build a leaflet map centered on a US location.</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @description Construct an OpenStreetMap-tiled `leaflet` widget centered</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#'   on the supplied latitude and longitude with a single marker dropped at</span></span>
@@ -835,7 +835,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>Click “Expect Shiny values”.</li>
-<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the LLM interaction, the tool calling and Shiny output. The LLM may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
+<li>Enter the prompt “Call get_weather(latitude = 40, longitude = -80), then be completely silent.” This tests the end-to-end flow of the AI model interaction, the tool calling and Shiny output. The AI model may hallucinate, but if it does, the test failure will be obvious and can simply be retried.</li>
 <li>If a pop-up prompts you to record updates, click “Record”.</li>
 <li>After the leaflet app and weather data table populate, click “Expect Shiny values” again. Your window should now look like this:</li>
 </ul>
@@ -851,7 +851,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This creates a test file in <code>tests/testthat/</code> and a snapshot in <code>tests/testthat/_snaps/</code>. Now, open the file in <code>tests/testthat/</code>. Edit the file to:</p>
 <ol type="1">
 <li>Set <code>MOCK_WEATHER</code> at the beginning of the test code.</li>
-<li>To avoid race conditions with LLM streaming, add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code>.</li>
+<li>To avoid race conditions with AI model streaming, add <code>app$wait_for_idle()</code> before each call to <code>app$expect_values()</code>.</li>
 </ol>
 <p>Example:</p>
 <div class="code-with-filename">
@@ -880,7 +880,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  app<span class="sc">$</span><span class="fu">expect_values</span>()</span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the LLM, but they can run without a browser in a noninteractive R session.</p>
+<p>To test the entire app, run <code>shinytest2::test_app()</code> from the root directory of the app. The tests require authentication into the AI model, but they can run without a browser in a noninteractive R session.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> shinytest2<span class="sc">::</span><span class="fu">test_app</span>()</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>Loading required package<span class="sc">:</span> testthat</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>✔ <span class="sc">|</span> F W  S  OK <span class="sc">|</span> Context</span>
