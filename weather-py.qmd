@@ -1,4 +1,5 @@
 ---
+author: "Sam Parmar"
 description: >
   A worked example that adds tools to the Python Shiny template, building a
   complete trusted mini-agent for checking city weather.

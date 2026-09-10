@@ -1,4 +1,5 @@
 ---
+author: "Will Landau"
 description: >
   The formal definition of a trusted mini-agent and its three core
   rules, grounded in the weather agent example and simple mathematical concepts.

@@ -1,4 +1,5 @@
 ---
+author: "Sam Parmar"
 description: >
   A reusable Shiny app template in Python for building trusted mini-agents
   with the chatlas package.

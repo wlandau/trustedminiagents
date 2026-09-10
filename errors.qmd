@@ -1,4 +1,5 @@
 ---
+author: "Will Landau"
 description: >
   How AI errors propagate through agent harnesses, shown by hardening
   an example weather agent against them.

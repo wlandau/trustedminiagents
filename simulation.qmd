@@ -1,4 +1,5 @@
 ---
+author: "Will Landau"
 description: >
   A worked example of a trusted mini-agent for clinical trial simulation,
   turning natural-language trial descriptions into human-reviewed designs.

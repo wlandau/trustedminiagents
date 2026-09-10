@@ -1,4 +1,5 @@
 ---
+author: "Will Landau"
 description: >
   A reusable Shiny app template in R for building trusted mini-agents
   with the ellmer package.
