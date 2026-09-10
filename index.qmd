@@ -90,7 +90,7 @@ Conditional on good inputs, AI-generated errors in the results are structurally 
 ## Who this is for
 
 This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work.
-Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny or Python and Shiny for Python.
+Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python.
 No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](https://posit-dev.github.io/chatlas/), or [`shinychat`](https://posit-dev.github.io/shinychat/) is necessary.
 
 ## Contents
