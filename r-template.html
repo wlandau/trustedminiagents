@@ -399,7 +399,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(<span class="sc">!!!</span>input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -433,7 +433,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>()</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(<span class="sc">!!!</span>input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>}</span>

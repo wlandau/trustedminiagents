@@ -779,7 +779,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">delayedAssign</span>(<span class="at">x =</span> <span class="st">"chat"</span>, <span class="at">value =</span> <span class="fu">new_chat</span>(values))</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(<span class="sc">!!!</span>input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>scenarios <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderTable</span>({</span>
@@ -1157,7 +1157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-361"><a href="#cb9-361" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb9-362"><a href="#cb9-362" aria-hidden="true" tabindex="-1"></a>  <span class="fu">delayedAssign</span>(<span class="at">x =</span> <span class="st">"chat"</span>, <span class="at">value =</span> <span class="fu">new_chat</span>(values))</span>
 <span id="cb9-363"><a href="#cb9-363" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
+<span id="cb9-364"><a href="#cb9-364" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(<span class="sc">!!!</span>input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
 <span id="cb9-365"><a href="#cb9-365" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
 <span id="cb9-366"><a href="#cb9-366" aria-hidden="true" tabindex="-1"></a>  })</span>
 <span id="cb9-367"><a href="#cb9-367" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>scenarios <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">renderTable</span>({</span>
