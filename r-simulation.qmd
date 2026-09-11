@@ -514,7 +514,7 @@ server <- function(input, output, session) {
   )
   delayedAssign(x = "chat", value = new_chat(values))
   shiny::observeEvent(input$chat_user_input, {
-    stream <- chat$stream_async(input$chat_user_input, stream = "content")
+    stream <- chat$stream_async(!!!input$chat_user_input, stream = "content")
     shinychat::chat_append("chat", stream)
   })
   output$scenarios <- shiny::renderTable({
@@ -894,7 +894,7 @@ server <- function(input, output, session) {
   )
   delayedAssign(x = "chat", value = new_chat(values))
   shiny::observeEvent(input$chat_user_input, {
-    stream <- chat$stream_async(input$chat_user_input, stream = "content")
+    stream <- chat$stream_async(!!!input$chat_user_input, stream = "content")
     shinychat::chat_append("chat", stream)
   })
   output$scenarios <- shiny::renderTable({
