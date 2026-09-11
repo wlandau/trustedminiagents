@@ -1,13 +1,13 @@
 ---
 author: "Will Landau"
 description: >
-  A worked example that adds tools to the Shiny template, building a
+  A worked example that adds tools to the R Shiny template, building a
   complete trusted mini-agent for checking city weather.
 ---
 
 # Example: weather agent {#sec-weather}
 
-This chapter builds on the template in [the previous chapter](template.qmd) and shows how to add tools to a trusted mini-agent in a Shiny app.
+This chapter builds on the template in [the previous chapter](r-template.qmd) and shows how to add tools to a trusted mini-agent in a Shiny app.
 We use the weather agent example from [Chapter 2](errors.qmd) to make the discussion concrete.
 By the end of the chapter, we will have a full working example of a trusted mini-agent.
 

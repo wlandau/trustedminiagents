@@ -37,13 +37,13 @@ book:
         - definition.qmd
     - part: "Implementation in R"
       chapters:
-        - template.qmd
-        - weather.qmd
-        - simulation.qmd
+        - r-template.qmd
+        - r-weather.qmd
+        - r-simulation.qmd
     - part: "Implementation in Python"
       chapters:
-        - template-py.qmd
-        - weather-py.qmd
+        - py-template.qmd
+        - py-weather.qmd
   appendices:
     - examples.qmd
 
