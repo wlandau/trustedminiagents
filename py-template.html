@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Will Landau">
-<meta name="description" content="How AI errors propagate through agent harnesses, shown by hardening an example weather agent against them.">
+<meta name="author" content="Sam Parmar">
+<meta name="description" content="A reusable Shiny app template in Python for building trusted mini-agents with the chatlas package.">
 
-<title>2&nbsp; AI errors – Trusted Mini-Agents</title>
+<title>7&nbsp; Agent template – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -28,26 +28,42 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -57,8 +73,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./definition.html" rel="next">
-<link href="./agents.html" rel="prev">
+<link href="./py-weather.html" rel="next">
+<link href="./r-simulation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -96,26 +112,22 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="2&nbsp; AI errors – Trusted Mini-Agents">
+<meta property="og:title" content="7&nbsp; Agent template – Trusted Mini-Agents">
 <meta property="og:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta property="og:image" content="https://trustedminiagents.dev/images/errors/leaflet.png">
+<meta property="og:image" content="https://trustedminiagents.dev/images/social/og.png">
 <meta property="og:site_name" content="Trusted Mini-Agents">
-<meta property="og:image:height" content="324">
-<meta property="og:image:width" content="223">
-<meta name="twitter:title" content="2&nbsp; AI errors – Trusted Mini-Agents">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:width" content="2400">
+<meta name="twitter:title" content="7&nbsp; Agent template – Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta name="twitter:image" content="https://trustedminiagents.dev/images/errors/leaflet.png">
-<meta name="twitter:image-height" content="324">
-<meta name="twitter:image-width" content="223">
+<meta name="twitter:image" content="https://trustedminiagents.dev/images/social/og.png">
+<meta name="twitter:image-height" content="1260">
+<meta name="twitter:image-width" content="2400">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://trustedminiagents.dev/errors.html">
+<link rel="canonical" href="https://trustedminiagents.dev/py-template.html">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -127,7 +139,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./errors.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./py-template.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./py-template.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -182,7 +194,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./errors.html" class="sidebar-item-text sidebar-link active">
+  <a href="./errors.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span></a>
   </div>
 </li>
@@ -234,7 +246,7 @@ div.csl-indent {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./py-template.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-template.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
@@ -273,23 +285,24 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#agents-are-vulnerable-to-ai-errors." id="toc-agents-are-vulnerable-to-ai-errors." class="nav-link active" data-scroll-target="#agents-are-vulnerable-to-ai-errors."><span class="header-section-number">2.1</span> Agents are vulnerable to AI errors.</a></li>
-  <li><a href="#how-to-fix-the-weather-agent" id="toc-how-to-fix-the-weather-agent" class="nav-link" data-scroll-target="#how-to-fix-the-weather-agent"><span class="header-section-number">2.2</span> How to fix the weather agent</a>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">7.1</span> Prerequisites</a></li>
+  <li><a href="#the-template-app" id="toc-the-template-app" class="nav-link" data-scroll-target="#the-template-app"><span class="header-section-number">7.2</span> The template app</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">7.3</span> Implementation</a>
   <ul class="collapse">
-  <li><a href="#fix-1-of-3-help-the-human-review-the-location." id="toc-fix-1-of-3-help-the-human-review-the-location." class="nav-link" data-scroll-target="#fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</a></li>
-  <li><a href="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather." id="toc-fix-2-of-3-bypass-the-ai-model-to-report-the-weather." class="nav-link" data-scroll-target="#fix-2-of-3-bypass-the-ai-model-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the AI model to report the weather.</a></li>
-  <li><a href="#fix-3-of-3-never-bypass-the-get_weather-tool." id="toc-fix-3-of-3-never-bypass-the-get_weather-tool." class="nav-link" data-scroll-target="#fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</a></li>
+  <li><a href="#chat-client" id="toc-chat-client" class="nav-link" data-scroll-target="#chat-client"><span class="header-section-number">7.3.1</span> Chat client</a></li>
+  <li><a href="#shiny-ui" id="toc-shiny-ui" class="nav-link" data-scroll-target="#shiny-ui"><span class="header-section-number">7.3.2</span> Shiny UI</a></li>
+  <li><a href="#shiny-server-function" id="toc-shiny-server-function" class="nav-link" data-scroll-target="#shiny-server-function"><span class="header-section-number">7.3.3</span> Shiny server function</a></li>
+  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">7.3.4</span> Full app code</a></li>
   </ul></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">2.3</span> References</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/errors.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/py-template.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./errors.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./py-template.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./py-template.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-errors" class="quarto-section-identifier"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span></h1>
+<h1 class="title"><span id="sec-template-py" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></h1>
 </div>
 
 
@@ -299,7 +312,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Will Landau </p>
+             <p>Sam Parmar </p>
           </div>
   </div>
     
@@ -312,275 +325,151 @@ div.csl-indent {
 </header>
 
 
-<p>This chapter explores the downstream consequences of AI errors in agent harnesses, and it shows how to harden an example weather agent against such errors. The intuition from this chapter motivates the formal definition of a trusted mini-agent in the <a href="./definition.html">next chapter</a>.</p>
-<section id="agents-are-vulnerable-to-ai-errors." class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="agents-are-vulnerable-to-ai-errors."><span class="header-section-number">2.1</span> Agents are vulnerable to AI errors.</h2>
-<blockquote class="blockquote">
-<p>“All models are wrong, but some are useful.”</p>
-<p>— <span class="citation" data-cites="box1987">Box and Draper (<a href="#ref-box1987" role="doc-biblioref">1987</a>)</span></p>
-</blockquote>
-<p>Remember: an AI model has less-than-perfect prediction accuracy. AI models are fallible in ways that no amount of prompt engineering or context design can fully prevent. At any time for any reason, they may fabricate facts, misinterpret user intent, frame a problem misleadingly, omit critical details, or outright <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinate</a>. Prompt engineering and <a href="https://agentskills.io">skill creation</a> can never eliminate AI errors entirely. The choice of prompt and model improves convenience, but it cannot guarantee correctness.</p>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>Prompts, skills, and models are about <em>convenience</em>, not correctness.</p>
-</div>
-</div>
-</div>
-<p>For example, consider a simple weather agent.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> The agent has a single <code>get_weather()</code> tool, which scrapes the National Weather Service (NWS) API for real weather data. The agent elicits a location from the user, calls <code>get_weather()</code> to get the weather at that location, returns the result to the AI model, and relays the AI model’s response back to the user. Even though <code>get_weather()</code> gives the agent access to reliable data, errors can still happen through the AI model.</p>
-<div id="fig-weather-vulnerable" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(220, 38, 38, 0.25)
-    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over Model,Tool: Vulnerable (AI-generated coordinates)
-    end
-    Tool-&gt;&gt;Model: {"temperature": 72, "weather": "Sunny"}
-    rect rgba(220, 38, 38, 0.25)
-    Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,Model: AI error (wrong city)
-    end
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-vulnerable-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.1: Sequence diagram of the weather agent’s vulnerabilities. The AI model generates the coordinates for <code>get_weather()</code> unchecked, and even though the tool returns correct data for Chicago, the AI model can still produce errors when relaying the result, reporting the wrong city to the user.
-</figcaption>
-</figure>
-</div>
-<div class="callout callout-style-simple callout-tip">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-body-container">
-<p>As explained in the <a href="./agents.html#sec-workflow">previous chapter</a>, we interpret the arrows in the diagram as part of the harness. The arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the AI-generated tool call to the tool itself. (The harness, not the AI model, actually runs tools.) As we will see below, designing a trusted mini-agent is all about drawing the best arrows.</p>
-</div>
-</div>
-</div>
+<p>Web applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a <a href="https://shiny.posit.co/py/">Shiny for Python</a> app. Users can begin with this template and add their own <a href="https://posit-dev.github.io/chatlas/get-started/tools.html"><code>chatlas</code> tools</a> to create a trusted mini-agent that fits their needs. <a href="./py-weather.html">The next chapter</a> covers tools.</p>
+<p>This chapter mirrors <a href="./r-template.html">the R template</a>, substituting Python equivalents of the same packages.</p>
+<section id="prerequisites" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">7.1</span> Prerequisites</h2>
+<p>At minimum, we use these Python packages to implement Shiny-based trusted mini-agents.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a></td>
+<td>AI model chat client with tool registration and streaming.</td>
+</tr>
+<tr class="even">
+<td><a href="https://posit-dev.github.io/shinychat/py/"><code>shinychat</code></a></td>
+<td>Drop-in chat UI for Shiny that binds to a <code>chatlas</code> chat client.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://shiny.posit.co/py/"><code>shiny</code></a></td>
+<td>Web application framework. Bundles Bootstrap-based UI components (<code>page_sidebar</code>, cards, layouts) by default, so no separate theming package like <code>bslib</code> is required.</td>
+</tr>
+<tr class="even">
+<td><a href="https://pypi.org/project/python-dotenv/"><code>python-dotenv</code></a></td>
+<td>Loads credentials such as <code>ANTHROPIC_API_KEY</code> from a local <code>.env</code> file into the environment, so API keys never appear in source code.</td>
+</tr>
+</tbody>
+</table>
 </section>
-<section id="how-to-fix-the-weather-agent" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="how-to-fix-the-weather-agent"><span class="header-section-number">2.2</span> How to fix the weather agent</h2>
-<p>To control AI errors in the weather agent, we do not try to improve our system prompt or choose a “better” AI model. That would be wishful thinking. Instead, we identify precisely where errors can happen, and we engineer the <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> to eliminate those vulnerabilities.</p>
-<section id="fix-1-of-3-help-the-human-review-the-location." class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="fix-1-of-3-help-the-human-review-the-location."><span class="header-section-number">2.2.1</span> Fix 1 of 3: Help the human review the location.</h3>
-<p>The AI-generated text of a tool call is a fallible prediction from the AI model. To control errors in tool calls, we need to build in human oversight while acknowledging the limitations of human attention and effort. In the case of the weather agent, most human users will not bother to check the longitude and latitude numbers in “get_weather(41.8, -87.6)”. Checking the raw coordinates of every tool call is simply too inconvenient for a human. Instead, we render an eye-catching interactive map with a pin in the location. That way, it becomes obvious to any human user whether the AI model chose the right place.</p>
-<div id="fig-fix1" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fix1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(234, 179, 8, 0.25)
-    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over Model,Tool: ① Coordinates rendered as a map for review.
-    end
-    Tool-&gt;&gt;Model: {"temperature": 72, "weather": "Sunny"}
-    rect rgba(220, 38, 38, 0.25)
-    Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,Model: AI error (wrong city)
-    end
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/errors/leaflet.png" class="img-fluid figure-img"></p>
-<figcaption>① Reviewer sees this map.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.2: Sequence diagram showing Fix 1. The user asks “What’s the weather in Chicago?” and an interactive map of Chicago with a pin is displayed for human review before calling get_weather(lat = 41.8, long = -87.6). The map helps the user verify the location input.
-</figcaption>
-</figure>
-</div>
+<section id="the-template-app" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="the-template-app"><span class="header-section-number">7.2</span> The template app</h2>
+<p>The app has a simple interface: a sidebar with the untrusted AI chat, a card where humans review AI-generated tool inputs, and a card for trusted results. This is the same three-region layout as <a href="./r-template.html#the-template-app">the R template</a>, just implemented with Shiny for Python’s built-in UI components.</p>
+<p>It is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.</p>
 </section>
-<section id="fix-2-of-3-bypass-the-ai-model-to-report-the-weather." class="level3" data-number="2.2.2">
-<h3 data-number="2.2.2" class="anchored" data-anchor-id="fix-2-of-3-bypass-the-ai-model-to-report-the-weather."><span class="header-section-number">2.2.2</span> Fix 2 of 3: Bypass the AI model to report the weather.</h3>
-<p>We do not trust the AI model to describe NWS weather data, even if it’s just relaying data back to the user. Because it would require output from an AI model, even this simple task would be vulnerable to AI errors. However, we do trust the NWS weather data itself. Instead of reading about the weather from the AI model, we should read it directly from the tool it comes from. We engineer the tool to bypass the AI model and return NWS weather data straight to the user interface.</p>
-<div id="fig-fix2" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(234, 179, 8, 0.25)
-    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over Model,Tool: ① Coordinates rendered as a map for review.
-    end
-    Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
-</pre>
+<section id="implementation" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="implementation"><span class="header-section-number">7.3</span> Implementation</h2>
+<p>We separately consider the <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a> chat client, Shiny UI, and Shiny server function.</p>
+<section id="chat-client" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="chat-client"><span class="header-section-number">7.3.1</span> Chat client</h3>
+<p>In <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a>, the chat client brokers communication with the AI model, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat client supports no tools by default, so each tool must be explicitly registered (see <a href="./py-weather.html">the next chapter</a>).</p>
+<p>For convenience, we create a separate constructor function for the <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a> chat client. This compartmentalization will be useful when we add <a href="./py-weather.html">tools</a> and complicated system prompts.</p>
+<p>We use <a href="https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html"><code>ChatAnthropic()</code></a> in this example, but any <a href="https://posit-dev.github.io/chatlas/reference/index.html#chat-model-providers">chat client</a> will do.</p>
+<p><code>ChatAnthropic()</code> reads the <code>ANTHROPIC_API_KEY</code> environment variable automatically, so the API key never needs to appear in source code. Following <a href="https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html#note"><code>chatlas</code>’s recommended pattern</a>, we keep the key in a local <code>.env</code> file (excluded from version control) and load it with <a href="https://pypi.org/project/python-dotenv/"><code>python-dotenv</code></a>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>.env</strong></pre>
 </div>
-<p></p></figure><p></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename=".env"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">ANTHROPIC_API_KEY</span><span class="op">=</span>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/errors/leaflet.png" class="img-fluid figure-img"></p>
-<figcaption>① Reviewer sees this map.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.3: Sequence diagram showing Fix 2. After the map confirms the location, <code>get_weather()</code> sends NWS weather data directly to the user interface instead of relaying it through the AI model. Bypassing the AI model for this step eliminates the risk of an erroneous weather report.
-</figcaption>
-</figure>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatAnthropic</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> new_chat():</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ChatAnthropic(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        system_prompt<span class="op">=</span><span class="st">"You are a friendly, concise assistant."</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="fix-3-of-3-never-bypass-the-get_weather-tool." class="level3" data-number="2.2.3">
-<h3 data-number="2.2.3" class="anchored" data-anchor-id="fix-3-of-3-never-bypass-the-get_weather-tool."><span class="header-section-number">2.2.3</span> Fix 3 of 3: Never bypass the <code>get_weather()</code> tool.</h3>
-<p>Now, if the AI model chooses to call <code>get_weather()</code>, then we can trust the weather data we see. But what if the AI model decides to bypass <code>get_weather()</code> with a different tool? An agent like <a href="https://code.claude.com/">Claude Code</a> may have <a href="https://code.claude.com/docs/en/tools-reference">dozens of tools</a>, including tools to write and execute arbitrary code. Such general-purpose tools may compete with our weather tool and create a backdoor for AI errors. For example, if our weather agent has <a href="https://code.claude.com/">Claude Code</a>’s <code>Write()</code> and <code>Bash()</code> tools, then the AI model may produce erroneous code to fake the data instead of calling our trusted <code>get_weather()</code> tool.</p>
-<div id="fig-fake-weather" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(220, 38, 38, 0.25)
-    Model-&gt;&gt;Tool: Write("fake_weather.sh")&lt;br&gt;Bash("fake_weather.sh")
-    note over Model,Tool: AI error (bypasses get_weather())
-    end
-    rect rgba(220, 38, 38, 0.25)
-    Tool-&gt;&gt;User: {"temperature": -999, "weather": "Vortex"}
-    note over Tool,User: Fake data
-    end
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fake-weather-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.4: Sequence diagram of an AI error that bypasses <code>get_weather()</code> entirely. Instead of calling the trusted tool, the AI model writes and runs its own script to fabricate weather data, producing a result that looks legitimate but comes from an untrusted source.
-</figcaption>
-</figure>
-</div>
-<p>Trusted weather data must never come from the AI model, and it must never come from untrusted tools. We engineer the user interface so that it only ever shows weather data from <code>get_weather()</code>.</p>
-<div id="fig-fix3" class="quarto-layout-panel">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="quarto-layout-row quarto-layout-valign-center">
-<div class="cell quarto-layout-cell" style="flex-basis: 70.0%;justify-content: flex-start;">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(234, 179, 8, 0.25)
-    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    note over Model,Tool: ① Coordinates rendered as a map for review.
-    end
-    Tool-&gt;&gt;User: {"temperature": 72, "weather": "Sunny"}
-    rect rgba(107, 114, 128, 0.2)
-    Model--xUser: ✗ Do not trust the model for weather data.
-    end
-    rect rgba(107, 114, 128, 0.2)
-    Model--xTool: ✗ No other tool can produce weather data.
-    end
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-<div class="quarto-layout-cell" style="flex-basis: 30.0%;justify-content: flex-start;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/errors/leaflet.png" class="img-fluid figure-img"></p>
-<figcaption>① Reviewer sees this map.</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fix3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2.5: Sequence diagram showing Fix 3. After <code>get_weather()</code> sends NWS data directly to the user interface, no other tool besides <code>get_weather()</code> can produce weather data, and claims about weather data from the AI model are not trusted.
-</figcaption>
-</figure>
-</div>
+<section id="shiny-ui" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">7.3.2</span> Shiny UI</h3>
+<p>In a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results. That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> ui</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> chat_ui</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        chat_ui(<span class="st">"chat"</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ui.layout_columns(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Trusted results go here."</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Trusted mini-agent template"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+<section id="shiny-server-function" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="shiny-server-function"><span class="header-section-number">7.3.3</span> Shiny server function</h3>
+<p>In the Shiny server, we register a handler that watches for user prompts from the <code>shinychat</code> interface and streams the AI model’s reply back into the UI token-by-token.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> Chat</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    client <span class="op">=</span> new_chat()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    chat <span class="op">=</span> Chat(<span class="st">"chat"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@chat.on_user_submit</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> handle_user_input(user_input: <span class="bu">str</span>):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.stream_async(user_input)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> chat.append_message_stream(response)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="references" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="references"><span class="header-section-number">2.3</span> References</h2>
+<section id="full-app-code" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">7.3.4</span> Full app code</h3>
+<p>This <code>app.py</code> script is a blank template to help you begin implementing your own trusted mini-agent.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.py</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="app.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatAnthropic</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> Chat, chat_ui</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> new_chat():</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ChatAnthropic(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        system_prompt<span class="op">=</span><span class="st">"You are a friendly, concise assistant."</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        chat_ui(<span class="st">"chat"</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    ui.layout_columns(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Trusted results go here."</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Trusted mini-agent template"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    client <span class="op">=</span> new_chat()</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    chat <span class="op">=</span> Chat(<span class="st">"chat"</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">@chat.on_user_submit</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> handle_user_input(user_input: <span class="bu">str</span>):</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.stream_async(user_input)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> chat.append_message_stream(response)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-box1987" class="csl-entry" role="listitem">
-Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building and Response Surfaces</em>. Wiley Series in Probability and Mathematical Statistics. Wiley.
-</div>
-</div>
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p> The <a href="https://ellmer.tidyverse.org/articles/tool-calling.html#introduction">documentation of <code>ellmer</code></a> cautions against this sequence diagram because it draws a direct arrow from the AI model to the tool. As the <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> authors rightly emphasize, the AI model does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness (see the <a href="./agents.html#sec-workflow">previous chapter</a>). We do not imply that AI models run tools. We only imply that the harness delivers the call from the AI model to the tool. This simplified framing helps us build trusted mini-agents.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -986,13 +875,13 @@ Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./agents.html" class="pagination-link" aria-label="Deconstructing agents">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></span>
+      <a href="./r-simulation.html" class="pagination-link" aria-label="Example: simulation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./definition.html" class="pagination-link" aria-label="The formal definition">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./py-weather.html" class="pagination-link" aria-label="Example: weather agent">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1004,7 +893,7 @@ Box, George E. P., and Norman Richard Draper. 1987. <em>Empirical Model-Building
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/errors.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/py-template.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

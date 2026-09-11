@@ -73,7 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./template-py.html" rel="prev">
+<link href="./examples.html" rel="next">
+<link href="./py-template.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -120,17 +121,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="8&nbsp; Example: weather agent – Trusted Mini-Agents">
 <meta property="og:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta property="og:image" content="https://trustedminiagents.dev/images/weather/app.png">
+<meta property="og:image" content="https://trustedminiagents.dev/images/py-weather/app.png">
 <meta property="og:site_name" content="Trusted Mini-Agents">
 <meta property="og:image:height" content="524">
 <meta property="og:image:width" content="1245">
 <meta name="twitter:title" content="8&nbsp; Example: weather agent – Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta name="twitter:image" content="https://trustedminiagents.dev/images/weather/app.png">
+<meta name="twitter:image" content="https://trustedminiagents.dev/images/py-weather/app.png">
 <meta name="twitter:image-height" content="524">
 <meta name="twitter:image-width" content="1245">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://trustedminiagents.dev/weather-py.html">
+<link rel="canonical" href="https://trustedminiagents.dev/py-weather.html">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -142,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template-py.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./weather-py.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./py-template.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./py-weather.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -220,19 +221,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-weather.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simulation.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-simulation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
@@ -249,14 +250,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather-py.html" class="sidebar-item-text sidebar-link active">
+  <a href="./py-weather.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></span></a>
   </div>
 </li>
       </ul>
@@ -282,12 +300,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#complete-app-code" id="toc-complete-app-code" class="nav-link" data-scroll-target="#complete-app-code"><span class="header-section-number">8.9</span> Complete app code</a></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">8.10</span> Testing</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/weather-py.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/py-weather.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template-py.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./weather-py.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./py-template.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./py-weather.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-weather-py" class="quarto-section-identifier"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></h1>
 </div>
@@ -312,13 +330,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This chapter builds on the template in <a href="./template-py.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny for Python app. We use the same weather agent idea as <a href="./weather.html">the R version of this chapter</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent, implemented entirely in Python.</p>
+<p>This chapter builds on the template in <a href="./py-template.html">the previous chapter</a> and shows how to add tools to a trusted mini-agent in a Shiny for Python app. We use the same weather agent idea as <a href="./r-weather.html">the R version of this chapter</a> to make the discussion concrete. By the end of the chapter, we will have a full working example of a trusted mini-agent, implemented entirely in Python.</p>
 <section id="overview" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="overview"><span class="header-section-number">8.1</span> Overview</h2>
 <p>This is the appearance of the app we will build.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/weather/app.png" class="img-fluid figure-img"></p>
+<p><img src="./images/py-weather/app.png" class="img-fluid figure-img"></p>
 <figcaption>Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.</figcaption>
 </figure>
 </div>
@@ -331,7 +349,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="app-design" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="app-design"><span class="header-section-number">8.2</span> App design</h2>
-<p>The following diagram demonstrates the flow of control in the weather app we are about to build. It is the same trust structure as <a href="./weather.html#app-design">the R weather agent</a>, just with Python components.</p>
+<p>The following diagram demonstrates the flow of control in the weather app we are about to build. It is the same trust structure as <a href="./r-weather.html#app-design">the R weather agent</a>, just with Python components.</p>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -1281,11 +1299,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./template-py.html" class="pagination-link" aria-label="Agent template">
+      <a href="./py-template.html" class="pagination-link" aria-label="Agent template">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./examples.html" class="pagination-link" aria-label="External examples">
+        <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -1296,7 +1317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/weather-py.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/py-weather.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

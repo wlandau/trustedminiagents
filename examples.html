@@ -7,9 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
-<meta name="description" content="A reusable Shiny app template in R for building trusted mini-agents with the ellmer package.">
+<meta name="description" content="External projects that borrow trusted mini-agent principles">
 
-<title>4&nbsp; Agent template – Trusted Mini-Agents</title>
+<title>Appendix A — External examples – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -28,41 +28,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -73,8 +38,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./weather.html" rel="next">
-<link href="./definition.html" rel="prev">
+<link href="./py-weather.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -115,19 +79,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="4&nbsp; Agent template – Trusted Mini-Agents">
+<meta property="og:title" content="Appendix A — External examples – Trusted Mini-Agents">
 <meta property="og:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta property="og:image" content="https://trustedminiagents.dev/images/template/app.png">
+<meta property="og:image" content="https://trustedminiagents.dev/images/social/og.png">
 <meta property="og:site_name" content="Trusted Mini-Agents">
-<meta property="og:image:height" content="403">
-<meta property="og:image:width" content="1219">
-<meta name="twitter:title" content="4&nbsp; Agent template – Trusted Mini-Agents">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:width" content="2400">
+<meta name="twitter:title" content="Appendix A — External examples – Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta name="twitter:image" content="https://trustedminiagents.dev/images/template/app.png">
-<meta name="twitter:image-height" content="403">
-<meta name="twitter:image-width" content="1219">
+<meta name="twitter:image" content="https://trustedminiagents.dev/images/social/og.png">
+<meta name="twitter:image-height" content="1260">
+<meta name="twitter:image-width" content="2400">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://trustedminiagents.dev/template.html">
+<link rel="canonical" href="https://trustedminiagents.dev/examples.html">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -139,7 +103,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./template.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./examples.html">Appendices</a></li><li class="breadcrumb-item"><a href="./examples.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -217,19 +181,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template.html" class="sidebar-item-text sidebar-link active">
+  <a href="./r-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-weather.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simulation.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-simulation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
@@ -246,14 +210,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-weather.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./examples.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></span></a>
   </div>
 </li>
       </ul>
@@ -263,29 +244,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">4.1</span> Prerequisites</a></li>
-  <li><a href="#the-template-app" id="toc-the-template-app" class="nav-link" data-scroll-target="#the-template-app"><span class="header-section-number">4.2</span> The template app</a></li>
-  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">4.3</span> Implementation</a>
-  <ul class="collapse">
-  <li><a href="#chat-object" id="toc-chat-object" class="nav-link" data-scroll-target="#chat-object"><span class="header-section-number">4.3.1</span> Chat object</a></li>
-  <li><a href="#shiny-ui" id="toc-shiny-ui" class="nav-link" data-scroll-target="#shiny-ui"><span class="header-section-number">4.3.2</span> Shiny UI</a></li>
-  <li><a href="#shiny-server-function" id="toc-shiny-server-function" class="nav-link" data-scroll-target="#shiny-server-function"><span class="header-section-number">4.3.3</span> Shiny server function</a></li>
-  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">4.3.4</span> Full app code</a></li>
-  </ul></li>
-  </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/template.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./template.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./examples.html">Appendices</a></li><li class="breadcrumb-item"><a href="./examples.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-template" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></span></h1>
+<h1 class="title"><span id="sec-examples" class="quarto-section-identifier">Appendix A — External examples</span></h1>
 </div>
 
 
@@ -308,125 +275,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>Web applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a <a href="https://shiny.posit.co">Shiny</a> app in R. Users can begin with this template and add their own <a href="https://ellmer.tidyverse.org/reference/tool.html"><code>ellmer</code> tools</a> to create a trusted mini-agent that fits their needs. <a href="./weather.html">The next chapter</a> covers tools.</p>
-<section id="prerequisites" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">4.1</span> Prerequisites</h2>
-<p>At minimum, we use these R packages to implement Shiny-based trusted mini-agents.</p>
+<p>The following table lists examples of external projects that borrow trusted mini-agent principles.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 45%">
+<col style="width: 35%">
+</colgroup>
 <thead>
 <tr class="header">
-<th>Package</th>
-<th>Role</th>
+<th>Project</th>
+<th>Description</th>
+<th>Trust</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a></td>
-<td>AI model chat client with tool registration and streaming.</td>
+<td><a href="https://github.com/posit-dev/clinical-trials-agent">Clinical Trials Agent</a></td>
+<td>A <code>commons</code> agent for clinical trial reporting. It answers questions about a simulated study’s safety, disposition, exposure, demographics, and laboratory results over synthetic <a href="https://www.cdisc.org/standards/foundational/adam">CDISC ADaM</a> datasets. The agent’s trusted calculations reproduce recipes from the <a href="https://github.com/insightsengineering/tlg-catalog">NEST TLG Catalog</a>, and each one pins the exact catalog file and commit it came from, so a reviewer can trace a table back to a published standard. Graphs are rendered by trusted calculations rather than described by the AI model. Questions outside that coverage fall back to governed SQL.</td>
+<td>Inherits the <code>commons</code> model (see below), which bends trusted mini-agent rules 1 and 2 but is transparent about the level of trust in each result.</td>
 </tr>
 <tr class="even">
-<td><a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a></td>
-<td>Drop-in chat UI for Shiny that binds to an <code>ellmer</code> chat object.</td>
-</tr>
-<tr class="odd">
-<td><a href="https://rstudio.github.io/bslib/"><code>bslib</code></a></td>
-<td>Bootstrap-based interface elements such as <code>page_sidebar</code> and theming.</td>
+<td><a href="https://github.com/posit-dev/commons"><code>commons</code></a></td>
+<td>An R and Python package for building self-service data agents. Its premise is that data teams already own trusted code, and that an agent gets more accurate by running that code instead of writing its own. The agent first searches a <em>semantic layer</em> of trusted calculations, and it writes custom SQL or R only when it finds nothing relevant.</td>
+<td>When it bypasses trusted calculations in the semantic layer, <code>commons</code> bends rules 1 and 2 of trusted mini-agents. But rule 3 (human oversight) is strong because <code>commons</code> is transparent about the level of trust behind every calculation.</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="the-template-app" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="the-template-app"><span class="header-section-number">4.2</span> The template app</h2>
-<p>The app has a simple interface: a sidebar with the untrusted AI chat, a <code>bslib</code> card where humans review AI-generated tool inputs, and a <code>bslib</code> card for trusted results.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/template/app.png" class="img-fluid figure-img"></p>
-<figcaption>Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled “do not trust any AI output here!” with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled “Humans review AI-generated tool inputs here” and another labeled “Trusted results go here,” illustrating the three-region layout of trust zones.</figcaption>
-</figure>
-</div>
-<p>It is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.</p>
-</section>
-<section id="implementation" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="implementation"><span class="header-section-number">4.3</span> Implementation</h2>
-<p>We separately consider the <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> chat object, Shiny UI, and Shiny server function.</p>
-<section id="chat-object" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="chat-object"><span class="header-section-number">4.3.1</span> Chat object</h3>
-<p>In <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a>, the chat object brokers communication with the AI model, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see <a href="./weather.html">the next chapter</a>).</p>
-<p>For convenience, we create a separate constructor for the <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> chat object. This compartmentalization will be useful when we add <a href="./weather.html">tools</a> and complicated system prompts.</p>
-<p>We use <a href="https://ellmer.tidyverse.org/reference/chat_anthropic.html"><code>chat_anthropic()</code></a> in this example, but any <a href="https://ellmer.tidyverse.org/reference/index.html#chatbots">chat object</a> will do.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a friendly, concise assistant."</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="shiny-ui" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">4.3.2</span> Shiny UI</h3>
-<p>In a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results. That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted mini-agent template"</span>,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(<span class="st">"chat"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Trusted results go here."</span>)</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="shiny-server-function" class="level3" data-number="4.3.3">
-<h3 data-number="4.3.3" class="anchored" data-anchor-id="shiny-server-function"><span class="header-section-number">4.3.3</span> Shiny server function</h3>
-<p>In the Shiny server, we have a reactive expression that watches for user prompts from the <code>shinychat</code> interface and streams the AI model’s reply back into the UI token-by-token.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>()</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="full-app-code" class="level3" data-number="4.3.4">
-<h3 data-number="4.3.4" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">4.3.4</span> Full app code</h3>
-<p>This <code>app.R</code> script is a blank template to help you begin implementing your own trusted mini-agent.</p>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>app.R</strong></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="app.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>new_chat <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  ellmer<span class="sc">::</span><span class="fu">chat_anthropic</span>(</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">system_prompt =</span> <span class="st">"You are a friendly, concise assistant."</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted mini-agent template"</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">sidebar =</span> bslib<span class="sc">::</span><span class="fu">sidebar</span>(</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_ui</span>(<span class="st">"chat"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  bslib<span class="sc">::</span><span class="fu">layout_columns</span>(</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    bslib<span class="sc">::</span><span class="fu">card</span>(<span class="st">"Trusted results go here."</span>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  chat <span class="ot">&lt;-</span> <span class="fu">new_chat</span>()</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>chat_user_input, {</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    stream <span class="ot">&lt;-</span> chat<span class="sc">$</span><span class="fu">stream_async</span>(input<span class="sc">$</span>chat_user_input, <span class="at">stream =</span> <span class="st">"content"</span>)</span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    shinychat<span class="sc">::</span><span class="fu">chat_append</span>(<span class="st">"chat"</span>, stream)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
 
 
-</section>
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -831,14 +708,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./definition.html" class="pagination-link" aria-label="The formal definition">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span>
+      <a href="./py-weather.html" class="pagination-link" aria-label="Example: weather agent">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./weather.html" class="pagination-link" aria-label="Example: weather agent">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
@@ -849,7 +723,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/template.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/examples.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

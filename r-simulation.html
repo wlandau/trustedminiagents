@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
-<meta name="description" content="A worked example of a trusted mini-agent for clinical trial simulation, turning natural-language trial descriptions into human-reviewed designs.">
+<meta name="description" content="A worked example of a trusted mini-agent for clinical trial simulation in R, turning natural-language trial descriptions into human-reviewed designs.">
 
 <title>6&nbsp; Example: simulation – Trusted Mini-Agents</title>
 <style>
@@ -73,8 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./template-py.html" rel="next">
-<link href="./weather.html" rel="prev">
+<link href="./py-template.html" rel="next">
+<link href="./r-weather.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -121,17 +121,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="styles.css">
 <meta property="og:title" content="6&nbsp; Example: simulation – Trusted Mini-Agents">
 <meta property="og:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta property="og:image" content="https://trustedminiagents.dev/images/simulation/app.png">
+<meta property="og:image" content="https://trustedminiagents.dev/images/r-simulation/app.png">
 <meta property="og:site_name" content="Trusted Mini-Agents">
 <meta property="og:image:height" content="950">
 <meta property="og:image:width" content="1908">
 <meta name="twitter:title" content="6&nbsp; Example: simulation – Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta name="twitter:image" content="https://trustedminiagents.dev/images/simulation/app.png">
+<meta name="twitter:image" content="https://trustedminiagents.dev/images/r-simulation/app.png">
 <meta name="twitter:image-height" content="950">
 <meta name="twitter:image-width" content="1908">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://trustedminiagents.dev/simulation.html">
+<link rel="canonical" href="https://trustedminiagents.dev/r-simulation.html">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -143,7 +143,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./simulation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./r-template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./r-simulation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -221,19 +221,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather.html" class="sidebar-item-text sidebar-link">
+  <a href="./r-weather.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./simulation.html" class="sidebar-item-text sidebar-link active">
+  <a href="./r-simulation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
   </div>
 </li>
@@ -250,14 +250,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-template.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./weather-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./py-weather.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./examples.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">External examples</span></span></a>
   </div>
 </li>
       </ul>
@@ -287,12 +304,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">6.9</span> Full app code</a></li>
   <li><a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing"><span class="header-section-number">6.10</span> Testing</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/simulation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/r-simulation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./simulation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./r-template.html">Implementation in R</a></li><li class="breadcrumb-item"><a href="./r-simulation.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-simulation" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></h1>
 </div>
@@ -323,7 +340,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The app interface looks like this:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/simulation/app.png" class="img-fluid figure-img"></p>
+<p><img src="./images/r-simulation/app.png" class="img-fluid figure-img"></p>
 <figcaption>Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled “do not trust AI model output in here” with a user prompt describing a binary endpoint trial and the AI’s response. The main panel displays two tables: “Design assumptions (HUMAN USER MUST REVIEW THIS)” showing simulation parameters for Power and Type I Error scenarios, and “Results (trusted given the assumptions)” showing efficacy probabilities of 0.65 and 0.04 for each scenario.</figcaption>
 </figure>
 </div>
@@ -1213,7 +1230,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/simulation/test1.png" class="img-fluid figure-img"></p>
+<p><img src="./images/r-simulation/test1.png" class="img-fluid figure-img"></p>
 <figcaption>Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.</figcaption>
 </figure>
 </div>
@@ -1225,7 +1242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="./images/simulation/test2.png" class="img-fluid figure-img"></p>
+<p><img src="./images/r-simulation/test2.png" class="img-fluid figure-img"></p>
 <figcaption>Screenshot of the shinytest2 recording interface after test interactions, showing the populated assumptions and results tables along with recorded Shiny values.</figcaption>
 </figure>
 </div>
@@ -1682,12 +1699,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./weather.html" class="pagination-link" aria-label="Example: weather agent">
+      <a href="./r-weather.html" class="pagination-link" aria-label="Example: weather agent">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./template-py.html" class="pagination-link" aria-label="Agent template">
+      <a href="./py-template.html" class="pagination-link" aria-label="Agent template">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1700,7 +1717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/simulation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/r-simulation.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>
