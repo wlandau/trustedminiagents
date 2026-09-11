@@ -7,6 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Will Landau">
+<meta name="author" content="Sam Parmar">
 <meta name="dcterms.date" content="2026-08-28">
 <meta name="description" content="An introduction to trusted mini-agents: least-privilege AI systems that engineer AI errors out of high-stakes agentic workflows.">
 
@@ -49,7 +50,7 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-43e60141cd855b30547a9ffad70a15ff.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-eec7eb9b5ae219644352d2dd0e222a13.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -178,7 +179,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Implementation</span></a>
+ <span class="menu-text">Implementation in R</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -200,6 +201,29 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="./simulation.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Implementation in Python</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./template-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./weather-py.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span></a>
   </div>
 </li>
       </ul>
@@ -245,9 +269,10 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     <div>
-    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-heading">Authors</div>
     <div class="quarto-title-meta-contents">
              <p>Will Landau </p>
+             <p>Sam Parmar </p>
           </div>
   </div>
     
@@ -350,7 +375,7 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
 </section>
 <section id="who-this-is-for" class="level2">
 <h2 class="anchored" data-anchor-id="who-this-is-for">Who this is for</h2>
-<p>This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work. Although the underlying concepts generalize to other programming languages and frameworks, all the examples are in R and Shiny. No prior experience with <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a> or <a href="https://posit-dev.github.io/shinychat/r/"><code>shinychat</code></a> is necessary.</p>
+<p>This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work. Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python. No prior experience with <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a>, <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a>, or <a href="https://posit-dev.github.io/shinychat/"><code>shinychat</code></a> is necessary.</p>
 </section>
 <section id="contents" class="level2">
 <h2 class="anchored" data-anchor-id="contents">Contents</h2>
@@ -360,11 +385,16 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
 <li><a href="./errors.html"><strong>AI errors.</strong></a> How AI errors manifest in agents, and how to harden an example weather agent against them.</li>
 <li><a href="./definition.html"><strong>The formal definition.</strong></a> The formal definition of a trusted mini-agent, including the three rules, the workflow, and when trusted mini-agents are useful.</li>
 </ul>
-<p><strong>Implementation.</strong> A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.</p>
+<p><strong>Implementation in R.</strong> A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.</p>
 <ul>
 <li><a href="./template.html"><strong>A trusted mini-agent template.</strong></a> A minimal Shiny app that can be developed into a trusted mini-agent.</li>
 <li><a href="./weather.html"><strong>Example: weather agent.</strong></a> A full working trusted mini-agent that gets the weather.</li>
 <li><a href="./simulation.html"><strong>Example: simulation.</strong></a> A motivating example to show the practical usefulness of trusted mini-agents.</li>
+</ul>
+<p><strong>Implementation in Python.</strong> A concrete Python and Shiny for Python implementation of trusted mini-agents, building on the concepts above.</p>
+<ul>
+<li><a href="./template-py.html"><strong>A trusted mini-agent template.</strong></a> A minimal Shiny for Python app that can be developed into a trusted mini-agent.</li>
+<li><a href="./weather-py.html"><strong>Example: weather agent.</strong></a> A full working trusted mini-agent that gets the weather.</li>
 </ul>
 </section>
 <section id="acknowledgements" class="level2">

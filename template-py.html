@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Will Landau">
-<meta name="description" content="A breakdown of how AI agents work and why their reliance on AI models makes them prone to errors like hallucinations and misalignment.">
+<meta name="author" content="Sam Parmar">
+<meta name="description" content="A reusable Shiny app template in Python for building trusted mini-agents with the chatlas package.">
 
-<title>1&nbsp; Deconstructing agents – Trusted Mini-Agents</title>
+<title>7&nbsp; Agent template – Trusted Mini-Agents</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -73,8 +73,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./errors.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./weather-py.html" rel="next">
+<link href="./simulation.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -112,55 +112,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="1&nbsp; Deconstructing agents – Trusted Mini-Agents">
+<meta property="og:title" content="7&nbsp; Agent template – Trusted Mini-Agents">
 <meta property="og:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta property="og:image" content="https://trustedminiagents.dev/images/agents/harness.png">
+<meta property="og:image" content="https://trustedminiagents.dev/images/social/og.png">
 <meta property="og:site_name" content="Trusted Mini-Agents">
-<meta property="og:image:height" content="843">
-<meta property="og:image:width" content="1769">
-<meta name="twitter:title" content="1&nbsp; Deconstructing agents – Trusted Mini-Agents">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:width" content="2400">
+<meta name="twitter:title" content="7&nbsp; Agent template – Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
-<meta name="twitter:image" content="https://trustedminiagents.dev/images/agents/harness.png">
-<meta name="twitter:image-height" content="843">
-<meta name="twitter:image-width" content="1769">
+<meta name="twitter:image" content="https://trustedminiagents.dev/images/social/og.png">
+<meta name="twitter:image-height" content="1260">
+<meta name="twitter:image-width" content="2400">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://trustedminiagents.dev/agents.html">
+<link rel="canonical" href="https://trustedminiagents.dev/template-py.html">
 </head>
 
 <body class="nav-sidebar docked quarto-light">
@@ -172,7 +139,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./agents.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template-py.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./template-py.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -221,7 +188,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./agents.html" class="sidebar-item-text sidebar-link active">
+  <a href="./agents.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></span></a>
   </div>
 </li>
@@ -279,7 +246,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./template-py.html" class="sidebar-item-text sidebar-link">
+  <a href="./template-py.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></a>
   </div>
 </li>
@@ -301,20 +268,24 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#ai-models-are-not-agents." id="toc-ai-models-are-not-agents." class="nav-link active" data-scroll-target="#ai-models-are-not-agents."><span class="header-section-number">1.1</span> AI models are not agents.</a></li>
-  <li><a href="#agent-ai-model-harness" id="toc-agent-ai-model-harness" class="nav-link" data-scroll-target="#agent-ai-model-harness"><span class="header-section-number">1.2</span> Agent = AI model + harness</a></li>
-  <li><a href="#how-agents-use-tools" id="toc-how-agents-use-tools" class="nav-link" data-scroll-target="#how-agents-use-tools"><span class="header-section-number">1.3</span> How agents use tools</a></li>
-  <li><a href="#example-a-weather-agent" id="toc-example-a-weather-agent" class="nav-link" data-scroll-target="#example-a-weather-agent"><span class="header-section-number">1.4</span> Example: a weather agent</a></li>
-  <li><a href="#sec-workflow" id="toc-sec-workflow" class="nav-link" data-scroll-target="#sec-workflow"><span class="header-section-number">1.5</span> Illustrating the workflow</a></li>
+  <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link active" data-scroll-target="#prerequisites"><span class="header-section-number">7.1</span> Prerequisites</a></li>
+  <li><a href="#the-template-app" id="toc-the-template-app" class="nav-link" data-scroll-target="#the-template-app"><span class="header-section-number">7.2</span> The template app</a></li>
+  <li><a href="#implementation" id="toc-implementation" class="nav-link" data-scroll-target="#implementation"><span class="header-section-number">7.3</span> Implementation</a>
+  <ul class="collapse">
+  <li><a href="#chat-client" id="toc-chat-client" class="nav-link" data-scroll-target="#chat-client"><span class="header-section-number">7.3.1</span> Chat client</a></li>
+  <li><a href="#shiny-ui" id="toc-shiny-ui" class="nav-link" data-scroll-target="#shiny-ui"><span class="header-section-number">7.3.2</span> Shiny UI</a></li>
+  <li><a href="#shiny-server-function" id="toc-shiny-server-function" class="nav-link" data-scroll-target="#shiny-server-function"><span class="header-section-number">7.3.3</span> Shiny server function</a></li>
+  <li><a href="#full-app-code" id="toc-full-app-code" class="nav-link" data-scroll-target="#full-app-code"><span class="header-section-number">7.3.4</span> Full app code</a></li>
+  </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/agents.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/template-py.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./agents.html">Concepts</a></li><li class="breadcrumb-item"><a href="./agents.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./template-py.html">Implementation in Python</a></li><li class="breadcrumb-item"><a href="./template-py.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-agents" class="quarto-section-identifier"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Deconstructing agents</span></span></h1>
+<h1 class="title"><span id="sec-template-py" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Agent template</span></span></h1>
 </div>
 
 
@@ -324,7 +295,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Will Landau </p>
+             <p>Sam Parmar </p>
           </div>
   </div>
     
@@ -337,128 +308,151 @@ window.Quarto = {
 </header>
 
 
-<p>An <a href="https://en.wikipedia.org/wiki/AI_agent">agent</a> is an artificial intelligence system that interacts with its environment, pursues goals, and takes actions. Because agents rely on <a href="https://en.wikipedia.org/wiki/Large_language_model">AI models</a>, they are vulnerable to unpredictable errors. A few of the most common types of errors include subtle misinterpretations of prompts, lack of alignment with the user, and confident fabrications called <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">hallucinations</a>. To develop an agent that controls AI errors, we first need to understand the relevant components of agents and how they work together. This chapter describes these concepts and lays the groundwork for trusted mini-agents in later chapters.</p>
-<section id="ai-models-are-not-agents." class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="ai-models-are-not-agents."><span class="header-section-number">1.1</span> AI models are not agents.</h2>
-<p>By itself, an AI model is just a text-in/text-out machine learning model. When generating predictions, an AI model has no ability to learn, no agency, and no ability to make decisions. It only predicts lexical “tokens” similarly to how a simple linear regression model predicts new outcomes on a new dataset.</p>
-<p>No statistical model makes perfect predictions, which is why AI models <a href="https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)">produce errors</a>. For example, suppose an AI model makes a prediction on this new dataset: “What’s the weather in Chicago?” The AI model blindly pattern-matches text to accompany the new data, and this prediction could be wrong.</p>
-<div id="fig-llm-hallucination" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63','noteBkgColor':'#F3F4F6','noteBorderColor':'#9CA3AF','noteTextColor':'#1F2937'}, 'sequence': {'actorFontSize': 18}}}%%
-sequenceDiagram
-    participant User
-    participant Model
+<p>Web applications are a great way to implement trusted mini-agents because the developer has complete control of both the frontend and backend. We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output. This chapter proposes a template for a trusted mini-agent as a <a href="https://shiny.posit.co/py/">Shiny for Python</a> app. Users can begin with this template and add their own <a href="https://posit-dev.github.io/chatlas/get-started/tools.html"><code>chatlas</code> tools</a> to create a trusted mini-agent that fits their needs. <a href="./weather-py.html">The next chapter</a> covers tools.</p>
+<p>This chapter mirrors <a href="./template.html">the R template</a>, substituting Python equivalents of the same packages.</p>
+<section id="prerequisites" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="prerequisites"><span class="header-section-number">7.1</span> Prerequisites</h2>
+<p>At minimum, we use these Python packages to implement Shiny-based trusted mini-agents.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Package</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a></td>
+<td>AI model chat client with tool registration and streaming.</td>
+</tr>
+<tr class="even">
+<td><a href="https://posit-dev.github.io/shinychat/py/"><code>shinychat</code></a></td>
+<td>Drop-in chat UI for Shiny that binds to a <code>chatlas</code> chat client.</td>
+</tr>
+<tr class="odd">
+<td><a href="https://shiny.posit.co/py/"><code>shiny</code></a></td>
+<td>Web application framework. Bundles Bootstrap-based UI components (<code>page_sidebar</code>, cards, layouts) by default, so no separate theming package like <code>bslib</code> is required.</td>
+</tr>
+<tr class="even">
+<td><a href="https://pypi.org/project/python-dotenv/"><code>python-dotenv</code></a></td>
+<td>Loads credentials such as <code>ANTHROPIC_API_KEY</code> from a local <code>.env</code> file into the environment, so API keys never appear in source code.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-template-app" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="the-template-app"><span class="header-section-number">7.2</span> The template app</h2>
+<p>The app has a simple interface: a sidebar with the untrusted AI chat, a card where humans review AI-generated tool inputs, and a card for trusted results. This is the same three-region layout as <a href="./template.html#the-template-app">the R template</a>, just implemented with Shiny for Python’s built-in UI components.</p>
+<p>It is critical to create separate regions of trust and skepticism in the interface. Users need to know exactly which parts to trust, which parts to review, and which parts to never trust. We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.</p>
+</section>
+<section id="implementation" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="implementation"><span class="header-section-number">7.3</span> Implementation</h2>
+<p>We separately consider the <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a> chat client, Shiny UI, and Shiny server function.</p>
+<section id="chat-client" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="chat-client"><span class="header-section-number">7.3.1</span> Chat client</h3>
+<p>In <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a>, the chat client brokers communication with the AI model, and it facilitates the registration of tools. Crucially for trusted mini-agents, a chat client supports no tools by default, so each tool must be explicitly registered (see <a href="./weather-py.html">the next chapter</a>).</p>
+<p>For convenience, we create a separate constructor function for the <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a> chat client. This compartmentalization will be useful when we add <a href="./weather-py.html">tools</a> and complicated system prompts.</p>
+<p>We use <a href="https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html"><code>ChatAnthropic()</code></a> in this example, but any <a href="https://posit-dev.github.io/chatlas/reference/index.html#chat-model-providers">chat client</a> will do.</p>
+<p><code>ChatAnthropic()</code> reads the <code>ANTHROPIC_API_KEY</code> environment variable automatically, so the API key never needs to appear in source code. Following <a href="https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html#note"><code>chatlas</code>’s recommended pattern</a>, we keep the key in a local <code>.env</code> file (excluded from version control) and load it with <a href="https://pypi.org/project/python-dotenv/"><code>python-dotenv</code></a>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>.env</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-filename=".env"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">ANTHROPIC_API_KEY</span><span class="op">=</span>...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatAnthropic</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> new_chat():</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ChatAnthropic(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        system_prompt<span class="op">=</span><span class="st">"You are a friendly, concise assistant."</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="shiny-ui" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="shiny-ui"><span class="header-section-number">7.3.2</span> Shiny UI</h3>
+<p>In a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results. That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> ui</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> chat_ui</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        chat_ui(<span class="st">"chat"</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ui.layout_columns(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Trusted results go here."</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Trusted mini-agent template"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="shiny-server-function" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="shiny-server-function"><span class="header-section-number">7.3.3</span> Shiny server function</h3>
+<p>In the Shiny server, we register a handler that watches for user prompts from the <code>shinychat</code> interface and streams the AI model’s reply back into the UI token-by-token.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> Chat</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    client <span class="op">=</span> new_chat()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    chat <span class="op">=</span> Chat(<span class="st">"chat"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">@chat.on_user_submit</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> handle_user_input(user_input: <span class="bu">str</span>):</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.stream_async(user_input)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> chat.append_message_stream(response)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="full-app-code" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="full-app-code"><span class="header-section-number">7.3.4</span> Full app code</h3>
+<p>This <code>app.py</code> script is a blank template to help you begin implementing your own trusted mini-agent.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.py</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="app.py"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatAnthropic</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shiny <span class="im">import</span> App, ui</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shinychat <span class="im">import</span> Chat, chat_ui</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>load_dotenv()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> new_chat():</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ChatAnthropic(</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        system_prompt<span class="op">=</span><span class="st">"You are a friendly, concise assistant."</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>app_ui <span class="op">=</span> ui.page_sidebar(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    ui.sidebar(</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        chat_ui(<span class="st">"chat"</span>),</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">"AI chat (do not trust any AI output here!)"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    ui.layout_columns(</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Humans review AI-generated tool inputs here."</span>),</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>        ui.card(<span class="st">"Trusted results go here."</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">"Trusted mini-agent template"</span>,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> server(<span class="bu">input</span>, output, session):</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    client <span class="op">=</span> new_chat()</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    chat <span class="op">=</span> Chat(<span class="st">"chat"</span>)</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">@chat.on_user_submit</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="kw">def</span> handle_user_input(user_input: <span class="bu">str</span>):</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> <span class="cf">await</span> client.stream_async(user_input)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="cf">await</span> chat.append_message_stream(response)</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> App(app_ui, server)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 
-    User-&gt;&gt;Model: What's the weather in Chicago?
-    rect rgba(220, 38, 38, 0.25)
-    Model-&gt;&gt;User: It's 50°F and rainy in Indianapolis.
-    note over User,Model: AI error (wrong city)
-    end
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-llm-hallucination-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.1: Sequence diagram of a bare AI model producing an error. The user asks about the weather in Chicago, but the AI model predicts a confident-sounding response with the Indianapolis weather instead.
-</figcaption>
-</figure>
-</div>
-</section>
-<section id="agent-ai-model-harness" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="agent-ai-model-harness"><span class="header-section-number">1.2</span> Agent = AI model + harness</h2>
-<p>At the implementation level, an agent is an AI model combined with a <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">“harness”</a>. The <a href="https://www.langchain.com/blog/the-anatomy-of-an-agent-harness">harness</a> is the non-AI computing infrastructure that surrounds the AI model: the chat interface, the conversation history, long-term memory files, the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>, and above all, tools.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./images/agents/harness.png" class="img-fluid figure-img"></p>
-<figcaption>Diagram showing the components of an agent harness. On the left, the AI model simply predicts text. On the right, the harness contains four parts: the context window (user prompt, system prompt, conversation history, tool definitions, tool results), registered tools (web_search, read_file, run_code, query_database, send_email, edit_document), and the agent loop (gather context, take action, verify results, repeat until done).</figcaption>
-</figure>
-</div>
-</section>
-<section id="how-agents-use-tools" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="how-agents-use-tools"><span class="header-section-number">1.3</span> How agents use tools</h2>
-<p>A tool is an external capability that the AI model can request to use. Tools empower the agent to perceive the world and act on it. Structurally, <a href="https://youtu.be/ctc2kx3LxG8?t=2138">a tool is a function combined with metadata.</a></p>
-<p><span class="math display">\[
-\begin{aligned}
-\text{Tool} = \text{Function} + \text{Metadata}
-\end{aligned}
-\]</span></p>
-<p>A function is a transformation from structured inputs to structured outputs, such as a system library, R function, API, or script file. The metadata is a set of instructions in the system prompt that tells the AI model when and how to use the function.</p>
-<p>To request to use a tool, the AI model generates a tool call. A tool call is a string of text that identifies the tool and specifies a set of input values (i.e.&nbsp;function arguments). Tool calls are <a href="https://en.wikipedia.org/wiki/Machine-readable_document">structured</a> in a format like <a href="https://en.wikipedia.org/wiki/JSON">JSON</a> so the harness can validate them against <a href="https://json-schema.org/understanding-json-schema/about">schemas</a>. This enforced structure lets the harness parse the call and evaluate the tool.</p>
-</section>
-<section id="example-a-weather-agent" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="example-a-weather-agent"><span class="header-section-number">1.4</span> Example: a weather agent</h2>
-<p>Let’s design an agent to get the current weather at a given location in the United States. Suppose we have a tool that scrapes the <a href="https://www.weather.gov/">National Weather Service</a> (NWS) API. We write an R function <code>get_weather()</code>, and we include metadata to describe its inputs, outputs, and purpose. Suppose the user prompts:</p>
-<blockquote class="blockquote">
-<p>“What’s the weather in Chicago?”</p>
-</blockquote>
-<p>Instead of a plain language response, the AI model may generate a JSON tool call:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"tool"</span><span class="fu">:</span> <span class="st">"get_weather"</span><span class="fu">,</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"input"</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"lat"</span><span class="fu">:</span> <span class="fl">41.8</span><span class="fu">,</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"long"</span><span class="fu">:</span> <span class="fl">-87.6</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The harness recognizes this JSON string as a tool call and validates it against the <a href="https://json-schema.org/understanding-json-schema/about">schema</a> for <code>get_weather()</code>. Afterwards, it runs the underlying function call:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">get_weather</span>(<span class="at">lat =</span> <span class="fl">41.8</span>, <span class="at">long =</span> <span class="sc">-</span><span class="fl">87.6</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>and emits <a href="https://platform.claude.com/docs/en/build-with-claude/structured-outputs">structured output</a> back to the AI model:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"temperature"</span><span class="fu">:</span> <span class="st">"72°F"</span><span class="fu">,</span> <span class="dt">"weather"</span><span class="fu">:</span> <span class="st">"Sunny"</span><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The AI model may then incorporate this structured output into its next response to the user.</p>
-<blockquote class="blockquote">
-<p>It’s 72°F and sunny in Chicago.</p>
-</blockquote>
-</section>
-<section id="sec-workflow" class="level2" data-number="1.5">
-<h2 data-number="1.5" class="anchored" data-anchor-id="sec-workflow"><span class="header-section-number">1.5</span> Illustrating the workflow</h2>
-<p>The following <a href="https://en.wikipedia.org/wiki/Sequence_diagram">sequence diagram</a> illustrates the workflow of the example weather agent from the previous section.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
-<div id="fig-weather-success" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-weather-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'actorBkg':'#1F3A63','actorTextColor':'#ffffff','actorBorder':'#1F3A63'}, 'sequence': {'actorFontSize': 18}}}%%
-sequenceDiagram
-    participant User
-    participant Model
-    participant Tool
-
-    User-&gt;&gt;Model: "What's the weather in Chicago?"
-    Model-&gt;&gt;Tool: get_weather(lat = 41.8, long = -87.6)
-    Tool-&gt;&gt;Model: {"temperature": 72, "weather": "Sunny"}
-    Model-&gt;&gt;User: It's 72°F and sunny in Chicago.
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-weather-success-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent interaction. The harness brokers the flow between the user, AI model, and tool, and each arrow converts an output from one component into an input for the next: the user’s question becomes a tool call, and the tool’s result becomes the AI model’s reply.
-</figcaption>
-</figure>
-</div>
-<p>The harness implicitly includes the horizontal arrows in the diagram. For example, the arrow labeled “get_weather(lat = 41.8, long = -87.6)” shows how the harness delivers the AI-generated tool call to the tool itself. (The harness, not the AI model, actually runs tools.) Designing a trusted mini-agent is all about drawing the best arrows, as we will see in the <a href="./errors.html">next chapter</a>.</p>
-
 
 </section>
-<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn1"><p> The <a href="https://ellmer.tidyverse.org/articles/tool-calling.html#introduction">documentation of <code>ellmer</code></a> cautions against this diagram because it draws a direct arrow from the AI model to the tool. As the <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> authors rightly emphasize, the AI model does not actually run the tool: it only proposes an unevaluated tool call. However, our diagram is different because we think of the arrow as part of the harness. We do not imply that AI models run tools. We only imply that the harness delivers the call from the AI model to the tool. This simplified framing helps us build trusted mini-agents in later chapters.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
 </section>
 
 </main> <!-- /main -->
@@ -864,13 +858,13 @@ Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent intera
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Introduction">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      <a href="./simulation.html" class="pagination-link" aria-label="Example: simulation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Example: simulation</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./errors.html" class="pagination-link" aria-label="AI errors">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI errors</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./weather-py.html" class="pagination-link" aria-label="Example: weather agent">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Example: weather agent</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -882,7 +876,7 @@ Figure&nbsp;1.2: Sequence diagram of a complete, successful weather agent intera
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/agents.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/template-py.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></div>
     <div class="nav-footer-right">
       &nbsp;
     </div>

@@ -2,30 +2,38 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://trustedminiagents.dev/index.html</loc>
-    <lastmod>2026-08-28T18:50:05.048Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.373Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/agents.html</loc>
-    <lastmod>2026-08-28T18:50:05.033Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.358Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/errors.html</loc>
-    <lastmod>2026-08-28T18:50:05.033Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.358Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/definition.html</loc>
-    <lastmod>2026-08-28T18:50:05.033Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.358Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/template.html</loc>
-    <lastmod>2026-08-28T18:50:05.048Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.374Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/weather.html</loc>
-    <lastmod>2026-08-28T18:50:05.048Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.374Z</lastmod>
   </url>
   <url>
     <loc>https://trustedminiagents.dev/simulation.html</loc>
-    <lastmod>2026-08-28T18:50:05.048Z</lastmod>
+    <lastmod>2026-09-11T18:43:32.373Z</lastmod>
+  </url>
+  <url>
+    <loc>https://trustedminiagents.dev/template-py.html</loc>
+    <lastmod>2026-09-11T18:43:32.373Z</lastmod>
+  </url>
+  <url>
+    <loc>https://trustedminiagents.dev/weather-py.html</loc>
+    <lastmod>2026-09-11T18:43:32.374Z</lastmod>
   </url>
 </urlset>
