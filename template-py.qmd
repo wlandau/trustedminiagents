@@ -1,0 +1,156 @@
+---
+author: "Sam Parmar"
+description: >
+  A reusable Shiny app template in Python for building trusted mini-agents
+  with the chatlas package.
+---
+
+# Agent template {#sec-template-py}
+
+Web applications are a great way to implement trusted mini-agents because
+the developer has complete control of both the frontend and backend.
+We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output.
+This chapter proposes a template for a trusted mini-agent as a [Shiny for Python](https://shiny.posit.co/py/) app.
+Users can begin with this template and add their own [`chatlas` tools](https://posit-dev.github.io/chatlas/get-started/tools.html) to create a trusted mini-agent that fits their needs.
+[The next chapter](weather-py.qmd) covers tools.
+
+This chapter mirrors [the R template](template.qmd), substituting Python equivalents of the same packages.
+
+## Prerequisites
+
+At minimum, we use these Python packages to implement Shiny-based trusted mini-agents.
+
+| Package | Role |
+|---|---|
+| [`chatlas`](https://posit-dev.github.io/chatlas/) | AI model chat client with tool registration and streaming. |
+| [`shinychat`](https://posit-dev.github.io/shinychat/py/) | Drop-in chat UI for Shiny that binds to a `chatlas` chat client. |
+| [`shiny`](https://shiny.posit.co/py/) | Web application framework. Bundles Bootstrap-based UI components (`page_sidebar`, cards, layouts) by default, so no separate theming package like `bslib` is required. |
+| [`python-dotenv`](https://pypi.org/project/python-dotenv/) | Loads credentials such as `ANTHROPIC_API_KEY` from a local `.env` file into the environment, so API keys never appear in source code. |
+
+## The template app
+
+The app has a simple interface: a sidebar with the untrusted AI chat, a card where humans review AI-generated tool inputs, and a card for trusted results.
+This is the same three-region layout as [the R template](template.qmd#the-template-app), just implemented with Shiny for Python's built-in UI components.
+
+It is critical to create separate regions of trust and skepticism in the interface.
+Users need to know exactly which parts to trust, which parts to review, and which parts to never trust.
+We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.
+
+## Implementation
+
+We separately consider the [`chatlas`](https://posit-dev.github.io/chatlas/) chat client, Shiny UI, and Shiny server function.
+
+### Chat client
+
+In [`chatlas`](https://posit-dev.github.io/chatlas/), the chat client brokers communication with the AI model, and it facilitates the registration of tools.
+Crucially for trusted mini-agents, a chat client supports no tools by default, so each tool must be explicitly registered (see [the next chapter](weather-py.qmd)).
+
+For convenience, we create a separate constructor function for the [`chatlas`](https://posit-dev.github.io/chatlas/) chat client.
+This compartmentalization will be useful when we add [tools](weather-py.qmd) and complicated system prompts.
+
+We use [`ChatAnthropic()`](https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html) in this example, but any [chat client](https://posit-dev.github.io/chatlas/reference/index.html#chat-model-providers) will do.
+
+`ChatAnthropic()` reads the `ANTHROPIC_API_KEY` environment variable automatically, so the API key never needs to appear in source code.
+Following [`chatlas`'s recommended pattern](https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html#note), we keep the key in a local `.env` file (excluded from version control) and load it with [`python-dotenv`](https://pypi.org/project/python-dotenv/):
+
+```{.bash filename=".env"}
+ANTHROPIC_API_KEY=...
+```
+
+```{.python}
+from chatlas import ChatAnthropic
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+def new_chat():
+    return ChatAnthropic(
+        system_prompt="You are a friendly, concise assistant."
+    )
+```
+
+### Shiny UI
+
+In a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results.
+That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.
+
+```{.python}
+from shiny import ui
+from shinychat import chat_ui
+
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        chat_ui("chat"),
+        title="AI chat (do not trust any AI output here!)",
+    ),
+    ui.layout_columns(
+        ui.card("Humans review AI-generated tool inputs here."),
+        ui.card("Trusted results go here."),
+    ),
+    title="Trusted mini-agent template",
+)
+```
+
+### Shiny server function
+
+In the Shiny server, we register a handler that watches for user prompts from the `shinychat` interface and streams the AI model's reply back into the UI token-by-token.
+
+```{.python}
+from shinychat import Chat
+
+
+def server(input, output, session):
+    client = new_chat()
+    chat = Chat("chat")
+
+    @chat.on_user_submit
+    async def handle_user_input(user_input: str):
+        response = await client.stream_async(user_input)
+        await chat.append_message_stream(response)
+```
+
+### Full app code
+
+This `app.py` script is a blank template to help you begin implementing your own trusted mini-agent.
+
+```{.python filename="app.py"}
+from chatlas import ChatAnthropic
+from dotenv import load_dotenv
+from shiny import App, ui
+from shinychat import Chat, chat_ui
+
+load_dotenv()
+
+
+def new_chat():
+    return ChatAnthropic(
+        system_prompt="You are a friendly, concise assistant."
+    )
+
+
+app_ui = ui.page_sidebar(
+    ui.sidebar(
+        chat_ui("chat"),
+        title="AI chat (do not trust any AI output here!)",
+    ),
+    ui.layout_columns(
+        ui.card("Humans review AI-generated tool inputs here."),
+        ui.card("Trusted results go here."),
+    ),
+    title="Trusted mini-agent template",
+)
+
+
+def server(input, output, session):
+    client = new_chat()
+    chat = Chat("chat")
+
+    @chat.on_user_submit
+    async def handle_user_input(user_input: str):
+        response = await client.stream_async(user_input)
+        await chat.append_message_stream(response)
+
+
+app = App(app_ui, server)
+```

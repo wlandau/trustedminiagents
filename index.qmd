@@ -90,8 +90,8 @@ Conditional on good inputs, AI-generated errors in the results are structurally 
 ## Who this is for
 
 This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work.
-Although the underlying concepts generalize to other programming languages and frameworks, all the examples are in R and Shiny.
-No prior experience with [`ellmer`](https://ellmer.tidyverse.org/) or [`shinychat`](https://posit-dev.github.io/shinychat/r/) is necessary.
+Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python.
+No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](https://posit-dev.github.io/chatlas/), or [`shinychat`](https://posit-dev.github.io/shinychat/) is necessary.
 
 ## Contents
 
@@ -101,11 +101,16 @@ No prior experience with [`ellmer`](https://ellmer.tidyverse.org/) or [`shinycha
 - [**AI errors.**](errors.qmd) How AI errors manifest in agents, and how to harden an example weather agent against them.
 - [**The formal definition.**](definition.qmd) The formal definition of a trusted mini-agent, including the three rules, the workflow, and when trusted mini-agents are useful.
 
-**Implementation.** A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.
+**Implementation in R.** A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.
 
 - [**A trusted mini-agent template.**](template.qmd) A minimal Shiny app that can be developed into a trusted mini-agent.
 - [**Example: weather agent.**](weather.qmd) A full working trusted mini-agent that gets the weather.
 - [**Example: simulation.**](simulation.qmd) A motivating example to show the practical usefulness of trusted mini-agents.
+
+**Implementation in Python.** A concrete Python and Shiny for Python implementation of trusted mini-agents, building on the concepts above.
+
+- [**A trusted mini-agent template.**](template-py.qmd) A minimal Shiny for Python app that can be developed into a trusted mini-agent.
+- [**Example: weather agent.**](weather-py.qmd) A full working trusted mini-agent that gets the weather.
 
 ## Acknowledgements
 

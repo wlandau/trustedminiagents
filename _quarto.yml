@@ -7,7 +7,9 @@ bibliography: references.bib
 book:
   title: "Trusted Mini-Agents"
   subtitle: "Engineering AI Errors Out of Agentic Workflows"
-  author: "Will Landau"
+  author:
+    - name: "Will Landau"
+    - name: "Sam Parmar"
   date: 2026-08-28
   site-url: https://trustedminiagents.dev
   description: >
@@ -33,11 +35,15 @@ book:
         - agents.qmd
         - errors.qmd
         - definition.qmd
-    - part: "Implementation"
+    - part: "Implementation in R"
       chapters:
         - template.qmd
         - weather.qmd
         - simulation.qmd
+    - part: "Implementation in Python"
+      chapters:
+        - template-py.qmd
+        - weather-py.qmd
 
 format:
   html:

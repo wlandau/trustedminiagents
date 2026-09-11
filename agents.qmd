@@ -1,4 +1,5 @@
 ---
+author: "Will Landau"
 description: >
   A breakdown of how AI agents work and why their reliance on AI models
   makes them prone to errors like hallucinations and misalignment.
