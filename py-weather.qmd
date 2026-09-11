@@ -7,15 +7,15 @@ description: >
 
 # Example: weather agent {#sec-weather-py}
 
-This chapter builds on the template in [the previous chapter](template-py.qmd) and shows how to add tools to a trusted mini-agent in a Shiny for Python app.
-We use the same weather agent idea as [the R version of this chapter](weather.qmd) to make the discussion concrete.
+This chapter builds on the template in [the previous chapter](py-template.qmd) and shows how to add tools to a trusted mini-agent in a Shiny for Python app.
+We use the same weather agent idea as [the R version of this chapter](r-weather.qmd) to make the discussion concrete.
 By the end of the chapter, we will have a full working example of a trusted mini-agent, implemented entirely in Python.
 
 ## Overview
 
 This is the appearance of the app we will build.
 
-![Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.](./images/weather/app.png)
+![Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.](./images/py-weather/app.png)
 
 In the `shinychat` interface on the left, the user asks for the weather in a US city.
 The [`ipyleaflet`](https://ipyleaflet.readthedocs.io/en/latest/) map in the middle lets the user easily check if the AI-generated coordinates for the city are correct.
@@ -31,7 +31,7 @@ The weather data on the right, however, is trustworthy because:
 ## App design
 
 The following diagram demonstrates the flow of control in the weather app we are about to build.
-It is the same trust structure as [the R weather agent](weather.qmd#app-design), just with Python components.
+It is the same trust structure as [the R weather agent](r-weather.qmd#app-design), just with Python components.
 
 ```{mermaid}
 flowchart LR

@@ -103,14 +103,14 @@ No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](
 
 **Implementation in R.** A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.
 
-- [**A trusted mini-agent template.**](template.qmd) A minimal Shiny app that can be developed into a trusted mini-agent.
-- [**Example: weather agent.**](weather.qmd) A full working trusted mini-agent that gets the weather.
-- [**Example: simulation.**](simulation.qmd) A motivating example to show the practical usefulness of trusted mini-agents.
+- [**A trusted mini-agent template.**](r-template.qmd) A minimal Shiny app that can be developed into a trusted mini-agent.
+- [**Example: weather agent.**](r-weather.qmd) A full working trusted mini-agent that gets the weather.
+- [**Example: simulation.**](r-simulation.qmd) A motivating example to show the practical usefulness of trusted mini-agents.
 
 **Implementation in Python.** A concrete Python and Shiny for Python implementation of trusted mini-agents, building on the concepts above.
 
-- [**A trusted mini-agent template.**](template-py.qmd) A minimal Shiny for Python app that can be developed into a trusted mini-agent.
-- [**Example: weather agent.**](weather-py.qmd) A full working trusted mini-agent that gets the weather.
+- [**A trusted mini-agent template.**](py-template.qmd) A minimal Shiny for Python app that can be developed into a trusted mini-agent.
+- [**Example: weather agent.**](py-weather.qmd) A full working trusted mini-agent that gets the weather.
 
 **Appendices.** Related work that adapts the ideas above.
 

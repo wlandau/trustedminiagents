@@ -150,4 +150,4 @@ The goal is to insert the AI model where:
 2. A human easily checks those solutions.
 
 No scenario is too small for a trusted mini-agent, and specific, targeted problems offer some of the most powerful opportunities.
-For example, clinical trial simulation offers powerful opportunities, as discussed later in [Chapter 6](simulation.qmd).
+For example, clinical trial simulation offers powerful opportunities, as discussed later in [Chapter 6](r-simulation.qmd).

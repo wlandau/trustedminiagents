@@ -12,7 +12,7 @@ the developer has complete control of both the frontend and backend.
 We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output.
 This chapter proposes a template for a trusted mini-agent as a [Shiny](https://shiny.posit.co) app in R.
 Users can begin with this template and add their own [`ellmer` tools](https://ellmer.tidyverse.org/reference/tool.html) to create a trusted mini-agent that fits their needs.
-[The next chapter](weather.qmd) covers tools.
+[The next chapter](r-weather.qmd) covers tools.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ At minimum, we use these R packages to implement Shiny-based trusted mini-agents
 
 The app has a simple interface: a sidebar with the untrusted AI chat, a `bslib` card where humans review AI-generated tool inputs, and a `bslib` card for trusted results.
 
-![Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled "do not trust any AI output here!" with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled "Humans review AI-generated tool inputs here" and another labeled "Trusted results go here," illustrating the three-region layout of trust zones.](./images/template/app.png)
+![Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled "do not trust any AI output here!" with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled "Humans review AI-generated tool inputs here" and another labeled "Trusted results go here," illustrating the three-region layout of trust zones.](./images/r-template/app.png)
 
 It is critical to create separate regions of trust and skepticism in the interface.
 Users need to know exactly which parts to trust, which parts to review, and which parts to never trust.
@@ -41,10 +41,10 @@ We separately consider the [`ellmer`](https://ellmer.tidyverse.org/) chat object
 ### Chat object
 
 In [`ellmer`](https://ellmer.tidyverse.org/), the chat object brokers communication with the AI model, and it facilitates the registration of tools.
-Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see [the next chapter](weather.qmd)).
+Crucially for trusted mini-agents, a chat object supports no tools by default, so each tool must be explicitly registered (see [the next chapter](r-weather.qmd)).
 
 For convenience, we create a separate constructor for the [`ellmer`](https://ellmer.tidyverse.org/) chat object.
-This compartmentalization will be useful when we add [tools](weather.qmd) and complicated system prompts.
+This compartmentalization will be useful when we add [tools](r-weather.qmd) and complicated system prompts.
 
 We use [`chat_anthropic()`](https://ellmer.tidyverse.org/reference/chat_anthropic.html) in this example, but any [chat object](https://ellmer.tidyverse.org/reference/index.html#chatbots) will do.
 

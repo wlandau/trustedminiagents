@@ -15,7 +15,7 @@ In this chapter, we present a motivating example of a trusted mini-agent for cli
 
 The app interface looks like this:
 
-![Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled "do not trust AI model output in here" with a user prompt describing a binary endpoint trial and the AI's response. The main panel displays two tables: "Design assumptions (HUMAN USER MUST REVIEW THIS)" showing simulation parameters for Power and Type I Error scenarios, and "Results (trusted given the assumptions)" showing efficacy probabilities of 0.65 and 0.04 for each scenario.](./images/simulation/app.png)
+![Screenshot of the clinical trial simulation agent Shiny app. The left sidebar shows an AI chat interface labeled "do not trust AI model output in here" with a user prompt describing a binary endpoint trial and the AI's response. The main panel displays two tables: "Design assumptions (HUMAN USER MUST REVIEW THIS)" showing simulation parameters for Power and Type I Error scenarios, and "Results (trusted given the assumptions)" showing efficacy probabilities of 0.65 and 0.04 for each scenario.](./images/r-simulation/app.png)
 
 The human user describes scenarios for a clinical trial design in natural language.
 The AI model translates the human intent into rigorous simulation parameters.
@@ -972,7 +972,7 @@ To set up the test:
 
 * Run `shinytest2::record_test()`. A browser window will launch:
 
-![Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.](./images/simulation/test1.png)
+![Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.](./images/r-simulation/test1.png)
 
 * Click "Expect Shiny values".
 * Enter the prompt "Call simulate_trial_binary(scenario = 'Power', n_treatment = 100, n_control = 100, response_rate_treatment = 0.5, response_rate_control = 0.3, significance_level = 0.025), then be completely silent."
@@ -981,7 +981,7 @@ This tests the end-to-end flow of the AI model interaction, the tool calling, an
 * After the assumptions and results tables populate, click "Expect Shiny values" again.
 Your window should now look like this:
 
-![Screenshot of the shinytest2 recording interface after test interactions, showing the populated assumptions and results tables along with recorded Shiny values.](./images/simulation/test2.png)
+![Screenshot of the shinytest2 recording interface after test interactions, showing the populated assumptions and results tables along with recorded Shiny values.](./images/r-simulation/test2.png)
 
 * Click "Save test and exit" on the lower right-hand side.
 

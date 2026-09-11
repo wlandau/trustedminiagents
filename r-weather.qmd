@@ -8,6 +8,7 @@ description: >
 # Example: weather agent {#sec-weather}
 
 This chapter builds on the template in [the previous chapter](r-template.qmd) and shows how to add tools to a trusted mini-agent in a Shiny app.
+
 We use the weather agent example from [Chapter 2](errors.qmd) to make the discussion concrete.
 By the end of the chapter, we will have a full working example of a trusted mini-agent.
 
@@ -15,7 +16,7 @@ By the end of the chapter, we will have a full working example of a trusted mini
 
 This is the appearance of the app we will build.
 
-![Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.](./images/weather/app.png)
+![Screenshot of the completed weather app showing a shinychat interface on the left with a user query about weather, a leaflet map in the center displaying the queried location, and a weather data table on the right with temperature and conditions.](./images/r-weather/app.png)
 
 In the `shinychat` interface on the left, the user asks for the weather in a US city.
 The leaflet map in the middle lets the user easily check if the AI-generated coordinates for the city are correct.
@@ -623,7 +624,7 @@ To set up the test:
 * Set the `MOCK_WEATHER` environment variable.
 * Run `shinytest2::record_test()`. A browser window will launch:
 
-![Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.](./images/weather/test1.png)
+![Screenshot of the shinytest2 recording interface in a browser window at the start of recording, showing the empty app and test recording controls.](./images/r-weather/test1.png)
 
 * Click "Expect Shiny values".
 * Enter the prompt "Call get_weather(latitude = 40, longitude = -80), then be completely silent."
@@ -632,7 +633,7 @@ This tests the end-to-end flow of the AI model interaction, the tool calling, an
 * After the leaflet map and weather data table populate, click "Expect Shiny values" again.
 Your window should now look like this:
 
-![Screenshot of the shinytest2 recording interface after test interactions, showing the populated leaflet map and weather data table along with recorded Shiny values.](./images/weather/test2.png)
+![Screenshot of the shinytest2 recording interface after test interactions, showing the populated leaflet map and weather data table along with recorded Shiny values.](./images/r-weather/test2.png)
 
 * Click "Save test and exit" on the lower right-hand side.
 

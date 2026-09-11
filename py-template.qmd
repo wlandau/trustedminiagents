@@ -12,9 +12,9 @@ the developer has complete control of both the frontend and backend.
 We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output.
 This chapter proposes a template for a trusted mini-agent as a [Shiny for Python](https://shiny.posit.co/py/) app.
 Users can begin with this template and add their own [`chatlas` tools](https://posit-dev.github.io/chatlas/get-started/tools.html) to create a trusted mini-agent that fits their needs.
-[The next chapter](weather-py.qmd) covers tools.
+[The next chapter](py-weather.qmd) covers tools.
 
-This chapter mirrors [the R template](template.qmd), substituting Python equivalents of the same packages.
+This chapter mirrors [the R template](r-template.qmd), substituting Python equivalents of the same packages.
 
 ## Prerequisites
 
@@ -30,7 +30,7 @@ At minimum, we use these Python packages to implement Shiny-based trusted mini-a
 ## The template app
 
 The app has a simple interface: a sidebar with the untrusted AI chat, a card where humans review AI-generated tool inputs, and a card for trusted results.
-This is the same three-region layout as [the R template](template.qmd#the-template-app), just implemented with Shiny for Python's built-in UI components.
+This is the same three-region layout as [the R template](r-template.qmd#the-template-app), just implemented with Shiny for Python's built-in UI components.
 
 It is critical to create separate regions of trust and skepticism in the interface.
 Users need to know exactly which parts to trust, which parts to review, and which parts to never trust.
@@ -43,10 +43,10 @@ We separately consider the [`chatlas`](https://posit-dev.github.io/chatlas/) cha
 ### Chat client
 
 In [`chatlas`](https://posit-dev.github.io/chatlas/), the chat client brokers communication with the AI model, and it facilitates the registration of tools.
-Crucially for trusted mini-agents, a chat client supports no tools by default, so each tool must be explicitly registered (see [the next chapter](weather-py.qmd)).
+Crucially for trusted mini-agents, a chat client supports no tools by default, so each tool must be explicitly registered (see [the next chapter](py-weather.qmd)).
 
 For convenience, we create a separate constructor function for the [`chatlas`](https://posit-dev.github.io/chatlas/) chat client.
-This compartmentalization will be useful when we add [tools](weather-py.qmd) and complicated system prompts.
+This compartmentalization will be useful when we add [tools](py-weather.qmd) and complicated system prompts.
 
 We use [`ChatAnthropic()`](https://posit-dev.github.io/chatlas/reference/ChatAnthropic.html) in this example, but any [chat client](https://posit-dev.github.io/chatlas/reference/index.html#chat-model-providers) will do.
 
