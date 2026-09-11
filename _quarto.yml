@@ -44,6 +44,8 @@ book:
       chapters:
         - template-py.qmd
         - weather-py.qmd
+  appendices:
+    - examples.qmd
 
 format:
   html:

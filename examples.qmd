@@ -1,0 +1,15 @@
+---
+author: "Will Landau"
+description: External projects that borrow trusted mini-agent principles
+---
+
+# External examples {#sec-examples}
+
+The following table lists examples of external projects that borrow trusted mini-agent principles.
+
+| Project | Description | Trust |
+|---|---|---|
+| [Clinical Trials Agent](https://github.com/posit-dev/clinical-trials-agent) | A `commons` agent for clinical trial reporting. It answers questions about a simulated study's safety, disposition, exposure, demographics, and laboratory results over synthetic [CDISC ADaM](https://www.cdisc.org/standards/foundational/adam) datasets. The agent's trusted calculations reproduce recipes from the [NEST TLG Catalog](https://github.com/insightsengineering/tlg-catalog), and each one pins the exact catalog file and commit it came from, so a reviewer can trace a table back to a published standard. Graphs are rendered by trusted calculations rather than described by the AI model. Questions outside that coverage fall back to governed SQL. | Inherits the `commons` model (see below), which bends trusted mini-agent rules 1 and 2 but is transparent about the level of trust in each result.  |
+| [`commons`](https://github.com/posit-dev/commons) | An R and Python package for building self-service data agents. Its premise is that data teams already own trusted code, and that an agent gets more accurate by running that code instead of writing its own. The agent first searches a *semantic layer* of trusted calculations, and it writes custom SQL or R only when it finds nothing relevant. | When it bypasses trusted calculations in the semantic layer, `commons`  bends rules 1 and 2 of trusted mini-agents. But rule 3 (human oversight) is strong because `commons` is transparent about the level of trust behind every calculation. |
+
+: {tbl-colwidths="[20,45,35]"}

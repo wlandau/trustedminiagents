@@ -112,6 +112,10 @@ No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](
 - [**A trusted mini-agent template.**](template-py.qmd) A minimal Shiny for Python app that can be developed into a trusted mini-agent.
 - [**Example: weather agent.**](weather-py.qmd) A full working trusted mini-agent that gets the weather.
 
+**Appendices.** Related work that adapts the ideas above.
+
+- [**External examples.**](examples.qmd) Projects that borrow trusted mini-agent principles.
+
 ## Acknowledgements
 
 * [Simon Couch](https://simonpcouch.com/) and [Sara Altman](https://saraaltman.com/) covered similar topics in their 2026 talk at [R/Pharma genAI Day](https://rinpharma.com/docs/ai-day/). In their [presentation](https://simonpcouch.github.io/gen-ai-pharma-26), they recommended: "Design the scaffold so that it matters less if [AI models are] wrong."
