@@ -37,9 +37,9 @@ There are multiple ways to establish separate regions of trust and skepticism.
 The [tool calling UI](https://posit-dev.github.io/shinychat/r/articles/tool-ui.html) in [`shinychat`](https://posit-dev.github.io/shinychat), which embeds tool calls as obvious boxes inside the chat window, is the most popular, pragmatic, and versatile approach (c.f. [`commons`](https://posit-dev.github.io/commons/) and [`clinical-trials-agent`](https://github.com/posit-dev/clinical-trials-agent)).
 
 However, to underscore the principles of trusted mini-agents, this guide chooses an alternative custom layout.
-We relegate the chat to a sidebar, and we give permanent first-class real estate to human oversight and trusted results.
-That way, users pay less attention to the untrusted AI model output and more attention to the tool inputs they need to review and the results of trusted tools.
-Not every app can implement such extreme guardrails, but they are helpful when feasible.
+We relegate the chat to a sidebar, and we reserve permanent first-class real estate for human oversight and trusted results.
+That way, users pay less attention to the untrusted AI model output and more attention to trustworthy output and vital review tasks.
+Not every UI can implement such diligent guardrails, especially if the harness has multiple [remote tools](https://modelcontextprotocol.io) with different output format types, but they are helpful when feasible.
 
 ![Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled "do not trust any AI output here!" with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled "Humans review AI-generated tool inputs here" and another labeled "Trusted results go here," illustrating the three-region layout of trust zones.](./images/r-template/app.png)
 
