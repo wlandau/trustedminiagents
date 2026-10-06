@@ -31,7 +31,7 @@ We separately consider the Shiny UI, [`ellmer`](https://ellmer.tidyverse.org/) c
 ### Shiny UI
 
 In a trusted mini-agent, the user interface should have clear and separate regions for untrusted AI model output, human oversight, and trusted results.
-That way, the users know how to get trustworthy insights from the app: they understand where to go to review tool inputs, and they do not mistake untrusted AI output for trusted results.
+That way, the users know how to get trustworthy insights from the app: they understand where to go to review tool inputs, and they do not mistake untrusted AI model output for trusted results.
 
 There are multiple ways to establish separate regions of trust and skepticism.
 The [tool calling UI](https://posit-dev.github.io/shinychat/r/articles/tool-ui.html) in [`shinychat`](https://posit-dev.github.io/shinychat), which embeds tool calls as obvious boxes inside the chat window, is the most popular, pragmatic, and versatile approach (c.f. [`commons`](https://posit-dev.github.io/commons/) and [`clinical-trials-agent`](https://github.com/posit-dev/clinical-trials-agent)).
