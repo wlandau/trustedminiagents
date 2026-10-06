@@ -24,19 +24,40 @@ At minimum, we use these R packages to implement Shiny-based trusted mini-agents
 | [`shinychat`](https://posit-dev.github.io/shinychat/r/) | Drop-in chat UI for Shiny that binds to an `ellmer` chat object. |
 | [`bslib`](https://rstudio.github.io/bslib/) | Bootstrap-based interface elements such as `page_sidebar` and theming. |
 
-## The template app
+## Implementation
 
-The app has a simple interface: a sidebar with the untrusted AI chat, a `bslib` card where humans review AI-generated tool inputs, and a `bslib` card for trusted results.
+We separately consider the Shiny UI, [`ellmer`](https://ellmer.tidyverse.org/) chat object, and Shiny server function.
+
+### Shiny UI
+
+In a trusted mini-agent, the user interface should have clear and separate regions for untrusted AI model output, human oversight, and trusted results.
+That way, the user knows how to get trustworthy insights from the app.
+
+There are multiple ways to establish separate regions of trust and skepticism.
+The [tool calling UI](https://posit-dev.github.io/shinychat/r/articles/tool-ui.html) in [`shinychat`](https://posit-dev.github.io/shinychat), which embeds tool calls as obvious boxes inside the chat window, is the most popular, pragmatic, and versatile approach (c.f. [`commons`](https://posit-dev.github.io/commons/) and [`clinical-trials-agent`](https://github.com/posit-dev/clinical-trials-agent)).
+
+However, to underscore the principles of trusted mini-agents, this guide chooses an alternative custom layout.
+We relegate the chat to a sidebar, and we give permanent first-class real estate to human oversight and trusted results.
+That way, users pay less attention to the untrusted AI model output and more attention to the tool inputs they need to review and the results of trusted tools.
+Not every app can implement such extreme guardrails, but they are helpful when feasible.
 
 ![Screenshot of the trusted mini-agent template Shiny app. The left sidebar shows an AI chat interface labeled "do not trust any AI output here!" with a simple ping/pong exchange. The main area has two empty placeholder cards: one labeled "Humans review AI-generated tool inputs here" and another labeled "Trusted results go here," illustrating the three-region layout of trust zones.](./images/r-template/app.png)
 
-It is critical to create separate regions of trust and skepticism in the interface.
-Users need to know exactly which parts to trust, which parts to review, and which parts to never trust.
-We avoid injecting trusted results into the chat interface because it creates ambiguity about what to trust, which increases the risk that users will miss AI errors.
 
-## Implementation
-
-We separately consider the [`ellmer`](https://ellmer.tidyverse.org/) chat object, Shiny UI, and Shiny server function.
+```{.r}
+ui <- bslib::page_sidebar(
+  title = "Trusted mini-agent template",
+  theme = bslib::bs_theme(bootswatch = "cosmo"),
+  sidebar = bslib::sidebar(
+    title = "AI chat (do not trust any AI output here!)",
+    shinychat::chat_ui("chat")
+  ),
+  bslib::layout_columns(
+    bslib::card("Humans review AI-generated tool inputs here."),
+    bslib::card("Trusted results go here.")
+  )
+)
+```
 
 ### Chat object
 
@@ -54,26 +75,6 @@ new_chat <- function() {
     system_prompt = "You are a friendly, concise assistant."
   )
 }
-```
-
-### Shiny UI
-
-In a trusted mini-agent, the user interface should have separate components for the chat, human oversight, and trusted results.
-That way, it is clear to the user which parts of the interface to trust, which parts to review, and which parts to always view with strong skepticism.
-
-```{.r}
-ui <- bslib::page_sidebar(
-  title = "Trusted mini-agent template",
-  theme = bslib::bs_theme(bootswatch = "cosmo"),
-  sidebar = bslib::sidebar(
-    title = "AI chat (do not trust any AI output here!)",
-    shinychat::chat_ui("chat")
-  ),
-  bslib::layout_columns(
-    bslib::card("Humans review AI-generated tool inputs here."),
-    bslib::card("Trusted results go here.")
-  )
-)
 ```
 
 ### Shiny server function
