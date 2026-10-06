@@ -246,8 +246,6 @@ def new_chat(values: reactive.Value):
 ## App UI
 
 The app UI has three main components: an untrusted `shinychat` UI for the conversation, an `ipyleaflet` output for the map for human review, and a trusted table output for the weather data.
-**Remember: because of the three levels of trust, these components should be in separate UI elements.**
-It should be clear to the user that trusted output comes from the weather table, not from the chat.
 
 ```{.python}
 from shiny import ui
