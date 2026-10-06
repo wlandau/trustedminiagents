@@ -573,7 +573,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="app-ui" class="level2" data-number="5.7">
 <h2 data-number="5.7" class="anchored" data-anchor-id="app-ui"><span class="header-section-number">5.7</span> App UI</h2>
-<p>The app UI has three main components: an untrusted <code>shinychat</code> UI for the conversation, a <code>leaflet</code> output for the map for human review, and a trusted table output for the weather data. <strong>Remember: because of the three levels of trust, these components should be in separate UI elements.</strong> It should be clear to the user that trusted output comes from the weather table, not from the chat.</p>
+<p>The app UI has three main components: an untrusted <code>shinychat</code> UI for the conversation, a <code>leaflet</code> output for the map for human review, and a trusted table output for the weather data.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page_sidebar</span>(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Trusted weather agent"</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">bootswatch =</span> <span class="st">"cosmo"</span>),</span>
