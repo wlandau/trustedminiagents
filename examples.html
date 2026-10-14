@@ -292,18 +292,18 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td><a href="https://github.com/posit-dev/clinical-trials-agent">Clinical Trials Agent</a></td>
-<td>A <code>commons</code> agent for clinical trial reporting. It answers questions about a simulated study’s safety, disposition, exposure, demographics, and laboratory results over synthetic <a href="https://www.cdisc.org/standards/foundational/adam">CDISC ADaM</a> datasets. The agent’s trusted calculations reproduce recipes from the <a href="https://github.com/insightsengineering/tlg-catalog">NEST TLG Catalog</a>, and each one pins the exact catalog file and commit it came from, so a reviewer can trace a table back to a published standard. Graphs are rendered by trusted calculations rather than described by the AI model. Questions outside that coverage fall back to governed SQL.</td>
-<td>Inherits the <code>commons</code> model (see below), which bends trusted mini-agent rules 1 and 2 but is transparent about the level of trust in each result.</td>
+<td>A <code>commons</code> agent for clinical trial reporting. It answers questions about a simulated study’s safety, disposition, exposure, demographics, and laboratory results over synthetic <a href="https://www.cdisc.org/standards/foundational/adam">CDISC ADaM</a> datasets. Leverages the <a href="https://github.com/insightsengineering/tlg-catalog">NEST TLG Catalog</a>.</td>
+<td>Inherits the <code>commons</code> model (see below). The level of trust depends on the <code>commons</code> mode set in the deployed app.</td>
 </tr>
 <tr class="even">
 <td><a href="https://github.com/posit-dev/commons"><code>commons</code></a></td>
-<td>An R and Python package for building self-service data agents. Its premise is that data teams already own trusted code, and that an agent gets more accurate by running that code instead of writing its own. The agent first searches a <em>semantic layer</em> of trusted calculations, and it writes custom SQL or R only when it finds nothing relevant.</td>
-<td>When it bypasses trusted calculations in the semantic layer, <code>commons</code> bends rules 1 and 2 of trusted mini-agents. But rule 3 (human oversight) is strong because <code>commons</code> is transparent about the level of trust behind every calculation.</td>
+<td><code>commons</code> is a framework to build custom data analysis agents with pre-loaded deterministic code and datasets. When the user asks for a fitted model or summary statistics, the agent can select these pre-loaded calculations instead of ad hoc AI-generated code. This is similar how the <a href="#r-simulation.qmd">example simulation agent</a> earns trust.</td>
+<td>With <code>mode = "trust only"</code>, <code>commons</code> &gt;= 0.1.1.9000 only runs trusted code, and it is a full trusted mini-agent following all three rules. With <code>mode = "normal"</code> (default), <code>commons</code> can run untrusted AI-generated code (breaking rules 1 and 2), but it informs the user about the level of trust behind every calculation.</td>
 </tr>
 <tr class="odd">
 <td><a href="https://github.com/wlandau/retroglyph">retroglyph</a></td>
-<td>An R package that reconstructs individual patient survival data from published Kaplan-Meier curve images, including images with heavily overlapped curves. A vision-language model, connected through the model-agnostic <a href="https://ellmer.tidyverse.org"><code>ellmer</code></a> package, reads axis labels, colors, and risk tables from the image. A deterministic Dijkstra-based path-tracing algorithm then follows the curves through overlapping regions and reconstructs the underlying data. Both the package and its embedded app let the user check the reconstruction visually against the original image and numerically against reported survival summary statistics.</td>
-<td>The model only proposes inputs like labels and colors, and a single deterministic algorithm computes the reconstructed data from those inputs, so rules 1 and 2 hold. Rule 3 (human oversight) is strong because the package requires the user to visually and numerically verify every reconstruction before trusting it.</td>
+<td>An R package that reconstructs individual patient survival data from published Kaplan-Meier curve images. The AI model does very little (reading axis labels, color elements, etc.), and the harness is mostly deterministic. The user assesses the success of the data reconstruction by visually comparing the reconstructed curves to the original image and numerically comparing reconstructed summary statistics to the summary statistics reported in the original publication.</td>
+<td><code>retroglyph</code> is a full trusted mini-agent following all three rules. It implements hard guardrails on the selection and wiring of tools (rules 1 and 2), and the human oversight tasks are visually intuitive and feasible (rule 3).</td>
 </tr>
 </tbody>
 </table>
