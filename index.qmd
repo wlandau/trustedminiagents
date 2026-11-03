@@ -17,11 +17,11 @@ We introduce *trusted mini-agents*: least-privilege AI systems that engineer out
 
 A trusted mini-agent is an agent that obeys the following three rules:
 
-1. **Trusted tools directly produce all results.**
-2. **Each result only comes from one trusted tool.**
+1. **No result comes from the AI model.**
+2. **Each result comes from a tool trusted to produce it.**
 3. **Inputs to trusted tools have trusted human oversight.**
 
-## Impact on users
+## Impact on human users
 
 Instead of:
 
@@ -31,63 +31,22 @@ users ask:
 
 > Is the agent solving the right problem?
 
-which is much easier to verify.
+which a human can verify more easily.
 
-## Workflow
+## When trusted mini-agents are useful
 
-The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:
+Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming.
+However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
+The hardest part is framing the problem.
+The goal is to insert the AI model where:
 
-::: {#fig-workflow}
+1. The AI model proposes solutions better than a human.
+2. A human easily checks those solutions.
 
-```{mermaid}
-%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    subgraph AgentLoop["Agent Loop"]
-        direction TB
-        Model["Model"]
-        UT["Untrusted<br>Tools"]
-        Model -->|"Autonomous<br>reasoning"| UT
-        UT --> Model
-    end
+No scenario is too small for a trusted mini-agent, and specific, targeted problems offer some of the most powerful opportunities.
+For example, clinical trial simulation offers powerful opportunities, as discussed later in [Chapter 6](r-simulation.qmd).
 
-    HR["Human<br>Review"]
-
-    subgraph Trust["Trust"]
-        direction TB
-        TT["Trusted<br>Tools"]
-        TR["Trusted<br>Results"]
-        TT -->|"Nontrivial<br>Computation"| TR
-    end
-
-    AgentLoop -->|"Proposed Inputs"| HR
-    HR -->|"Rejected Proposals"| AgentLoop
-    HR -->|"Reviewed Inputs"| TT
-
-    style Model fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
-    style HR fill:#166534,color:#ffffff,stroke:#166534
-    style TT fill:#166534,color:#ffffff,stroke:#166534
-    style TR fill:#166534,color:#ffffff,stroke:#166534
-    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
-    style Trust fill:#F3F4F6,stroke:#9CA3AF
-```
-
-Flow diagram of a trusted mini-agent. On the left, an "Agent Loop" box contains the AI model and Untrusted Tools connected by bidirectional arrows labeled "Autonomous reasoning." The agent loop sends "Proposed Inputs" to a "Human Review" checkpoint, which can return "Rejected Proposals" back to the loop. After review, "Reviewed Inputs" flow into "Trusted Tools" inside the "Trust" boundary, which perform "Nontrivial Computation" and produce "Trusted Results" below.
-:::
-
-After an initial prompt, the work begins with the [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop).
-Here, the AI model ponders and deliberates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.
-
-Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation.
-Those inputs reflect how the AI model frames up the problem and sets up an advanced computation.
-Since they are about overall framing and human intent, they are easy to check for AI errors, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
-
-After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed.
-Those trusted tools perform important computations such as statistical analysis, modeling, and simulation.
-Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs.
-Conditional on good inputs, AI-generated errors in the results are structurally impossible.
-
-## Who this is for
+## Who this guide is for
 
 This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work.
 Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python.
@@ -99,7 +58,7 @@ No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](
 
 - [**Deconstructing agents.**](agents.qmd) An overview of agents, their relevant components, and how they work together, laying the groundwork for trusted mini-agents in later chapters.
 - [**AI errors.**](errors.qmd) How AI errors manifest in agents, and how to harden an example weather agent against them.
-- [**The formal definition.**](definition.qmd) The formal definition of a trusted mini-agent, including the three rules, the workflow, and when trusted mini-agents are useful.
+- [**The formal definition.**](definition.qmd) The formal definition of a trusted mini-agent, including the three rules.
 
 **Implementation in R.** A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.
 
