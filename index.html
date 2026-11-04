@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -43,14 +43,15 @@ ul.task-list li input[type="checkbox"] {
 <link href="./agents.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2d168f75a1bb1eb8f29034416fff41ce.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-8aa432d3e9ffb5ce082fc49d8d628979.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -78,10 +79,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<meta name="mermaid-theme" content="neutral">
-<script src="site_libs/quarto-diagram/mermaid.min.js"></script>
-<script src="site_libs/quarto-diagram/mermaid-init.js"></script>
-<link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="styles.css">
@@ -94,23 +91,21 @@ ul.task-list li input[type="checkbox"] {
 <meta name="twitter:title" content="Trusted Mini-Agents">
 <meta name="twitter:description" content="A guide to engineering AI errors out of agentic workflows. Includes human-in-the-loop guardrails and agentic workflows in R and Shiny.">
 <meta name="twitter:image" content="https://trustedminiagents.dev/images/social/og.png">
-<meta name="twitter:image-height" content="1260">
-<meta name="twitter:image-width" content="2400">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://trustedminiagents.dev/">
 </head>
 
-<body class="nav-sidebar docked quarto-light">
+<body class="nav-sidebar docked quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Introduction</a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -121,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="./index.html" class="sidebar-logo-link">
       <img src="./images/logo/1810x2090.png" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
@@ -149,13 +144,10 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Concepts</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Concepts</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./agents.html" class="sidebar-item-text sidebar-link">
@@ -171,20 +163,17 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./definition.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">The formal definition</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Defining trusted mini-agents</span></span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Implementation in R</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Implementation in R</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./r-template.html" class="sidebar-item-text sidebar-link">
@@ -207,13 +196,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Implementation in Python</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Implementation in Python</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./py-template.html" class="sidebar-item-text sidebar-link">
@@ -230,13 +216,10 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./examples.html" class="sidebar-item-text sidebar-link">
@@ -251,16 +234,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
   <ul class="collapse">
   <li><a href="#definition" id="toc-definition" class="nav-link" data-scroll-target="#definition">Definition</a></li>
-  <li><a href="#impact-on-users" id="toc-impact-on-users" class="nav-link" data-scroll-target="#impact-on-users">Impact on users</a></li>
-  <li><a href="#workflow" id="toc-workflow" class="nav-link" data-scroll-target="#workflow">Workflow</a></li>
-  <li><a href="#who-this-is-for" id="toc-who-this-is-for" class="nav-link" data-scroll-target="#who-this-is-for">Who this is for</a></li>
+  <li><a href="#impact-on-human-users" id="toc-impact-on-human-users" class="nav-link" data-scroll-target="#impact-on-human-users">Impact on human users</a></li>
+  <li><a href="#when-trusted-mini-agents-are-useful" id="toc-when-trusted-mini-agents-are-useful" class="nav-link" data-scroll-target="#when-trusted-mini-agents-are-useful">When trusted mini-agents are useful</a></li>
+  <li><a href="#who-this-guide-is-for" id="toc-who-this-guide-is-for" class="nav-link" data-scroll-target="#who-this-guide-is-for">Who this guide is for</a></li>
   <li><a href="#contents" id="toc-contents" class="nav-link" data-scroll-target="#contents">Contents</a></li>
   <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
   </ul></li>
@@ -268,7 +251,7 @@ ul.task-list li input[type="checkbox"] {
 <div class="toc-actions"><ul><li><a href="https://github.com/wlandau/trustedminiagents/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -314,15 +297,15 @@ ul.task-list li input[type="checkbox"] {
 <p>This guide proposes a strategy to achieve trust without sacrificing the convenience of AI models. We introduce <em>trusted mini-agents</em>: least-privilege AI systems that engineer out AI errors and excel in precision scenarios.</p>
 <section id="definition" class="level2">
 <h2 class="anchored" data-anchor-id="definition">Definition</h2>
-<p>A trusted mini-agent is an agent that obeys the following three rules:</p>
+<p>A trusted mini-agent is an AI agent that follows these three rules:</p>
 <ol type="1">
-<li><strong>Trusted tools directly produce all results.</strong></li>
-<li><strong>Each result only comes from one trusted tool.</strong></li>
+<li><strong>No result comes from the AI model.</strong></li>
+<li><strong>Each result comes from a tool trusted to produce it.</strong></li>
 <li><strong>Inputs to trusted tools have trusted human oversight.</strong></li>
 </ol>
 </section>
-<section id="impact-on-users" class="level2">
-<h2 class="anchored" data-anchor-id="impact-on-users">Impact on users</h2>
+<section id="impact-on-human-users" class="level2">
+<h2 class="anchored" data-anchor-id="impact-on-human-users">Impact on human users</h2>
 <p>Instead of:</p>
 <blockquote class="blockquote">
 <p>Are these results correct?</p>
@@ -331,86 +314,38 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <p>Is the agent solving the right problem?</p>
 </blockquote>
-<p>which is much easier to verify.</p>
+<p>which a human can verify more easily.</p>
 </section>
-<section id="workflow" class="level2">
-<h2 class="anchored" data-anchor-id="workflow">Workflow</h2>
-<p>The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:</p>
-<div id="fig-workflow" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    subgraph AgentLoop["Agent Loop"]
-        direction TB
-        Model["Model"]
-        UT["Untrusted&lt;br&gt;Tools"]
-        Model --&gt;|"Autonomous&lt;br&gt;reasoning"| UT
-        UT --&gt; Model
-    end
-
-    HR["Human&lt;br&gt;Review"]
-
-    subgraph Trust["Trust"]
-        direction TB
-        TT["Trusted&lt;br&gt;Tools"]
-        TR["Trusted&lt;br&gt;Results"]
-        TT --&gt;|"Nontrivial&lt;br&gt;Computation"| TR
-    end
-
-    AgentLoop --&gt;|"Proposed Inputs"| HR
-    HR --&gt;|"Rejected Proposals"| AgentLoop
-    HR --&gt;|"Reviewed Inputs"| TT
-
-    style Model fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
-    style HR fill:#166534,color:#ffffff,stroke:#166534
-    style TT fill:#166534,color:#ffffff,stroke:#166534
-    style TR fill:#166534,color:#ffffff,stroke:#166534
-    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
-    style Trust fill:#F3F4F6,stroke:#9CA3AF
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflow-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Loop” box contains the AI model and Untrusted Tools connected by bidirectional arrows labeled “Autonomous reasoning.” The agent loop sends “Proposed Inputs” to a “Human Review” checkpoint, which can return “Rejected Proposals” back to the loop. After review, “Reviewed Inputs” flow into “Trusted Tools” inside the “Trust” boundary, which perform “Nontrivial Computation” and produce “Trusted Results” below.
-</figcaption>
-</figure>
-</div>
-<p>After an initial prompt, the work begins with the <a href="https://code.claude.com/docs/en/agent-sdk/agent-loop">agent loop</a>. Here, the AI model ponders and deliberates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g.&nbsp;web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.</p>
-<p>Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation. Those inputs reflect how the AI model frames up the problem and sets up an advanced computation. Since they are about overall framing and human intent, they are easy to check for AI errors, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.</p>
-<p>After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed. Those trusted tools perform important computations such as statistical analysis, modeling, and simulation. Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs. Conditional on good inputs, AI-generated errors in the results are structurally impossible.</p>
+<section id="when-trusted-mini-agents-are-useful" class="level2">
+<h2 class="anchored" data-anchor-id="when-trusted-mini-agents-are-useful">When trusted mini-agents are useful</h2>
+<p>Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming. However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible. The hardest part is framing the problem. The goal is to insert the AI model where:</p>
+<ol type="1">
+<li>The AI model proposes solutions better than a human.</li>
+<li>A human easily checks those solutions.</li>
+</ol>
+<p>Specialized, targeted problems can benefit: for example, <a href="./r-simulation.html">clinical trial simulation</a>, <a href="https://github.com/posit-dev/clinical-trials-agent">clinical data analysis</a>, and <a href="https://wlandau.github.io/retroglyph">Kaplan-Meier image digitization</a>.</p>
 </section>
-<section id="who-this-is-for" class="level2">
-<h2 class="anchored" data-anchor-id="who-this-is-for">Who this is for</h2>
-<p>This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work. Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python. No prior experience with <a href="https://ellmer.tidyverse.org/"><code>ellmer</code></a>, <a href="https://posit-dev.github.io/chatlas/"><code>chatlas</code></a>, or <a href="https://posit-dev.github.io/shinychat/"><code>shinychat</code></a> is necessary.</p>
+<section id="who-this-guide-is-for" class="level2">
+<h2 class="anchored" data-anchor-id="who-this-guide-is-for">Who this guide is for</h2>
+<p>This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work. Example agents in this guide use Shiny for R and Python, but the principles generalize to any programming language or framework, and no prior experience with R, Python, or Shiny is necessary.</p>
 </section>
 <section id="contents" class="level2">
 <h2 class="anchored" data-anchor-id="contents">Contents</h2>
-<p><strong>Concepts.</strong> The abstract ideas behind trusted mini-agents, independent of any particular programming language or framework.</p>
+<p><strong>Concepts.</strong> The abstract ideas behind trusted mini-agents.</p>
 <ul>
 <li><a href="./agents.html"><strong>Deconstructing agents.</strong></a> An overview of agents, their relevant components, and how they work together, laying the groundwork for trusted mini-agents in later chapters.</li>
 <li><a href="./errors.html"><strong>AI errors.</strong></a> How AI errors manifest in agents, and how to harden an example weather agent against them.</li>
-<li><a href="./definition.html"><strong>The formal definition.</strong></a> The formal definition of a trusted mini-agent, including the three rules, the workflow, and when trusted mini-agents are useful.</li>
+<li><a href="./definition.html"><strong>Defining trusted mini-agents.</strong></a> The three rules of a trusted mini-agent, the role of untrusted tools, and the forms that human oversight can take.</li>
 </ul>
-<p><strong>Implementation in R.</strong> A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.</p>
+<p><strong>Implementation in R.</strong> Concrete example implementations of trusted mini-agents in R, building on the concepts above.</p>
 <ul>
 <li><a href="./r-template.html"><strong>A trusted mini-agent template.</strong></a> A minimal Shiny app that can be developed into a trusted mini-agent.</li>
 <li><a href="./r-weather.html"><strong>Example: weather agent.</strong></a> A full working trusted mini-agent that gets the weather.</li>
 <li><a href="./r-simulation.html"><strong>Example: simulation.</strong></a> A motivating example to show the practical usefulness of trusted mini-agents.</li>
 </ul>
-<p><strong>Implementation in Python.</strong> A concrete Python and Shiny for Python implementation of trusted mini-agents, building on the concepts above.</p>
+<p><strong>Implementation in Python.</strong> Concrete example implementations of trusted mini-agents in Python, building on the concepts above.</p>
 <ul>
-<li><a href="./py-template.html"><strong>A trusted mini-agent template.</strong></a> A minimal Shiny for Python app that can be developed into a trusted mini-agent.</li>
+<li><a href="./py-template.html"><strong>A trusted mini-agent template.</strong></a> A minimal Shiny app for Python that can be developed into a trusted mini-agent.</li>
 <li><a href="./py-weather.html"><strong>Example: weather agent.</strong></a> A full working trusted mini-agent that gets the weather.</li>
 </ul>
 <p><strong>Appendices.</strong> Related work that adapts the ideas above.</p>
@@ -509,7 +444,8 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -518,8 +454,69 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+          if (!link.classList.contains('no-external-icon')) {
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -533,6 +530,7 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -695,44 +693,54 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -831,7 +839,10 @@ Figure&nbsp;1: Flow diagram of a trusted mini-agent. On the left, an “Agent Lo
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
   </div>
   <div class="nav-page nav-page-next">
