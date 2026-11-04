@@ -15,7 +15,7 @@ We introduce *trusted mini-agents*: least-privilege AI systems that engineer out
 
 ## Definition
 
-A trusted mini-agent is an agent that obeys the following three rules:
+A trusted mini-agent is an AI agent that follows these three rules:
 
 1. **No result comes from the AI model.**
 2. **Each result comes from a tool trusted to produce it.**
@@ -43,32 +43,30 @@ The goal is to insert the AI model where:
 1. The AI model proposes solutions better than a human.
 2. A human easily checks those solutions.
 
-No scenario is too small for a trusted mini-agent, and specific, targeted problems offer some of the most powerful opportunities.
-For example, clinical trial simulation offers powerful opportunities, as discussed later in [Chapter 6](r-simulation.qmd).
+Specialized, targeted problems can benefit: for example, [clinical trial simulation](r-simulation.qmd), [clinical data analysis](https://github.com/posit-dev/clinical-trials-agent), and [Kaplan-Meier image digitization](https://wlandau.github.io/retroglyph).
 
 ## Who this guide is for
 
 This guide is for quantitative scientists and programmers who implement AI tools for high-stakes work.
-Although the underlying concepts generalize to other programming languages and frameworks, the implementation examples are in R and Shiny for R or Python and Shiny for Python.
-No prior experience with [`ellmer`](https://ellmer.tidyverse.org/), [`chatlas`](https://posit-dev.github.io/chatlas/), or [`shinychat`](https://posit-dev.github.io/shinychat/) is necessary.
+Example agents in this guide use Shiny for R and Python, but the principles generalize to any programming language or framework, and no prior experience with R, Python, or Shiny is necessary.
 
 ## Contents
 
-**Concepts.** The abstract ideas behind trusted mini-agents, independent of any particular programming language or framework.
+**Concepts.** The abstract ideas behind trusted mini-agents.
 
 - [**Deconstructing agents.**](agents.qmd) An overview of agents, their relevant components, and how they work together, laying the groundwork for trusted mini-agents in later chapters.
 - [**AI errors.**](errors.qmd) How AI errors manifest in agents, and how to harden an example weather agent against them.
-- [**The formal definition.**](definition.qmd) The formal definition of a trusted mini-agent, including the three rules.
+- [**Defining trusted mini-agents.**](definition.qmd) The three rules of a trusted mini-agent, the role of untrusted tools, and the forms that human oversight can take.
 
-**Implementation in R.** A concrete R and Shiny implementation of trusted mini-agents, building on the concepts above.
+**Implementation in R.** Concrete example implementations of trusted mini-agents in R, building on the concepts above.
 
 - [**A trusted mini-agent template.**](r-template.qmd) A minimal Shiny app that can be developed into a trusted mini-agent.
 - [**Example: weather agent.**](r-weather.qmd) A full working trusted mini-agent that gets the weather.
 - [**Example: simulation.**](r-simulation.qmd) A motivating example to show the practical usefulness of trusted mini-agents.
 
-**Implementation in Python.** A concrete Python and Shiny for Python implementation of trusted mini-agents, building on the concepts above.
+**Implementation in Python.** Concrete example implementations of trusted mini-agents in Python, building on the concepts above.
 
-- [**A trusted mini-agent template.**](py-template.qmd) A minimal Shiny for Python app that can be developed into a trusted mini-agent.
+- [**A trusted mini-agent template.**](py-template.qmd) A minimal Shiny app for Python that can be developed into a trusted mini-agent.
 - [**Example: weather agent.**](py-weather.qmd) A full working trusted mini-agent that gets the weather.
 
 **Appendices.** Related work that adapts the ideas above.

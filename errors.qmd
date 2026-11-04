@@ -8,7 +8,7 @@ description: >
 # AI errors {#sec-errors}
 
 This chapter explores the downstream consequences of AI errors in agent harnesses, and it shows how to harden an example weather agent against such errors.
-The intuition from this chapter motivates the formal definition of a trusted mini-agent in the [next chapter](definition.qmd).
+The intuition from this chapter motivates the definition of a trusted mini-agent in the [next chapter](definition.qmd).
 
 ## Agents are vulnerable to AI errors.
 
@@ -107,7 +107,7 @@ sequenceDiagram
 
 ![① Reviewer sees this map.](./images/errors/leaflet.png)
 
-Sequence diagram showing Fix 1. The user asks "What's the weather in Chicago?" and an interactive map of Chicago with a pin is displayed for human review before calling get_weather(lat = 41.8, long = -87.6). The map helps the user verify the location input.
+Sequence diagram showing Fix 1. The user asks "What's the weather in Chicago?" and an interactive map of Chicago with a pin is displayed for human review of the coordinates in get_weather(lat = 41.8, long = -87.6). The map helps the user verify the location input.
 :::
 
 ### Fix 2 of 3: Bypass the AI model to report the weather.
@@ -137,7 +137,7 @@ sequenceDiagram
 
 ![① Reviewer sees this map.](./images/errors/leaflet.png)
 
-Sequence diagram showing Fix 2. After the map confirms the location, `get_weather()` sends NWS weather data directly to the user interface instead of relaying it through the AI model. Bypassing the AI model for this step eliminates the risk of an erroneous weather report.
+Sequence diagram showing Fix 2. While the map shows the location for review, `get_weather()` sends NWS weather data directly to the user interface instead of relaying it through the AI model. Bypassing the AI model for this step eliminates the risk of an erroneous weather report.
 :::
 
 ### Fix 3 of 3: Never bypass the `get_weather()` tool.
@@ -201,5 +201,8 @@ sequenceDiagram
 
 Sequence diagram showing Fix 3. After `get_weather()` sends NWS data directly to the user interface, no other tool besides `get_weather()` can produce weather data, and claims about weather data from the AI model are not trusted.
 :::
+
+Together, these fixes apply the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) to the AI model.
+The model now only proposes coordinates, which the human verifies on the map, and the weather data itself comes only from a tool we can test in advance.
 
 ## References

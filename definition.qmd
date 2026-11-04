@@ -1,8 +1,8 @@
 ---
 author: "Will Landau"
 description: >
-  The formal definition of a trusted mini-agent and its three core
-  rules, grounded in the weather agent example and simple mathematical concepts.
+  The definition of a trusted mini-agent and its three rules, grounded in
+  the weather agent example, plus the forms that human oversight can take.
 ---
 
 # Defining trusted mini-agents {#sec-definition}
@@ -13,13 +13,12 @@ The trusted mini-agent design pattern generalizes this idea to all agents.
 
 ## Definition
 
-A **trusted mini-agent** is an AI agent that follows these rules:
+A **trusted mini-agent** is an AI agent that follows these three rules:
 
 1. **No result comes from the AI model.**
   Model output is always suspicious.
 2. **Each result comes from a tool trusted to produce it.**
-  Trusted tools correctly produce the results they are trusted for, given correct inputs.
-  Trust in a tool for one kind of result does not extend to other kinds.
+  Given correct inputs, a trusted tool correctly produces the results it is trusted for: those results are correct and need no verification.
 3. **Inputs to trusted tools have trusted human oversight.**
   The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
 
@@ -33,6 +32,14 @@ The three rules map to the three fixes we made to the weather agent.
 2. Each result comes from a tool trusted to produce it. | Never bypass the `get_weather()` tool.
 3. Inputs to trusted tools have trusted human oversight. | Show the location in an interactive map.
 
+## Untrusted tools
+
+An agent may support untrusted tools, as long as those tools do not produce key results.
+Tools such as web search or the [ClinicalTrials.gov](https://clinicaltrials.gov/) API can inform the AI model's reasoning without being trusted for any particular result.
+Their output feeds back into the [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop), where by rule 1 the model's reasoning is already suspicious.
+Because these tools do not produce results, rule 3 does not require oversight of their inputs.
+Human oversight begins downstream, when the AI model proposes inputs to a trusted tool.
+
 ## Oversight
 
 The trusted human oversight in rule 3 can take many different forms.
@@ -41,11 +48,12 @@ The trusted human oversight in rule 3 can take many different forms.
 
 Some agents require the human to approve inputs before a tool runs, while others run the tool eagerly and prompt the human to verify post hoc.
 The [weather agent](r-weather.qmd), [simulation agent](r-simulation.qmd), [`commons`](https://posit-dev.github.io/commons/), [`clinical-trials-agent`](https://github.com/posit-dev/clinical-trials-agent), and [`retroglyph`](https://wlandau.github.io/retroglyph) all use post hoc oversight.
+Gated review is more akin to [manual mode in Claude Code](https://code.claude.com/docs/en/permission-modes).
 
 ### Projections
 
-A trusted mini-agent seldom shows the user verbatim tool inputs.
-Instead, it shows a readable projection of those inputs that a human can verify at a glance.
+A trusted mini-agent seldom parrots verbatim tool inputs for the user to check.
+Instead, it offers a friendly readable projection of those inputs that a human can verify at a glance.
 The [weather agent](r-weather.qmd), rather than listing latitude and longitude, drops a pin on a map.
 [`retroglyph`](https://wlandau.github.io/retroglyph), rather than regurgitating the raw color codes that feed its tools, overlays a [reconstructed image](https://wlandau.github.io/retroglyph/#interactive-review) on the target [Kaplan-Meier image](https://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator) so discrepancies stand out.
 Although that reconstructed image is derived from tool outputs (i.e. the reconstructed individual patient data), it is still a projection of the inputs: comparing it against ground truth (the target image) verifies that the inputs were correct.
