@@ -60,7 +60,7 @@ At its discretion, the AI model sends [`chatlas`](https://posit-dev.github.io/ch
 
 `get_weather()` is a function that accepts a pair of geographic coordinates and returns the location and its weather to a [`reactive.Value()`](https://shiny.posit.co/py/api/core/reactive.Value.html).
 **Crucially, `get_weather()` is the only thing that can write to that reactive value.**
-**This constraint enforces rule 2 (injectivity) of trusted mini-agents.**
+**This constraint enforces rule 2 of trusted mini-agents: the weather data comes from a tool trusted to produce it.**
 Neither the user nor the AI model can update that reactive value any other way.
 
 The map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct.

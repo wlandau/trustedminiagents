@@ -63,9 +63,9 @@ At its discretion, the AI model sends [`ellmer`](https://ellmer.tidyverse.org/) 
 
 The simulation tools run the statistical functions with the AI-supplied assumptions and write both the assumptions and the results to a [`reactiveValues()`](https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html) list.
 **Crucially, the simulation tools are the only things that can write to those `reactiveValues()` slots.**
-The `reactiveValues()` list is just a repository: it can hold many different types of results, so multiple trusted tools — one per endpoint type — can deposit their outputs into it.
-**This constraint still enforces rule 2 (injectivity) of trusted mini-agents.**
-Each result that reaches the user originates from a designated, tested tool, never directly from the AI model or the user.
+The `reactiveValues()` list is just a repository: multiple trusted tools, one per endpoint type, can deposit their outputs into it.
+**This constraint enforces rules 1 and 2 of trusted mini-agents.**
+Each result that reaches the user comes from a tool trusted to produce it, never from the AI model, the user, or an untrusted tool.
 
 The assumptions table renders the AI-generated trial scenarios, so the user can check whether the AI model's translation of their query looks correct.
 If the simulation tools are correct and the assumptions reflect the design the user wants, then AI-generated errors in the results are structurally impossible.
@@ -74,8 +74,8 @@ If the simulation tools are correct and the assumptions reflect the design the u
 
 Modern agents don't just one-shot proposed ideas; they [loop](https://code.claude.com/docs/en/agent-sdk/agent-loop) over untrusted tools and take time to reason without interruption.
 For example, extra tools could scrape [PubMed](https://pubmed.ncbi.nlm.nih.gov/) or [ClinicalTrials.gov](https://clinicaltrials.gov/) for relevant literature, and the queries could inform the simulation assumptions.
-These tools don't strictly need oversight because they don't directly produce critical results; they only inform the AI model's reasoning.
-Human oversight only needs to happen downstream, when inputs go into trusted tools that directly produce final results.
+These extra tools are untrusted in the sense of the [definition chapter](definition.qmd): their output only informs the AI model's reasoning, and by rule 1 that reasoning is always suspicious anyway.
+Rule 3 requires human oversight only for the inputs to trusted tools, so oversight happens downstream, when the AI-generated assumptions reach the trusted simulation tools.
 
 ## Clinical trial simulation
 

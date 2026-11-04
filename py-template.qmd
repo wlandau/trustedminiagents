@@ -7,7 +7,7 @@ description: >
 
 # Agent template {#sec-template-py}
 
-Web applications are a great way to implement trusted mini-agents because
+Web applications are by no means the only way to implement trusted mini-agents, but they are effective because
 the developer has complete control of both the frontend and backend.
 We can optimize the human user experience of reviewing AI-generated tool inputs, control all the tools, and cleanly separate trusted results from untrusted chat output.
 This chapter proposes a template for a trusted mini-agent as a [Shiny for Python](https://shiny.posit.co/py/) app.

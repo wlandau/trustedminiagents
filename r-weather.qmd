@@ -60,7 +60,7 @@ At its discretion, the AI model sends [`ellmer`](https://ellmer.tidyverse.org/) 
 
 `get_weather()` is a function that accepts a pair of geographic coordinates and returns the location and its weather to a [`reactiveValues()`](https://shiny.posit.co/r/reference/shiny/0.11/reactivevalues.html) list.
 **Crucially, `get_weather()` is the only thing that can write to those `reactiveValues()` slots.**
-**This constraint enforces rule 2 (injectivity) of trusted mini-agents.**
+**This constraint enforces rule 2 of trusted mini-agents: the weather data comes from a tool trusted to produce it.**
 Neither the user nor the AI model can update those reactive values any other way.
 
 The leaflet map renders the coordinates the AI model picked, so the user can check whether its resolution of the query looks correct.

@@ -1,153 +1,59 @@
 ---
 author: "Will Landau"
 description: >
-  The formal definition of a trusted mini-agent and its three core
-  rules, grounded in the weather agent example and simple mathematical concepts.
+  The definition of a trusted mini-agent and its three rules, grounded in
+  the weather agent example, plus the forms that human oversight can take.
 ---
 
-# The formal definition {#sec-definition}
+# Defining trusted mini-agents {#sec-definition}
 
-Building on the intuition from the [previous chapter](errors.qmd), this chapter formalizes the concept of trusted mini-agents.
-It introduces a formal definition, interprets it in terms of the fixes we made to the weather agent, grounds it in simple mathematical concepts, and describes the real-world workflow of a trusted mini-agent.
+In the [previous chapter](errors.qmd) we improved the weather agent by restricting its capabilities.
+We applied the [principle of least privilege](https://en.wikipedia.org/wiki/Principle_of_least_privilege) to the model, restricting its influence to hardened components we can either test in advance or verify at runtime.
+The trusted mini-agent design pattern generalizes this idea to all agents.
 
-## Defining trusted mini-agents
+## Definition
 
-::: {.callout-note icon=false appearance="simple"}
-## Definition: Trusted Mini-Agent
+A **trusted mini-agent** is an AI agent that follows these three rules:
 
-A **trusted mini-agent** is a least-privilege AI agent that engineers out AI errors with the following three rules:
+1. **No result comes from the AI model.**
+  Model output is always suspicious.
+2. **Each result comes from a tool trusted to produce it.**
+  Given correct inputs, a trusted tool correctly produces the results it is trusted for: those results are correct and need no verification.
+3. **Inputs to trusted tools have trusted human oversight.**
+  The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
 
-1. **Trusted tools directly produce all results.** No result comes from the AI model. And for each type of result, there exists a tool to produce it.
-2. **Each result only comes from one trusted tool.** No alternative tool can bypass the designated tool.
-3. **Inputs to trusted tools have trusted human oversight.** The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
-:::
+## Example
 
 The three rules map to the three fixes we made to the weather agent.
 
 | Rule | Fix
 ---|---
-1. Trusted tools directly produce all results. | Bypass the AI model to report the weather.
-2. Each result only comes from one trusted tool. | Never bypass the `get_weather()` tool.
+1. No result comes from the AI model. | Bypass the AI model to report the weather.
+2. Each result comes from a tool trusted to produce it. | Never bypass the `get_weather()` tool.
 3. Inputs to trusted tools have trusted human oversight. | Show the location in an interactive map.
 
-In terms of tools and results, a trusted mini-agent is a bijective function.
-Rule 1 implies surjectivity: every result can be produced by at least one tool.
-Rule 2 implies injectivity: each result must originate from at most one designated tool.
-Here is a mental model of bijectivity for an enhanced weather tool that also reports [emergency alerts](https://en.wikipedia.org/wiki/Emergency_Alert_System):
+## Untrusted tools
 
-::: {#fig-bijective}
+An agent may support untrusted tools, as long as those tools do not produce key results.
+Tools such as web search or the [ClinicalTrials.gov](https://clinicaltrials.gov/) API can inform the AI model's reasoning without being trusted for any particular result.
+Their output feeds back into the [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop), where by rule 1 the model's reasoning is already suspicious.
+Because these tools do not produce results, rule 3 does not require oversight of their inputs.
+Human oversight begins downstream, when the AI model proposes inputs to a trusted tool.
 
-$$
-\Large f: X \mapsto Y
-$$
+## Oversight
 
-```{mermaid}
-%%| fig-width: 7.5
-%%| fig-align: center
-%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#1F3A63','edgeLabelBackground':'#ffffff','fontSize':'18px'}}}%%
-flowchart LR
-    subgraph X["X: tools"]
-        direction TB
-        gw["get_weather()"]
-        gn["get_emergency_alerts()"]
-    end
-    subgraph Y["Y: types of results"]
-        wd["Weather data"]
-        nd["Emergency alert data"]
-    end
-    gw --> wd
-    gn --> nd
+The trusted human oversight in rule 3 can take many different forms.
 
-    style gw fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style gn fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style wd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style nd fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style X fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
-    style Y fill:#DCEAF7,stroke:#9CA3AF,color:#1F3A63
-```
+### Gating
 
-Diagram illustrating a bijective function $f$ from $X$ to $Y$. The set $X$ (tools) contains `get_weather()` and `get_emergency_alerts()`; the set $Y$ (types of results) contains Weather data and Emergency alert data. Each tool maps to exactly one type of result, and each type of result is produced by exactly one tool, illustrating Rules 1 and 2 of a trusted mini-agent.
-:::
+Some agents require the human to approve inputs before a tool runs, while others run the tool eagerly and prompt the human to verify post hoc.
+The [weather agent](r-weather.qmd), [simulation agent](r-simulation.qmd), [`commons`](https://posit-dev.github.io/commons/), [`clinical-trials-agent`](https://github.com/posit-dev/clinical-trials-agent), and [`retroglyph`](https://wlandau.github.io/retroglyph) all use post hoc oversight.
+Gated review is more akin to [manual mode in Claude Code](https://code.claude.com/docs/en/permission-modes).
 
-Bijectivity is key: it ensures that final results are trusted as long as the tools and their inputs are trusted.
-Tools are easy to test with [expectation-based unit tests](https://testthat.r-lib.org).
-Inputs to those tools are harder to check because they depend on user oversight, but verifying inputs is usually much easier than verifying outputs.
+### Projections
 
-## Impact on users
-
-Instead of:
-
-> Are these results correct?
-
-users ask:
-
-> Is the agent solving the right problem?
-
-which is much easier to verify.
-
-## The trusted mini-agent workflow
-
-The trusted mini-agent workflow combines the power of modern agents with the safeguards of traditional software engineering:
-
-::: {#fig-workflow}
-
-```{mermaid}
-%%{init: {'theme':'base', 'themeVariables': {'lineColor':'#4B5563','edgeLabelBackground':'#ffffff'}}}%%
-flowchart LR
-    subgraph AgentLoop["Agent Loop"]
-        direction TB
-        Model["Model"]
-        UT["Untrusted<br>Tools"]
-        Model -->|"Autonomous<br>reasoning"| UT
-        UT --> Model
-    end
-
-    HR["Human<br>Review"]
-
-    subgraph Trust["Trust"]
-        direction TB
-        TT["Trusted<br>Tools"]
-        TR["Trusted<br>Results"]
-        TT -->|"Nontrivial<br>Computation"| TR
-    end
-
-    AgentLoop -->|"Proposed Inputs"| HR
-    HR -->|"Rejected Proposals"| AgentLoop
-    HR -->|"Reviewed Inputs"| TT
-
-    style Model fill:#1F3A63,color:#ffffff,stroke:#1F3A63
-    style UT fill:#6B2020,color:#ffffff,stroke:#6B2020
-    style HR fill:#166534,color:#ffffff,stroke:#166534
-    style TT fill:#166534,color:#ffffff,stroke:#166534
-    style TR fill:#166534,color:#ffffff,stroke:#166534
-    style AgentLoop fill:#FDE8E8,stroke:#9CA3AF
-    style Trust fill:#F3F4F6,stroke:#9CA3AF
-```
-
-Flow diagram of a trusted mini-agent. On the left, an "Agent Loop" box contains the AI model and Untrusted Tools connected by bidirectional arrows labeled "Autonomous reasoning." The agent loop sends "Proposed Inputs" to a "Human Review" checkpoint, which can return "Rejected Proposals" back to the loop. After review, "Reviewed Inputs" flow into "Trusted Tools" inside the "Trust" boundary, which perform "Nontrivial Computation" and produce "Trusted Results" below.
-:::
-
-After an initial prompt, the work begins with the [agent loop](https://code.claude.com/docs/en/agent-sdk/agent-loop).
-Here, the AI model ponders and deliberates uninterrupted and unsupervised, potentially with the aid of untrusted tools (e.g. web search, back-of-the-envelope calculations, etc.) which are structurally incapable of producing final results.
-
-Ultimately, the AI model proposes inputs to one or more trusted tools that perform critical computations such as modeling and simulation.
-Those inputs reflect how the AI model frames up the problem and sets up an advanced computation.
-Since they are about overall framing and human intent, they are easy to check for AI errors, especially if the system for oversight is carefully structured, with realistic expectations about human understanding, attention, and fatigue.
-
-After a trusted system of review, the AI-generated inputs move to a set of designated trusted tools that cannot be bypassed.
-Those trusted tools perform important computations such as statistical analysis, modeling, and simulation.
-Results from such computations are usually too complex for humans to check, but they are guaranteed to come from trusted tools on verified inputs.
-Conditional on good inputs, AI-generated errors in the results are structurally impossible.
-
-## When trusted mini-agents are useful
-
-Compared with the sweeping power of coding agents and multi-agent RAG pipelines, trusted mini-agents may seem anticlimactic or underwhelming.
-However, they excel in precision scenarios where the task is narrowly defined and human oversight is feasible.
-The hardest part is framing the problem.
-The goal is to insert the AI model where:
-
-1. The AI model proposes solutions better than a human.
-2. A human easily checks those solutions.
-
-No scenario is too small for a trusted mini-agent, and specific, targeted problems offer some of the most powerful opportunities.
-For example, clinical trial simulation offers powerful opportunities, as discussed later in [Chapter 6](r-simulation.qmd).
+A trusted mini-agent seldom parrots verbatim tool inputs for the user to check.
+Instead, it offers a friendly readable projection of those inputs that a human can verify at a glance.
+The [weather agent](r-weather.qmd), rather than listing latitude and longitude, drops a pin on a map.
+[`retroglyph`](https://wlandau.github.io/retroglyph), rather than regurgitating the raw color codes that feed its tools, overlays a [reconstructed image](https://wlandau.github.io/retroglyph/#interactive-review) on the target [Kaplan-Meier image](https://en.wikipedia.org/wiki/Kaplan%E2%80%93Meier_estimator) so discrepancies stand out.
+Although that reconstructed image is derived from tool outputs (i.e. the reconstructed individual patient data), it is still a projection of the inputs: comparing it against ground truth (the target image) verifies that the inputs were correct.
