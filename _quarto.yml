@@ -9,16 +9,16 @@ bibliography: references.bib
 
 book:
   title: "Trusted Mini-Agents"
-  subtitle: "Engineering AI Errors Out of Agentic Workflows"
+  subtitle: "Engineering AI Errors Out of Agents"
   date: 2026-11-05
   author:
     - name: "Will Landau"
     - name: "Sam Parmar"
   site-url: https://trustedminiagents.dev
   description: >
-    A guide to engineering AI errors out of agentic workflows.
+    A guide to engineering AI errors out of agents.
     Includes human-in-the-loop guardrails
-    and agentic workflows in R and Shiny.
+    and agents in R and Shiny.
   image: images/social/og.png
   open-graph: true
   twitter-card: true
