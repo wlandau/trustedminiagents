@@ -15,12 +15,17 @@ The trusted mini-agent design pattern generalizes this idea to all agents.
 
 A **trusted mini-agent** is an AI agent that follows these three rules:
 
-1. **No result comes from the AI model.**
-  Model output is always suspicious.
-2. **Each result comes from a tool trusted to produce it.**
-  Given correct inputs, a trusted tool correctly produces the results it is trusted for: those results are correct and need no verification.
-3. **Inputs to trusted tools have trusted human oversight.**
-  The system presents AI-generated tool input in a form that humans can verify quickly and accurately, with minimal time and minimal fatigue.
+1. **Every output of the AI model is untrusted.**
+  Model output is always suspicious, even if it appears to simply echo the output of a tool.
+2. **Every result is the direct output of a tool trusted to produce it.**
+  A result is an output the agent exists to produce, such as a calculation, a dataset, or a diagram.
+  Conversation along the way is not a result.
+  Given correct inputs, a trusted tool correctly produces the results it is trusted for: those results are correct and need no further verification.
+3. **Every input to a trusted tool has trusted human oversight.**
+  The system presents the human user with the inputs to trusted tools.
+  The human approves or rejects those inputs, and no result is trusted until the inputs that produced it are approved.
+  The oversight process itself is trusted when the system presents inputs in a form that a human can judge accurately, quickly, and without fatigue.
+  Inputs to untrusted tools need no such review.
 
 ## Example
 
@@ -28,9 +33,9 @@ The three rules map to the three fixes we made to the weather agent.
 
 | Rule | Fix
 ---|---
-1. No result comes from the AI model. | Bypass the AI model to report the weather.
-2. Each result comes from a tool trusted to produce it. | Never bypass the `get_weather()` tool.
-3. Inputs to trusted tools have trusted human oversight. | Show the location in an interactive map.
+1. Every output of the AI model is untrusted. | Bypass the AI model to report the weather.
+2. Every result is the direct output of a tool trusted to produce it. | Never bypass the `get_weather()` tool.
+3. Every input to a trusted tool has trusted human oversight. | Show the location in an interactive map.
 
 ## Untrusted tools
 

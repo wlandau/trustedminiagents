@@ -17,9 +17,9 @@ We introduce *trusted mini-agents*: least-privilege AI systems that engineer out
 
 A trusted mini-agent is an AI agent that follows these three rules:
 
-1. **No result comes from the AI model.**
-2. **Each result comes from a tool trusted to produce it.**
-3. **Inputs to trusted tools have trusted human oversight.**
+1. **Every output of the AI model is untrusted.**
+2. **Every result is the direct output of a tool trusted to produce it.**
+3. **Every input to a trusted tool has trusted human oversight.**
 
 ## Impact on human users
 
