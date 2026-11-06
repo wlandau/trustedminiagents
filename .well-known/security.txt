@@ -1,5 +1,5 @@
 Contact: https://github.com/wlandau/trustedminiagents/security/advisories/new
-Expires: 2060-10-31T00:00:00Z
+Expires: 2100-10-31T00:00:00Z
 Preferred-Languages: en
 Canonical: https://trustedminiagents.dev/.well-known/security.txt
 Policy: https://github.com/wlandau/trustedminiagents/security/policy
