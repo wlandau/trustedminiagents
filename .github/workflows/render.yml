@@ -25,6 +25,11 @@ jobs:
         with:
           to: html
 
+      - name: Check security.txt is in the build
+        run: |
+          test -f _book/.well-known/security.txt
+          test -f _book/.nojekyll
+
       - name: Deploy to gh-pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:

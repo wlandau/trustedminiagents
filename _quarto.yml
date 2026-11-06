@@ -4,6 +4,9 @@ published-title: "Version {{< meta version >}}"
 project:
   type: book
   output-dir: _book
+  resources:
+    - .well-known/security.txt
+    - .nojekyll
 
 bibliography: references.bib
 
